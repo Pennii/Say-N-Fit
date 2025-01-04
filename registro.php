@@ -13,12 +13,148 @@
         <img src="imagenes/logo.png" alt="" id="logo">
     </header>
     <section>
-        <form action="registro_proceso.php" method="post" enctype="multipart/form-data">
-            <label for=""></label>
-            <input type="file" name="archivo">
-            <button>enviar</button>
+        <form action="/registro_proceso.php" method="post" id="datos" enctype="multipart/form-data">
+            <div id="error"></div>
+            <div class="campo">
+                <label>Imagen de perfil:</label>
+                <input type="file" name="imagen" id="imagen" accept="image/*" placeholder="imagen">
+                <img src="" alt="" style="display: none;" id="previsualizacion" width="20%">
+            </div>
+            <div class="campo">
+                <label for="usuario">Nombre de usuario:</label>
+                <input type="text" name="usuario" id="usuario">
+            </div>
+            <div class="campo">
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre">
+            </div>
+            <div class="campo">
+                <label for="clave">Contraseña:</label>
+                <input type="password" name="clave" id="clave">
+            </div>
+            <div class="campo">
+                <label for="confirmar">Repite la contraseña:</label>
+                <input type="password" name="confirmar" id="confirmar">
+            </div>
+            <div class="campo">
+                <label for="nacimiento">Fecha de nacimiento</label>
+                <input type="date" name="nacimiento" id="nacimiento">
+            </div>
+            <div class="campo">
+                <label for="peso">Peso:</label>
+                <input type="number" name="peso" id="peso" min="0" max="200" value="50" step="0.1">
+                <label id="valorPeso"></label>
+            </div>
+            <br>
+            <button type="submit">Enviar datos</button>
         </form>
     </section>
+    <script>
+        const formulario = document.getElementById("datos");
+        const imagen = document.getElementById("imagen");
+        const usuario = document.getElementById("usuario");
+        const nombre = document.getElementById("nombre");
+        const clave = document.getElementById("clave");
+        const confirmar = document.getElementById("confirmar");
+        const nacimiento = document.getElementById("nacimiento");
+        const peso = document.getElementById("peso");
+        let error = document.getElementById("error");
+        const enviar = document.getElementById("");
+
+        //Establecemos el rango maximo para la fecha de nacimiento
+        const hoy = new Date();
+        const anioMin = hoy.getFullYear() - 16;
+        nacimiento.setAttribute("max", `${anioMin}-12-31`);
+
+        //Muestra en kilogramos el valor que ingresa el usuario
+        peso.addEventListener("change", () => {
+            document.getElementById("valorPeso").innerText = `${peso.value}kg`;
+        });
+
+
+        //Muestra la imagen que envia el usuario
+        let previsualizacion = document.getElementById("previsualizacion");
+        imagen.addEventListener("change", (evento) => {
+            let archivo = evento.target.files[0];
+
+            //Si se elimina la imagen que eligio el usuario o la cambia mostramos el cambio
+            if (archivo) {
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+                    previsualizacion.src = e.target.result;
+                    previsualizacion.style.display = 'block';
+                }
+                reader.readAsDataURL(archivo);
+            } else {
+                previsualizacion.src = '';
+                previsualizacion.style.display = 'none';
+            }
+        });
+
+        //validaremos los datos antes de enviarlos al servidor
+        formulario.addEventListener("submit", (evento) => {
+            error.innerHTML = "";
+            let invalido = false;
+            let errores = []
+            evento.preventDefault();
+
+            //validamos nombre de usuario
+            const nombreUsuarioValido = new RegExp(/[A-Za-z0-9\_\-][ A-Za-z0-9\_\-]{1,29}/);
+            if (!nombreUsuarioValido.test(usuario.value)) {
+                errores.push('El nombre de usuario es invalido, debe contener letras, numeros, espacios o los caracteres "_" "-"');
+                invalido = true;
+            }
+
+            //Validamos el nombre
+            const nombreValido = new RegExp(/[A-Za-z][ A-Za-z]{1,49}/);
+            if (!nombreValido.test(nombre.value)) {
+                errores.push('El nombre introducido es invalido, debe contener letras o espacios');
+                invalido = true;
+            }
+
+            //Validamos la fecha de nacimiento
+            const fecha = new Date(nacimiento.value);
+            console.log(fecha);
+            const hoy = new Date();
+            let anio = fecha.getFullYear();
+
+            if (fecha > hoy || anio < 1950 || nacimiento.value == "") {
+                invalido = true;
+                errores.push(`La fecha introducida es incorrecta, debe ser entre 1950 y ${anioMin}`);
+            }
+
+            //Validamos las contraseñas
+            const contValida = new RegExp(/[A-Za-z 0-9\_\-]{1,16}/);
+            if (!contValida.test(clave.value)) {
+                invalido = true;
+                errores.push("La contraseña debe tener entre 1 y 16 caracteres, solo se permiten letras, numeros, espacios o los caracteres _ -");
+            } else if (clave.value !== confirmar.value) {
+                invalido = true;
+                errores.push("Las contraseñas deben ser iguales");
+            }
+
+            //Validamos el peso
+            const pesoMax = 200;
+            const pesoMin = 0;
+            if (peso.value > pesoMax || peso.value < pesoMin) {
+                invalido = true;
+                errores.push(`El peso introducido es invalido debe ser entre ${pesoMin} y ${pesoMax}`);
+            }
+
+            //Si todo es correcto enviamos el formulario, sino mostramos los errores en los campos (Una imagen vacia no es un error, se le asignara la imagen por defecto al usuario)
+            if (invalido) {
+                let salida = "<ul>";
+                for (const error of errores) {
+                    salida += `<li>${error}</li>`;
+                }
+                salida += "</ul>";
+                document.getElementById("error").innerHTML = salida
+            } else {
+                formulario.submit();
+            }
+        })
+    </script>
 </body>
 
 </html>
