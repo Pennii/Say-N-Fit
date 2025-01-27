@@ -48,5 +48,6 @@ if (!$verificarUsuario->rowCount()) {
         $conexion->rollBack();
     }
 }else{
-    echo "el usuario ya existe";
+    setcookie("usuarioExistente", "El usuario ya existe", time()+2);
+    header("Location: vistas/registro.html");
 }
