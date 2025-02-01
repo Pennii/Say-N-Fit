@@ -1,0 +1,33 @@
+version: "2.31.0"
+
+
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: apache_server
+    ports:
+      - "8080:80" 
+    volumes:
+      - ./vistas:/var/www/html 
+    networks:
+      - red1
+
+  db:
+    image: mysql
+    container_name: mysql_server
+    environment:
+      MYSQL_ROOT_PASSWORD: clave
+      MYSQL_DATABASE: SAY_N_FIT 
+    ports:
+      - "3306:3306" 
+    volumes:
+      - datos_bd:/var/lib/mysql
+    networks:
+      - red1
+volumes:
+  datos_bd:
+
+networks:
+  red1:
