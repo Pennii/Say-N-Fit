@@ -18,67 +18,69 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `say n fit`
+-- Base de datos: say n fit
 --
+CREATE DATABASE say_n_fit;
 
+USE say_n_fit;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupo`
+-- Estructura de tabla para la tabla grupo
 --
 
-CREATE TABLE `grupo` (
-  `nombre` varchar(30) NOT NULL,
-  `participantes` int(11) NOT NULL,
-  `creacion` datetime NOT NULL DEFAULT current_timestamp(),
-  `lider` varchar(30) DEFAULT NULL
+CREATE TABLE grupo (
+  nombre varchar(30) NOT NULL,
+  participantes int(11) NOT NULL,
+  creacion datetime NOT NULL DEFAULT current_timestamp(),
+  lider varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `objetivo`
+-- Estructura de tabla para la tabla objetivo
 --
 
-CREATE TABLE `objetivo` (
-  `objetivo` varchar(100) NOT NULL,
-  `usuario` varchar(30) NOT NULL,
-  `meta` varchar(200) NOT NULL,
-  `progreso` varchar(200) DEFAULT NULL,
-  `completado` int(1) NOT NULL DEFAULT 0
+CREATE TABLE objetivo (
+  objetivo varchar(100) NOT NULL,
+  usuario varchar(30) NOT NULL,
+  meta varchar(200) NOT NULL,
+  progreso varchar(200) DEFAULT NULL,
+  completado int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pertenece`
+-- Estructura de tabla para la tabla pertenece
 --
 
-CREATE TABLE `pertenece` (
-  `usuario` varchar(30) NOT NULL,
-  `grupo` varchar(30) NOT NULL,
-  `autorizado` int(1) NOT NULL DEFAULT 0
+CREATE TABLE pertenece (
+  usuario varchar(30) NOT NULL,
+  grupo varchar(30) NOT NULL,
+  autorizado int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Estructura de tabla para la tabla usuario
 --
 
-CREATE TABLE `usuario` (
-  `usuario` varchar(30) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `fecha_nacimiento` date NOT NULL,
-  `peso` int(3) NOT NULL,
-  `clave` varchar(300) NOT NULL
+CREATE TABLE usuario (
+  usuario varchar(30) NOT NULL,
+  nombre varchar(50) NOT NULL,
+  fecha_nacimiento date NOT NULL,
+  peso int(3) NOT NULL,
+  clave varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Volcado de datos para la tabla usuario
 --
 
-INSERT INTO `usuario` (`usuario`, `nombre`, `fecha_nacimiento`, `peso`, `clave`) VALUES
+INSERT INTO usuario (usuario, nombre, fecha_nacimiento, peso, clave) VALUES
 ('penni', 'Matias', '2002-04-20', 75, 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),
 ('pennii', 'Matias', '2002-04-20', 75, 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),
 ('penniii', 'Matias', '2002-04-20', 75, 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),
@@ -91,39 +93,39 @@ INSERT INTO `usuario` (`usuario`, `nombre`, `fecha_nacimiento`, `peso`, `clave`)
 --
 
 --
--- Indices de la tabla `grupo`
+-- Indices de la tabla grupo
 --
-ALTER TABLE `grupo`
-  ADD PRIMARY KEY (`nombre`),
-  ADD KEY `lider_fk` (`lider`);
+ALTER TABLE grupo
+  ADD PRIMARY KEY (nombre),
+  ADD KEY lider_fk (lider);
 
 --
--- Indices de la tabla `objetivo`
+-- Indices de la tabla objetivo
 --
-ALTER TABLE `objetivo`
-  ADD PRIMARY KEY (`objetivo`,`usuario`);
+ALTER TABLE objetivo
+  ADD PRIMARY KEY (objetivo,usuario);
 
 --
--- Indices de la tabla `pertenece`
+-- Indices de la tabla pertenece
 --
-ALTER TABLE `pertenece`
-  ADD PRIMARY KEY (`usuario`,`grupo`);
+ALTER TABLE pertenece
+  ADD PRIMARY KEY (usuario,grupo);
 
 --
--- Indices de la tabla `usuario`
+-- Indices de la tabla usuario
 --
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`usuario`);
+ALTER TABLE usuario
+  ADD PRIMARY KEY (usuario);
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `grupo`
+-- Filtros para la tabla grupo
 --
-ALTER TABLE `grupo`
-  ADD CONSTRAINT `lider_fk` FOREIGN KEY (`lider`) REFERENCES `usuario` (`usuario`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE grupo
+  ADD CONSTRAINT lider_fk FOREIGN KEY (lider) REFERENCES usuario (usuario) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

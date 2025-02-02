@@ -1,5 +1,5 @@
 <?php
-$conexion = new PDO('mysql:host=mysql_server;dbname=SAY_N_FIT','root','clave');
+$conexion = new PDO('mysql:host=mysql_server;dbname=say_n_fit','root','clave');
 
 $usuario = $conexion->query("select * from usuario");
 
