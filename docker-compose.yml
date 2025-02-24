@@ -1,6 +1,3 @@
-version: "2.31.0"
-
-
 services:
   web:
     build:
@@ -9,8 +6,9 @@ services:
     container_name: apache_server
     ports:
       - "8080:80" 
+      - "443:443"
     volumes:
-      - ./vistas:/var/www/html 
+      - ./web:/var/www/html 
     networks:
       - red1
 

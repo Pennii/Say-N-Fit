@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <header>
+        <img src="../imagenes/logo.png" alt="" id="logo">
+    </header>
+    <div id="bienvenido"></div>
+    <script>
+        let bienvenido = document.getElementById("bienvenido");
+        let cookies = document.cookie.split("; ");
+        for (const cookie of cookies) {
+            let [nombre, valor] = cookie.split("=");
+            if (nombre == "nombreUsuario") {
+                bienvenido.innerHTML = `<p>${decodeURIComponent(valor)}</p>`;
+            }
+        }
+        document.cookie = "usuarioExistente=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    </script>
+</body>
+
+</html>

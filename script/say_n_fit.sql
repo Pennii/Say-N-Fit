@@ -39,20 +39,6 @@ CREATE TABLE grupo (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla objetivo
---
-
-CREATE TABLE objetivo (
-  objetivo varchar(100) NOT NULL,
-  usuario varchar(30) NOT NULL,
-  meta varchar(200) NOT NULL,
-  progreso varchar(200) DEFAULT NULL,
-  completado int(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla pertenece
 --
 
