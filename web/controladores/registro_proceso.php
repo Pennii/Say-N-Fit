@@ -32,6 +32,6 @@ if (!Usuario::verificarUsuario($usuario->getAlias())) {
     }
 
 } else {
-    setcookie("usuarioExistente", "El usuario ya existe", time() + 2);
-    header("Location: vistas/registro.html");
+    setcookie("usuarioExistente", "El usuario ya existe", time() + 20, '/');
+    header("Location: ../vistas/registro.html");
 }

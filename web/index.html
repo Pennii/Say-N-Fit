@@ -6,11 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Say n Fit</title>
     <link rel="stylesheet" href="./vistas/style.css">
+    <script>
+        if (document.cookie.includes("nombreUsuario=")) {
+            window.location.href = 'https://localhost/vistas/inicio.html';
+        }
+    </script>
 </head>
 
 <body>
     <header>
-        <img src="imagenes/logo.png" alt="" id="logo">
+        <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
     <section>
         <div id="presentacion">

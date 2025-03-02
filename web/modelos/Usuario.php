@@ -28,7 +28,7 @@ class Usuario
             $claveHasheada = password_hash($this->clave, PASSWORD_DEFAULT);
             try {
                 Conexion::conectar();
-                $insertarUsuario = Conexion::getConexion()->prepare("INSERT INTO USUARIO (usuario, nombre, fecha_nacimiento, peso, clave) VALUES (:usu, :nom, :nac, :peso, :clave)");
+                $insertarUsuario = Conexion::getConexion()->prepare("INSERT INTO USUARIO (alias, nombre, nacimiento, peso, clave) VALUES (:usu, :nom, :nac, :peso, :clave)");
                 $insertarUsuario->bindParam(":usu", $this->alias);
                 $insertarUsuario->bindParam(":nom", $this->nombre);
                 $insertarUsuario->bindParam(":nac", $this->nacimiento);
@@ -49,7 +49,7 @@ class Usuario
     public static function verificarUsuario($usuario)
     {
         Conexion::conectar();
-        $consultarUsuario = Conexion::getConexion()->prepare("SELECT * FROM USUARIO WHERE USUARIO = :usuario");
+        $consultarUsuario = Conexion::getConexion()->prepare("SELECT * FROM USUARIO WHERE ALIAS = :usuario");
         $consultarUsuario->bindParam(':usuario', $usuario);
         $consultarUsuario->execute();
         Conexion::desconectar();

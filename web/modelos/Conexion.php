@@ -1,6 +1,6 @@
 <?php
 abstract class  Conexion{
-    private static $conexion;
+    private static ?PDO $conexion = null;
 
     public static function getConexion() {
         return self::$conexion;

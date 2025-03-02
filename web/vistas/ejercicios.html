@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <header>
+        <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
+    </header>
+    <aside>
+        <div id="filtros">
+            <input type="checkbox" id="principiante"><label for="principiante">Principiante</label>
+            <input type="checkbox" id="intermedio"><label for="intermedio">Intermedio</label>
+            <input type="checkbox" id="avanzado"><label for="avanzado">Avanzado</label>
+        </div>
+        <button id="filtrar">Filtrar</button>
+    </aside>
+    <main id="listado"></main>
+    <script>
+        const principiante = document.getElementById('principiante');
+        const intermedio = document.getElementById('intermedio');
+        const avanzado = document.getElementById('avanzado');
+        const filtrar = document.getElementById('filtrar');
+        const listado = document.getElementById('listado');
+
+        filtrar.addEventListener('click', () => {
+            let datos = {
+                principiante: principiante.checked ? "principiante" : null,
+                intermedio: intermedio.checked ? "intermedio" : null,
+                avanzado: avanzado.checked ? "avanzado" : null
+            };
+            let ejercicios;
+
+            fetch('../controladores/ejercicio_proceso.php', {
+                method: 'POST',
+                headers: { "Content-type": 'application/json' },
+                body: JSON.stringify(datos)
+            }).then(response => response.json()).then(data => {
+                ejercicios = data.ejercicios;
+                listado.innerHTML = "";
+                for (const ejercicio of ejercicios) {
+                    listado.innerHTML += `<div class="ejercicio"><p>${ejercicio["nombre"]}</p></div>`;
+                }
+            })
+        })
+        
+        window.addEventListener('load', () => {
+            let ejercicios;
+
+            fetch('../controladores/ejercicio_proceso.php', {
+                method: 'POST',
+                headers: { "Content-type": 'application/json' }
+            }).then(response => response.json()).then(data => {
+                ejercicios = data.ejercicios;
+                listado.innerHTML = "";
+                for (const ejercicio of ejercicios) {
+                    listado.innerHTML += `<div class="ejercicio"><p>${ejercicio["nombre"]}</p></div>`;
+                }
+            })
+        })
+
+
+    </script>
+</body>
+
+</html>
