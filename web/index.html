@@ -19,9 +19,12 @@
     </header>
     <section>
         <div id="presentacion">
-            <p>¿Quieres convertirte en un poderoso guerrero? ¿Estás cansado de no saber cómo dar el 100% en tus entrenamientos? En Say n Fit te podemos ayudar.<br>
-                En nuestra aplicación podrás conectar con personas que buscan lo mismo que tú: aprender y entrenar juntos con el objetivo de volverse más fuertes.<br>
-                ¿Te ves capaz de ayudar a los demás o de organizar competencias? Crea un grupo para reunir a la gente.<br>
+            <p>¿Quieres convertirte en un poderoso guerrero? ¿Estás cansado de no saber cómo dar el 100% en tus
+                entrenamientos? En Say n Fit te podemos ayudar.<br>
+                En nuestra aplicación podrás conectar con personas que buscan lo mismo que tú: aprender y entrenar
+                juntos con el objetivo de volverse más fuertes.<br>
+                ¿Te ves capaz de ayudar a los demás o de organizar competencias? Crea un grupo para reunir a la
+                gente.<br>
                 ¿Qué estás esperando? ¡Únete al mundo del fitness de una manera única hoy mismo!
             </p>
         </div>
@@ -31,13 +34,19 @@
                 <input type="text" id="nombre" name="nombre">
                 <br><br>
                 <label for="clave">Contraseña:</label><br>
-                <input type="text" id="clave" name="clave">
+                <input type="password" id="clave" name="clave">
                 <br><br>
                 <button value="Ingresar" name="ingresar">Ingresar</button>
                 <button value="Registrarse" name="registrarse">Registrarse</button>
             </form>
         </div>
     </section>
+    <script>
+        const contenido = document.getElementsByTagName("section");
+        if (document.cookie.includes("usuarioIncorrecto=")) {
+            contenido[0].innerHTML+="<p>Datos incorrectos</p>";
+        }
+    </script>
 </body>
 
 </html>

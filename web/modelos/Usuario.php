@@ -57,6 +57,13 @@ class Usuario
     }
 
     public static function logear($usuario, $clave){
-
+        Conexion::conectar();
+        $consultarUsuario = Conexion::getConexion()->prepare("SELECT CLAVE FROM USUARIO WHERE ALIAS = :usuario");
+        $consultarUsuario->bindParam(":usuario", $usuario);
+        $consultarUsuario->execute();
+        $claveHasheada = $consultarUsuario->fetch(PDO::FETCH_ASSOC);
+        Conexion::desconectar();
+        $salida = $claveHasheada ? password_verify($clave, $claveHasheada["CLAVE"]) : false;
+        return $salida;
     }
 }
