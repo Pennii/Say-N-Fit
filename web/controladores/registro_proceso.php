@@ -5,7 +5,7 @@ $datos = filter_input_array(INPUT_POST);
 
 $usuario = new Usuario($datos["usuario"], $datos["nombre"], $datos["nacimiento"], $datos["peso"], $datos["clave"]);
 
-if (!Usuario::verificarUsuario($usuario->getAlias())) {
+if (!Usuario::verUsuario($usuario->getAlias())) {
     if ($usuario->insertarUsuario()) {
         $imagen = $_FILES["imagen"];
         if ($imagen) {

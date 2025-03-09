@@ -24,7 +24,7 @@ class Usuario
 
     public function insertarUsuario()
     {
-        if (!self::verificarUsuario($this->alias)) {
+        if (!self::verUsuario($this->alias)) {
             $claveHasheada = password_hash($this->clave, PASSWORD_DEFAULT);
             try {
                 Conexion::conectar();
@@ -46,14 +46,14 @@ class Usuario
         return $resultado;
     }
 
-    public static function verificarUsuario($usuario)
+    public static function verUsuario($usuario)
     {
         Conexion::conectar();
         $consultarUsuario = Conexion::getConexion()->prepare("SELECT * FROM USUARIO WHERE ALIAS = :usuario");
         $consultarUsuario->bindParam(':usuario', $usuario);
         $consultarUsuario->execute();
         Conexion::desconectar();
-        return $consultarUsuario->rowCount() > 0;
+        return $consultarUsuario->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function logear($usuario, $clave){
