@@ -36,7 +36,6 @@ class Usuario
                 $insertarUsuario->bindParam(":clave", $claveHasheada);
                 $resultado = $insertarUsuario->execute();
             } catch (Exception $e) {
-                echo $e->getMessage();
                 $resultado = false;
             }
         }else{
@@ -65,5 +64,28 @@ class Usuario
         Conexion::desconectar();
         $salida = $claveHasheada ? password_verify($clave, $claveHasheada["CLAVE"]) : false;
         return $salida;
+    }
+
+    public function actualizarDatos($aliasOriginal){
+        if (self::verUsuario($aliasOriginal)) {
+            $claveHasheada = password_hash($this->clave, PASSWORD_DEFAULT);
+            try {
+                Conexion::conectar();
+                $insertarUsuario = Conexion::getConexion()->prepare("UPDATE USUARIO SET ALIAS = :usu, NOMBRE = :nom, NACIMIENTO = :nac, PESO = :peso, CLAVE = :clave WHERE ALIAS = :usuOriginal");
+                $insertarUsuario->bindParam(":usu", $this->alias);
+                $insertarUsuario->bindParam(":nom", $this->nombre);
+                $insertarUsuario->bindParam(":nac", $this->nacimiento);
+                $insertarUsuario->bindParam(":peso", $this->peso);
+                $insertarUsuario->bindParam(":clave", $claveHasheada);
+                $insertarUsuario->bindParam(":usuOriginal", $aliasOriginal);
+                $resultado = $insertarUsuario->execute();
+            } catch (Exception $e) {
+                $resultado = $e->getMessage();
+            }
+        }else{
+            $resultado = false;
+        }
+        Conexion::desconectar();
+        return $resultado;
     }
 }

@@ -91,7 +91,7 @@
         imagen.addEventListener("change", (evento) => {
             let archivo = evento.target.files[0];
 
-            //Si se elimina la imagen que eligio el usuario o la cambia mostramos el cambio
+            //Si se elimina la imagen que eligio el usuario, o la cambia, mostramos el cambio
             if (archivo) {
                 let reader = new FileReader();
 
@@ -114,22 +114,21 @@
             evento.preventDefault();
 
             //validamos nombre de usuario
-            const nombreUsuarioValido = new RegExp(/[A-Za-z0-9\_\-][ A-Za-z0-9\_\-]{1,29}/);
+            const nombreUsuarioValido = new RegExp(/^[A-Za-z0-9\_\-][ A-Za-z0-9\_\-]{1,29}$/);
             if (!nombreUsuarioValido.test(usuario.value)) {
                 errores.push('El nombre de usuario es invalido, debe contener letras, numeros, espacios o los caracteres "_" "-"');
                 invalido = true;
             }
 
             //Validamos el nombre
-            const nombreValido = new RegExp(/[A-Za-z][ A-Za-z]{1,49}/);
+            const nombreValido = new RegExp(/^[A-Za-z][ A-Za-z]{1,49}$/);
             if (!nombreValido.test(nombre.value)) {
-                errores.push('El nombre introducido es invalido, debe contener letras o espacios');
+                errores.push('El nombre introducido es invalido, debe contener unicamente letras o espacios');
                 invalido = true;
             }
 
             //Validamos la fecha de nacimiento
             const fecha = new Date(nacimiento.value);
-            console.log(fecha);
             const hoy = new Date();
             let anio = fecha.getFullYear();
 
@@ -139,7 +138,7 @@
             }
 
             //Validamos las contraseñas
-            const contValida = new RegExp(/[A-Za-z 0-9\_\-]{1,16}/);
+            const contValida = new RegExp(/^[A-Za-z 0-9\_\-]{1,16}$/);
             if (!contValida.test(clave.value)) {
                 invalido = true;
                 errores.push("La contraseña debe tener entre 1 y 16 caracteres, solo se permiten letras, numeros, espacios o los caracteres _ -");

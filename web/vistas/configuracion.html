@@ -15,25 +15,34 @@
     </header>
     <section>
         <img src="" alt="" id="imgUsuario" width="30%">
+        <input type="file" id="imagenActualizar" accept="image/*" placeholder="imagen">
         <input type="text" id="aliasUsuario">
+        <input type="text" id="aliasOriginal" style="display: none;">
         <input type="text" id="nombreUsuario">
-        <input type="text" id="peso">
+        <input type="date" id="fecha">
+        <input type="number" id="peso">
         <input type="password" id="clave">
         <input type="password" id="repetirClave">
         <button id="editar">Editar</button>
         <button id="guardar">Guardar</button>
+        <button id="cancelar">Cancelar</button>
+        <div id="error"></div>
     </section>
     <script>
+        const imagenActualizar = document.getElementById("imagenActualizar");
         const alias = document.getElementById("aliasUsuario");
+        const aliasOriginal = document.getElementById("aliasOriginal");
         const nombre = document.getElementById("nombreUsuario");
+        const fecha = document.getElementById("fecha");
         const peso = document.getElementById("peso");
         const clave = document.getElementById("clave")
         const repetirClave = document.getElementById("repetirClave")
         const imagenUsuario = document.getElementById("imgUsuario");
         const editar = document.getElementById("editar");
         const guardar = document.getElementById("guardar");
+        const cancelar = document.getElementById("cancelar");
 
-        window.addEventListener("load", () => {
+        function cargarSinEdicion() {
             let cookies = document.cookie.split("; ");
             let nombreUsuario;
             for (const cookie of cookies) {
@@ -52,11 +61,16 @@
                 alias.value = datos.alias
                 alias.disabled = true
 
+                aliasOriginal.value = alias.value;
+
                 nombre.value = datos.nombre;
                 nombre.disabled = true
 
                 peso.value = datos.peso;
                 peso.disabled = true;
+
+                fecha.value = datos.nacimiento;
+                fecha.disabled = true;
 
                 clave.disabled = true;
                 clave.style.display = "none";
@@ -64,20 +78,113 @@
                 repetirClave.disabled = true;
                 repetirClave.style.display = "none";
 
+                editar.style.display = 'block';
+
+                imagenActualizar.style.display = "none";
                 guardar.style.display = "none";
+                cancelar.style.display = "none";
             })
+        }
+
+        window.addEventListener("load", () => {
+            cargarSinEdicion();
         })
 
         editar.addEventListener("click", () => {
             alias.disabled = false;
             nombre.disabled = false;
+            fecha.disabled = false;
             peso.disabled = false;
             clave.disabled = false;
             repetirClave.disabled = false;
 
             clave.style.display = "block";
             repetirClave.style.display = "block";
+            imagenActualizar.style.display = "block";
             guardar.style.display = "block";
+            cancelar.style.display = "block";
+
+            editar.style.display = 'none';
+        })
+
+        guardar.addEventListener('click', () => {
+            document.getElementById("error").innerHTML = ''
+            let invalido = false;
+            let errores = [];
+            //validamos nombre de usuario
+            const nombreUsuarioValido = new RegExp(/^[A-Za-z0-9\_\-][ A-Za-z0-9\_\-]{1,29}$/);
+            if (!nombreUsuarioValido.test(alias.value)) {
+                errores.push('El nombre de usuario es invalido, debe contener unicamente letras, numeros, espacios o los caracteres "_" "-"');
+                invalido = true;
+            }
+
+            //Validamos el nombre
+            const nombreValido = new RegExp(/^[A-Za-z][ A-Za-z]{1,49}$/);
+            if (!nombreValido.test(nombre.value)) {
+                errores.push('El nombre introducido es invalido, debe contener letras o espacios');
+                invalido = true;
+            }
+
+            //Validamos la fecha de nacimiento
+            const fechaSeleccionada = new Date(fecha.value);
+            const hoy = new Date();
+            const anioMin = hoy.getFullYear() - 16;
+            let anio = fechaSeleccionada.getFullYear();
+
+            if (fechaSeleccionada > hoy || anio < 1950 || fecha.value == "") {
+                invalido = true;
+                errores.push(`La fecha introducida es incorrecta, debe ser entre 1950 y ${anioMin}`);
+            }
+
+            //Validamos las contraseñas
+            const contValida = new RegExp(/^[A-Za-z 0-9\_\-]{1,16}$/);
+            if (!contValida.test(clave.value)) {
+                invalido = true;
+                errores.push("La contraseña debe tener entre 1 y 16 caracteres, solo se permiten letras, numeros, espacios o los caracteres _ -");
+            } else if (clave.value !== repetirClave.value) {
+                invalido = true;
+                errores.push("Las contraseñas deben ser iguales");
+            }
+
+            //Validamos el peso
+            const pesoMax = 200;
+            const pesoMin = 0;
+            if (peso.value > pesoMax || peso.value < pesoMin) {
+                invalido = true;
+                errores.push(`El peso introducido es invalido debe ser entre ${pesoMin} y ${pesoMax}`);
+            }
+            if (!invalido) {
+                let datos = {
+                    alias: alias.value,
+                    original: aliasOriginal.value,
+                    nombre: nombre.value,
+                    peso: peso.value,
+                    clave: clave.value,
+                    nacimiento: fecha.value
+                };
+                fetch('../controladores/configuracion_usuario_proceso.php', {
+                    method: 'POST',
+                    headers: { "Content-type": 'application/json' },
+                    body: JSON.stringify(datos)
+                }).then(response => response.json()).then(data => {
+                    if (!data.actualizado) {
+                        console.log(data.actualizado)
+                        alert('No se ha podido actualizar el usuario, intentalo mas tarde');
+                    }
+                }).then(() => cargarSinEdicion())
+            } else {
+                let salida = "<ul>";
+                for (const error of errores) {
+                    salida += `<li>${error}</li>`;
+                }
+                salida += "</ul>";
+                document.getElementById("error").innerHTML = salida
+            }
+        })
+
+        cancelar.addEventListener('click', () => {
+            cargarSinEdicion();
+            document.getElementById("error").innerHTML = ''
         })
 
     </script>
