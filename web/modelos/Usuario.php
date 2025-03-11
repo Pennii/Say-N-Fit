@@ -48,16 +48,16 @@ class Usuario
     public static function verUsuario($usuario)
     {
         Conexion::conectar();
-        $consultarUsuario = Conexion::getConexion()->prepare("SELECT * FROM USUARIO WHERE ALIAS = :usuario");
+        $consultarUsuario = Conexion::getConexion()->prepare("SELECT * FROM USUARIO WHERE BINARY ALIAS = :usuario");
         $consultarUsuario->bindParam(':usuario', $usuario);
         $consultarUsuario->execute();
         Conexion::desconectar();
-        return $consultarUsuario->fetchAll(PDO::FETCH_ASSOC);
+        return $consultarUsuario->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function logear($usuario, $clave){
         Conexion::conectar();
-        $consultarUsuario = Conexion::getConexion()->prepare("SELECT CLAVE FROM USUARIO WHERE ALIAS = :usuario");
+        $consultarUsuario = Conexion::getConexion()->prepare("SELECT CLAVE FROM USUARIO WHERE BINARY ALIAS = :usuario");
         $consultarUsuario->bindParam(":usuario", $usuario);
         $consultarUsuario->execute();
         $claveHasheada = $consultarUsuario->fetch(PDO::FETCH_ASSOC);
@@ -71,7 +71,7 @@ class Usuario
             $claveHasheada = password_hash($this->clave, PASSWORD_DEFAULT);
             try {
                 Conexion::conectar();
-                $insertarUsuario = Conexion::getConexion()->prepare("UPDATE USUARIO SET ALIAS = :usu, NOMBRE = :nom, NACIMIENTO = :nac, PESO = :peso, CLAVE = :clave WHERE ALIAS = :usuOriginal");
+                $insertarUsuario = Conexion::getConexion()->prepare("UPDATE USUARIO SET ALIAS = :usu, NOMBRE = :nom, NACIMIENTO = :nac, PESO = :peso, CLAVE = :clave WHERE BINARY ALIAS = :usuOriginal");
                 $insertarUsuario->bindParam(":usu", $this->alias);
                 $insertarUsuario->bindParam(":nom", $this->nombre);
                 $insertarUsuario->bindParam(":nac", $this->nacimiento);

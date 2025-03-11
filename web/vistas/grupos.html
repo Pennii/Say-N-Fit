@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
+    </header>
+    <section>
+        <div id="listaGrupos"></div>
+        <div id="chat"></div>
+        <div id="opcionesGrupo">
+            <button id="crear">Crear grupo</button>
+            <div id="opcionesAdmin">
+                <h1>admin</h1>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const opcionesAdmin = document.getElementById('opcionesAdmin');
+        const crearGrupo = document.getElementById('crear');
+        const listado = document.getElementById('listaGrupos');
+
+        opcionesAdmin.style.display = 'none';
+
+        window.addEventListener('load', () => {
+            let grupos;
+
+            fetch('../controladores/grupos_proceso.php', {
+                method: 'GET'
+            }).then(response => response.json()).then(data => {
+                grupos = data.grupos;
+                listado.innerHTML = "";
+                for (const grupo of grupos) {
+                    listado.innerHTML += `<div class="grupo"><p>${grupo["nombre"]}</p></div>`;
+                }
+            })
+        })
+        crearGrupo.addEventListener('click', () => {
+            
+            document.cookie = `crearGrupo=true; path=/`;
+            window.location.href = './grupos_configuracion.html';
+        })
+    </script>
+</body>
+</html>
