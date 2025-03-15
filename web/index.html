@@ -14,9 +14,11 @@
 </head>
 
 <body>
+    <!-- Encabezado de la pagina -->
     <header>
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
+    <!-- Presentacion de la pagina y el login -->
     <section>
         <div id="presentacion">
             <p>¿Quieres convertirte en un poderoso guerrero? ¿Estás cansado de no saber cómo dar el 100% en tus
@@ -41,7 +43,10 @@
             </form>
         </div>
     </section>
+
+    
     <script>
+        // mensaje que se muestra si un usuario no ingresa los datos correctos al iniciar sesion
         const contenido = document.getElementsByTagName("section");
         if (document.cookie.includes("usuarioIncorrecto=")) {
             contenido[0].innerHTML+="<p>Datos incorrectos</p>";

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,7 @@
     <header>
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
+    <!-- Filtros para la busqueda de ejercicios -->
     <aside>
         <div id="filtros">
             <input type="checkbox" id="principiante"><label for="principiante">Principiante</label>
@@ -20,14 +21,21 @@
         </div>
         <button id="filtrar">Filtrar</button>
     </aside>
+    <!-- Listado de ejercicios -->
     <main id="listado"></main>
+
+
     <script>
+        //Filtros
         const principiante = document.getElementById('principiante');
         const intermedio = document.getElementById('intermedio');
         const avanzado = document.getElementById('avanzado');
         const filtrar = document.getElementById('filtrar');
+
+        //Listado
         const listado = document.getElementById('listado');
 
+        //Actualiza los ejercicios que se ven en pantalla segun los filtros
         filtrar.addEventListener('click', () => {
             let datos = {
                 principiante: principiante.checked ? "principiante" : null,
@@ -49,6 +57,7 @@
             })
         })
         
+        //Carga todos los ejercicios en pantalla sin filtrar
         window.addEventListener('load', () => {
             let ejercicios;
 

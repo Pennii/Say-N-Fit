@@ -1,6 +1,9 @@
 <?php
 require_once '../modelos/Conexion.php';
 
+/**
+ * Clase que realiza las acciones de los usuarios
+ */
 class Usuario
 {
     private $alias;
@@ -9,6 +12,9 @@ class Usuario
     private $peso;
     private $clave;
 
+    /**
+     * Devuelve el alias del usuario
+     */
     public function getAlias(){
         return $this->alias;
     }
@@ -22,9 +28,13 @@ class Usuario
         $this->clave = $clave;
     }
 
+    /**
+     * Verifico que el usuario no exista en la bd y lo inserto
+     */
     public function insertarUsuario()
     {
         if (!self::verUsuario($this->alias)) {
+            //Con esta funcion hasheo la contraseña
             $claveHasheada = password_hash($this->clave, PASSWORD_DEFAULT);
             try {
                 Conexion::conectar();
@@ -45,6 +55,9 @@ class Usuario
         return $resultado;
     }
 
+    /**
+     * Devuelve los datos de un usuario en forma de array
+     */
     public static function verUsuario($usuario)
     {
         Conexion::conectar();
@@ -55,6 +68,10 @@ class Usuario
         return $consultarUsuario->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Busca la clave de un usuario y la compara con la clave sin hashear que se pasa como parametro
+     * devolviendo true si coinciden o false si no se encuentra la clave o no coinciden las dos versiones
+     */
     public static function logear($usuario, $clave){
         Conexion::conectar();
         $consultarUsuario = Conexion::getConexion()->prepare("SELECT CLAVE FROM USUARIO WHERE BINARY ALIAS = :usuario");
@@ -66,6 +83,9 @@ class Usuario
         return $salida;
     }
 
+    /**
+     * Verifcio que el usuario este en la bd y actualizo los datos
+     */
     public function actualizarDatos($aliasOriginal){
         if (self::verUsuario($aliasOriginal)) {
             $claveHasheada = password_hash($this->clave, PASSWORD_DEFAULT);

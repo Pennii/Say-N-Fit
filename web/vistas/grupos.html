@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
     <header>
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
     <section>
+        <!-- Lista de grupos donde esta el usuario -->
         <div id="listaGrupos"></div>
+        <!-- Chat del grupo seleccionado -->
         <div id="chat"></div>
+        <!-- Opciones de grupo -->
         <div id="opcionesGrupo">
             <button id="crear">Crear grupo</button>
+            <button id="encontrar">Encontrar un grupo</button>
+            <!-- Formulario que se ve cuando un usuario quiere buscar un nuevo grupo -->
+            <form id="insertarClave" method="POST" action="../controladores/grupos_proceso.php">
+                <input type="text" id="clave" name="clave" placeholder="Escribe la clave del grupo">
+                <input type="text" id="usuario" name="usuario">
+                <button id="buscar" name="buscar">Unirte al grupo</button>
+            </form>
+            <!-- Opciones que se ven solo cuando el usuario es administrador del grupo -->
             <div id="opcionesAdmin">
                 <h1>admin</h1>
             </div>
@@ -22,12 +35,18 @@
     </section>
 
     <script>
-        const opcionesAdmin = document.getElementById('opcionesAdmin');
-        const crearGrupo = document.getElementById('crear');
+        // Secciones de la pagina
         const listado = document.getElementById('listaGrupos');
+        const opcionesAdmin = document.getElementById('opcionesAdmin');
 
-        opcionesAdmin.style.display = 'none';
+        //Opciones generales
+        const crearGrupo = document.getElementById('crear');
+        const encontrarGrupo = document.getElementById('encontrar');
+        const insertarClave = document.getElementById('insertarClave');
+        const usuario = document.getElementById('usuario');
+        const buscarClave = document.getElementById('buscar');
 
+        //Carga de la lista de grupos y modificacion de campos
         window.addEventListener('load', () => {
             let grupos;
 
@@ -40,12 +59,30 @@
                     listado.innerHTML += `<div class="grupo"><p>${grupo["nombre"]}</p></div>`;
                 }
             })
+            opcionesAdmin.style.display = 'none';
+            insertarClave.style.display = 'none';
+            usuario.style.visibility = 'hidden';
         })
+
+        // Redirige a la vista donde se crean los grupos
         crearGrupo.addEventListener('click', () => {
-            
             document.cookie = `crearGrupo=true; path=/`;
             window.location.href = './grupos_configuracion.html';
         })
+
+        // Activa el formulario para encontrar un nuevo grupo
+        encontrarGrupo.addEventListener('click', () => {
+            insertarClave.style.display = 'block';
+            encontrarGrupo.style.display = 'none';
+            let cookies = document.cookie.split("; ");
+            for (const cookie of cookies) {
+                let [nombre, valor] = cookie.split("=");
+                if (nombre == "nombreUsuario") {
+                    usuario.value = decodeURIComponent(valor);
+                }
+            }
+        })
     </script>
 </body>
+
 </html>

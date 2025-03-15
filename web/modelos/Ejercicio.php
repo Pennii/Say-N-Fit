@@ -1,6 +1,9 @@
 <?php
 require_once '../modelos/Conexion.php';
 
+/**
+ * Clase que realizara las funciones que impliquen a los ejercicios
+ */
 class Ejercicio
 {
     private $nombre;
@@ -16,6 +19,9 @@ class Ejercicio
         $this->musculos = $musculos;
     }
 
+    /**
+     * Lista los ejercicios y agrega los filtros necesarios
+     */
     public static function listarEjercicios(?array $filtros = null)
     {
         Conexion::conectar();
@@ -28,6 +34,7 @@ class Ejercicio
                     $filtrado = true;
                 }
             }
+            //Se eliminan las sentencias que no sean necesarias y quedan al final de la consulta
             if (isset($filtrado)) {
                 $query = substr($query, 0, strlen($query) - 4);
             }else{

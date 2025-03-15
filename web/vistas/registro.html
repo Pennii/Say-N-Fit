@@ -13,9 +13,12 @@
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
     <section>
+        <!-- Mensaje cuando un usuario intenta registrarse con un nombre que ya existe -->
         <p id="existente"></p>
         <form action="/controladores/registro_proceso.php" method="post" id="datos" enctype="multipart/form-data">
+            <!-- Donde se mostraran los mensajes de error -->
             <div id="error"></div>
+            <!-- Campos del formulario -->
             <div class="campo">
                 <label>Imagen de perfil:</label>
                 <input type="file" name="imagen" id="imagen" accept="image/*" placeholder="imagen">
@@ -50,7 +53,10 @@
             <button type="submit">Enviar datos</button>
         </form>
     </section>
+
+
     <script>
+        // Datos del formulario
         const formulario = document.getElementById("datos");
         const imagen = document.getElementById("imagen");
         const usuario = document.getElementById("usuario");
@@ -59,9 +65,11 @@
         const confirmar = document.getElementById("confirmar");
         const nacimiento = document.getElementById("nacimiento");
         const peso = document.getElementById("peso");
-        let error = document.getElementById("error");
-        const enviar = document.getElementById("");
         const existente = document.getElementById("existente");
+
+        // Mensaje de error
+        const error = document.getElementById("error");
+
 
         //Verificamos que el usuario no haya intentado ingresar un nombre de usuario existente
         if (document.cookie.includes("usuarioExistente=")) {
@@ -87,7 +95,7 @@
 
 
         //Muestra la imagen que envia el usuario
-        let previsualizacion = document.getElementById("previsualizacion");
+        const previsualizacion = document.getElementById("previsualizacion");
         imagen.addEventListener("change", (evento) => {
             let archivo = evento.target.files[0];
 
@@ -95,10 +103,12 @@
             if (archivo) {
                 let reader = new FileReader();
 
+                // Cuando se carga el reader esta funcion mostrara la imagen
                 reader.onload = function(e) {
                     previsualizacion.src = e.target.result;
                     previsualizacion.style.display = 'block';
                 }
+                // Esta funcion carga el reader
                 reader.readAsDataURL(archivo);
             } else {
                 previsualizacion.src = '';
@@ -129,7 +139,6 @@
 
             //Validamos la fecha de nacimiento
             const fecha = new Date(nacimiento.value);
-            const hoy = new Date();
             let anio = fecha.getFullYear();
 
             if (fecha > hoy || anio < 1950 || nacimiento.value == "") {
@@ -155,7 +164,7 @@
                 errores.push(`El peso introducido es invalido debe ser entre ${pesoMin} y ${pesoMax}`);
             }
 
-            //Si todo es correcto enviamos el formulario, sino mostramos los errores en los campos (Una imagen vacia no es un error, se le asignara la imagen por defecto al usuario)
+            //Si todo es correcto enviamos el formulario, sino, mostramos los errores en los campos (Una imagen vacia no es un error, se le asignara la imagen por defecto al usuario)
             if (invalido) {
                 let salida = "<ul>";
                 for (const error of errores) {

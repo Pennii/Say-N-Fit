@@ -13,6 +13,7 @@
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
         <a href="../controladores/cerrar_sesion.php" style="color: white;">Cerrar sesion</a>
     </header>
+    <!-- Formulario donde se muestran los datos del usuario actualmente y que se pueden modificar -->
     <section>
         <img src="" alt="" id="imgUsuario" width="30%">
         <input type="file" id="imagenActualizar" accept="image/*" placeholder="imagen">
@@ -23,12 +24,15 @@
         <input type="number" id="peso">
         <input type="password" id="clave">
         <input type="password" id="repetirClave">
+        <!-- Boton que habilita la edicion de datos -->
         <button id="editar">Editar</button>
         <button id="guardar">Guardar</button>
         <button id="cancelar">Cancelar</button>
+        <!-- Mensaje que muestra los errores al editar datos -->
         <div id="error"></div>
     </section>
     <script>
+        //Formulario
         const imagenActualizar = document.getElementById("imagenActualizar");
         const alias = document.getElementById("aliasUsuario");
         const aliasOriginal = document.getElementById("aliasOriginal");
@@ -42,6 +46,7 @@
         const guardar = document.getElementById("guardar");
         const cancelar = document.getElementById("cancelar");
 
+        //Funcion que permite cargar los datos del usuario
         function cargarSinEdicion() {
             let cookies = document.cookie.split("; ");
             let nombreUsuario;
@@ -90,6 +95,7 @@
             cargarSinEdicion();
         })
 
+        //Cambia el estilo del formulario para editar datos
         editar.addEventListener("click", () => {
             alias.disabled = false;
             nombre.disabled = false;
@@ -107,6 +113,7 @@
             editar.style.display = 'none';
         })
 
+        //Envia los datos por json y permite actualizar los datos del usuario siguiendo las mismas reglas que en el registro
         guardar.addEventListener('click', () => {
             document.getElementById("error").innerHTML = ''
             let invalido = false;
@@ -168,7 +175,6 @@
                     body: JSON.stringify(datos)
                 }).then(response => response.json()).then(data => {
                     if (!data.actualizado) {
-                        console.log(data.actualizado)
                         alert('No se ha podido actualizar el usuario, intentalo mas tarde');
                     }
                 }).then(() => cargarSinEdicion())
@@ -182,6 +188,7 @@
             }
         })
 
+        //Cancela la edicion del usuario y restablece el estilo del formulario
         cancelar.addEventListener('click', () => {
             cargarSinEdicion();
             document.getElementById("error").innerHTML = ''

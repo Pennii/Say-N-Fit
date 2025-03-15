@@ -13,6 +13,7 @@
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
     <section>
+        <!-- Formulario de creacion de grupos -->
         <div id="crearGrupo" style="display: none;">
             <form action="../controladores/grupos_proceso.php" method="POST">
                 <label for="nombre">Nombre del grupo</label>
@@ -29,8 +30,11 @@
         </div>
     </section>
     <script>
+        //Opciones de creacion
         const menuCrear = document.getElementById('crearGrupo');
         const creador = document.getElementById('creador');
+        
+        // Carga del formulario necesario
         window.addEventListener('load', () => {
             let bienvenido = document.getElementById("bienvenido");
             let cookies = document.cookie.split("; ");
@@ -41,12 +45,15 @@
                     usuarioLider = decodeURIComponent(valor);
                 }
             }
+            // Con esto se controla si se crea o modifica un grupo
             if (document.cookie.includes('crearGrupo')) {
                 menuCrear.style.display = 'block';
                 creador.style.visibility = 'hidden';
                 creador.value = usuarioLider;
             }
         })
+
+        // Si se decide cancelar la creacion de grupos se vuelve a la pagina anterior
         menuCrear.firstElementChild['cancelar'].addEventListener('click', () => {
             event.preventDefault();
             window.location.href = './grupos.html';
