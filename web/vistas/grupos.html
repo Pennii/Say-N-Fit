@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../estilos/grupos.css">
 </head>
 
 <body>
@@ -29,7 +30,9 @@
             </form>
             <!-- Opciones que se ven solo cuando el usuario es administrador del grupo -->
             <div id="opcionesAdmin">
-                <h1>admin</h1>
+                <button id="editar">Editar grupo</button>
+                <button id="eliminarUsuarios">Eliminar usuarios</button>
+                <button id="cambiarLider">Cambiar de lider</button>
             </div>
         </div>
     </section>
@@ -46,23 +49,10 @@
         const usuario = document.getElementById('usuario');
         const buscarClave = document.getElementById('buscar');
 
-        //Carga de la lista de grupos y modificacion de campos
-        window.addEventListener('load', () => {
-            let grupos;
-
-            fetch('../controladores/grupos_proceso.php', {
-                method: 'GET'
-            }).then(response => response.json()).then(data => {
-                grupos = data.grupos;
-                listado.innerHTML = "";
-                for (const grupo of grupos) {
-                    listado.innerHTML += `<div class="grupo"><p>${grupo["nombre"]}</p></div>`;
-                }
-            })
-            opcionesAdmin.style.display = 'none';
-            insertarClave.style.display = 'none';
-            usuario.style.visibility = 'hidden';
-        })
+        //Opciones de administrador
+        const editar = document.getElementById("editar");
+        const eliminarUsuarios = document.getElementById("eliminarUsuarios");
+        const cambiarLider = document.getElementById("cambiarLider");
 
         // Redirige a la vista donde se crean los grupos
         crearGrupo.addEventListener('click', () => {
@@ -74,6 +64,13 @@
         encontrarGrupo.addEventListener('click', () => {
             insertarClave.style.display = 'block';
             encontrarGrupo.style.display = 'none';
+        })
+
+        let claveGrupo;
+        //Carga de la lista de grupos y modificacion de campos
+        window.addEventListener('load', () => {
+            let grupos;
+            //Asignamos el usuario para las opciones necesarias
             let cookies = document.cookie.split("; ");
             for (const cookie of cookies) {
                 let [nombre, valor] = cookie.split("=");
@@ -81,6 +78,59 @@
                     usuario.value = decodeURIComponent(valor);
                 }
             }
+
+            fetch('../controladores/grupos_proceso.php', {
+                method: 'GET'
+            }).then(response => response.json()).then(data => {
+                grupos = data.grupos;
+                listado.innerHTML = "";
+                //Estructura de los grupos en la lista
+                for (const grupo of grupos) {
+                    listado.innerHTML += `
+                    <div class="grupo">
+                        <div>
+                        <img src="../iconos_grupos/${grupo.clave}.jpeg" class="imagen_grupo"/>
+                        <p>${grupo["nombre"]}</p>
+                        </div>
+                        <p class="claveGrupo">${grupo.clave}</p>
+                        <input type="text" value=${grupo.clave} style="display: none;"/>
+                    </div>`;
+                }
+                //Activar las opciones admin
+                const gruposListados = document.getElementsByClassName("grupo")
+                for (const grupo of gruposListados) {
+                    grupo.addEventListener('click', () => {
+                        let datos = {
+                            grupo: grupo.querySelector("input").value,
+                            usuario: usuario.value
+                        }
+
+                        fetch("../controladores/grupos_proceso.php", {
+                            method: "POST",
+                            body: JSON.stringify(datos),
+                            headers: { "Content-type": 'application/json' }
+                        }).then(response => response.json()).then(data => {
+                            if (data.lider) {
+                                opcionesAdmin.style.display = '';
+                                claveGrupo = grupo.querySelector("input").value;
+                            } else {
+                                opcionesAdmin.style.display = 'none';
+                            }
+                        })
+                    })
+                }
+            })
+            //Oculta las cosas que no se ven al inicio
+            opcionesAdmin.style.display = 'none';
+            insertarClave.style.display = 'none';
+            usuario.style.visibility = 'hidden';
+        })
+
+        //Opciones admin
+        editar.addEventListener('click', () => {
+            document.cookie = `editarGrupo=true; max-age=600; path=/`
+            document.cookie = `claveGrupo=${claveGrupo}; max-age=600; path=/`
+            window.location.href = "./grupos_configuracion.html"
         })
     </script>
 </body>

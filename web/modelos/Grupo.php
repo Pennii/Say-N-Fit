@@ -8,18 +8,23 @@ require_once '../modelos/funciones.php';
  */
 class Grupo
 {
-
     private $nombre;
     private $clave;
-    private $creacion;
     private $lider;
 
-    function __construct($nombre, $clave, $creacion, $lider)
+    function __construct($nombre, $clave, $lider)
     {
         $this->nombre = $nombre;
         $this->clave = $clave;
-        $this->creacion = $creacion;
         $this->lider = $lider;
+    }
+
+    /**
+     * Devuelve la clave de grupo
+     */
+    public function getClave()
+    {
+        return $this->clave;
     }
 
     /**
@@ -28,13 +33,12 @@ class Grupo
      */
     public function crearGrupo($usuario)
     {
-        if (!self::verGrupo($this->nombre)) {
+        if (!self::verGrupo($this->clave)) {
             try {
                 Conexion::conectar();
-                $insertarGrupo = Conexion::getConexion()->prepare("INSERT INTO GRUPO VALUES(:clave, :nom, :fec, :lid)");
+                $insertarGrupo = Conexion::getConexion()->prepare("INSERT INTO GRUPO VALUES(:clave, :nom, :lid)");
                 $insertarGrupo->bindParam(':clave', $this->clave);
                 $insertarGrupo->bindParam(":nom", $this->nombre);
-                $insertarGrupo->bindParam(':fec', $this->creacion);
                 $insertarGrupo->bindParam(':lid', $this->lider);
                 $insertarGrupo->execute();
                 $insertado = true;
@@ -52,13 +56,13 @@ class Grupo
     /**
      * Se devuelven los datos de un grupo en forma de array.
      */
-    public static function verGrupo($nombre)
+    public static function verGrupo($clave)
     {
         Conexion::conectar();
-        $nombre = sanear_texto($nombre);
+        $nombre = sanear_texto($clave);
         try {
-            $verGrupo = Conexion::getConexion()->prepare("SELECT * FROM GRUPO WHERE BINARY NOMBRE = :nom");
-            $verGrupo->bindParam(":nom", $nombre);
+            $verGrupo = Conexion::getConexion()->prepare("SELECT * FROM GRUPO WHERE CLAVE = :cla");
+            $verGrupo->bindParam(":cla", $clave);
             $verGrupo->execute();
         } catch (\Throwable $th) {
         }
@@ -87,7 +91,7 @@ class Grupo
     {
         Conexion::conectar();
         try {
-            $verGrupo = Conexion::getConexion()->PREPARE("SELECT G.* FROM GRUPO G INNER JOIN PERTENECE P ON G.CLAVE = P.GRUPO WHERE P.USUARIO = :usu");
+            $verGrupo = Conexion::getConexion()->PREPARE("SELECT G.* FROM GRUPO G INNER JOIN PERTENECE P ON G.CLAVE = P.GRUPO WHERE P.USUARIO = :usu ORDER BY G.NOMBRE");
             $verGrupo->bindParam(":usu", $usuario);
             $verGrupo->execute();
         } catch (\Throwable $th) {
@@ -135,5 +139,67 @@ class Grupo
         }
         Conexion::desconectar();
         return $encontrado;
+    }
+
+    /**
+     * Verifica si un usuario es lider de grupo
+     */
+    public static function verificarLider($grupo, $usuario)
+    {
+        Conexion::conectar();
+        try {
+            $consultarLider = Conexion::getConexion()->prepare("SELECT CLAVE FROM GRUPO WHERE CLAVE = :cla AND LIDER = :lid");
+            $consultarLider->bindParam(":cla", $grupo);
+            $consultarLider->bindParam(":lid", $usuario);
+            $consultarLider->execute();
+            $lider = $consultarLider->fetch() != false;
+        } catch (\Throwable $th) {
+            $lider = false;
+        }
+        Conexion::desconectar();
+        return $lider;
+    }
+
+    /**
+     * Devolvera una lista de usuarios que pertenecen a un grupo
+     */
+    public static function listarUsuarios($grupo)
+    {
+        Conexion::conectar();
+        try {
+            $consultarUsuarios = Conexion::getConexion()->prepare("SELECT USUARIO FROM PERTENECE WHERE GRUPO = :gru");
+            $consultarUsuarios->bindParam(":gru", $grupo);
+            $consultarUsuarios->execute();
+        } catch (\Throwable $th) {
+            $error = true;
+        }
+        $resultado = isset($error) ? false : $consultarUsuarios->fetchAll();
+        Conexion::desconectar();
+        return $resultado;
+    }
+
+    /**
+     * Actualiza los datos de un grupo
+     */
+    public function actualizarDatos()
+    {
+        if (self::verGrupo($this->clave)) {
+            Conexion::conectar();
+            try {
+                $actualizarGrupo = Conexion::getConexion()->prepare("UPDATE GRUPO SET NOMBRE = :nom, LIDER = :lid WHERE CLAVE = :cla");
+                $actualizarGrupo->bindParam(":nom", $this->nombre);
+                $actualizarGrupo->bindParam(":lid", $this->lider);
+                $actualizarGrupo->bindParam(":cla", $this->clave);
+                $actualizarGrupo->execute();
+            } catch (\Throwable $th) {
+                $error = true;
+            }
+        }else{
+            $error = true;
+        }
+       
+        $resultado = !isset($error);
+        Conexion::desconectar();
+        return $resultado;
     }
 }

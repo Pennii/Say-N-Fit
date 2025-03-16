@@ -1,1 +1,4 @@
 datos_bd
+web/iconos_grupos/*
+web/iconos_usuarios/*
+!web/iconos_usuarios/imagen_predeterminada.png

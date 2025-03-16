@@ -1,0 +1,25 @@
+.imagen_grupo {
+    border-radius: 50%;
+    width: 20%;
+}
+
+.grupo, .grupo div {
+    display: flex;
+    align-items: center;
+}
+.grupo{
+    border: 1px solid black;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.grupo:hover{
+    cursor: pointer;
+}
+.claveGrupo{
+    color: white;
+    transition: .3s ease;
+}
+.grupo:hover .claveGrupo{
+    color: black;
+}
