@@ -104,6 +104,7 @@
                         menuActual.nombre.value = datosGrupo.nombre
                         menuActual.clave.value = datosGrupo.clave
                         menuActual.clave.disabled = true;
+                        
                         menuActual.previsualizacion.src = `../iconos_grupos/${datosGrupo.clave}.jpeg`
                         for (const usuario of usuarios) {
                             if (usuario[0] == usuarioLider) {
@@ -192,7 +193,7 @@
                     }
                 })
             } else {
-                window.location.href="./grupos.html";
+                window.location.href = "./grupos.html";
             }
 
         })

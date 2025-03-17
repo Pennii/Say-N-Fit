@@ -1,0 +1,14 @@
+.imagenUsuario{
+    width: 30%;
+    border-radius: 50%;
+}
+.usuarioListado{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.usuario{
+    display: flex;
+    align-items: center;
+}

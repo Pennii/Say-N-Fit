@@ -31,8 +31,7 @@
             <!-- Opciones que se ven solo cuando el usuario es administrador del grupo -->
             <div id="opcionesAdmin">
                 <button id="editar">Editar grupo</button>
-                <button id="eliminarUsuarios">Eliminar usuarios</button>
-                <button id="cambiarLider">Cambiar de lider</button>
+                <button id="editarUsuarios">Editar usuarios</button>
             </div>
         </div>
     </section>
@@ -51,8 +50,8 @@
 
         //Opciones de administrador
         const editar = document.getElementById("editar");
-        const eliminarUsuarios = document.getElementById("eliminarUsuarios");
-        const cambiarLider = document.getElementById("cambiarLider");
+        const editarUsuarios = document.getElementById("editarUsuarios");
+
 
         // Redirige a la vista donde se crean los grupos
         crearGrupo.addEventListener('click', () => {
@@ -131,6 +130,12 @@
             document.cookie = `editarGrupo=true; max-age=600; path=/`
             document.cookie = `claveGrupo=${claveGrupo}; max-age=600; path=/`
             window.location.href = "./grupos_configuracion.html"
+        })
+
+        //Edicion de usuarios
+        editarUsuarios.addEventListener('click', () => {
+            document.cookie = `editarUsuarios=${claveGrupo}; max-age=600; path=/`
+            window.location.href = './editar_usuarios.html'
         })
     </script>
 </body>

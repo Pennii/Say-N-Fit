@@ -59,7 +59,7 @@ class Grupo
     public static function verGrupo($clave)
     {
         Conexion::conectar();
-        $nombre = sanear_texto($clave);
+        $clave = sanear_texto($clave);
         try {
             $verGrupo = Conexion::getConexion()->prepare("SELECT * FROM GRUPO WHERE CLAVE = :cla");
             $verGrupo->bindParam(":cla", $clave);
@@ -194,12 +194,47 @@ class Grupo
             } catch (\Throwable $th) {
                 $error = true;
             }
-        }else{
+        } else {
             $error = true;
         }
-       
+
         $resultado = !isset($error);
         Conexion::desconectar();
         return $resultado;
+    }
+
+    /**
+     * Elimina un usuario del grupo
+     */
+    public static function eliminarUsuario($usuario, $grupo)
+    {
+        Conexion::conectar();
+        try {
+            $eliminarUsuario = Conexion::getConexion()->prepare("DELETE FROM PERTENECE WHERE USUARIO = :usu AND GRUPO = :gru");
+            $eliminarUsuario->bindParam(":usu", $usuario);
+            $eliminarUsuario->bindParam(":gru", $grupo);
+            $eliminarUsuario->execute();
+            $eliminado = true;
+        } catch (\Throwable $th) {
+            $eliminado = false;
+        }
+        return $eliminado;
+    }
+
+    /**
+     * Cambia el lider de un grupo por otro
+     */
+    public static function convertirLider($usuario, $grupo){
+        Conexion::conectar();
+        try {
+            $convertir = Conexion::getConexion()->prepare("UPDATE GRUPO SET LIDER = :lid WHERE CLAVE = :cla");
+            $convertir->bindParam(":lid", $usuario);
+            $convertir->bindParam(":cla", $grupo);
+            $convertir->execute();
+            $convertido = true;
+        } catch (\Throwable $th) {
+            $convertido = false;
+        }
+        return $convertido;
     }
 }

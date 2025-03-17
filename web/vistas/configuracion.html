@@ -15,19 +15,22 @@
     </header>
     <!-- Formulario donde se muestran los datos del usuario actualmente y que se pueden modificar -->
     <section>
-        <img src="" alt="" id="imgUsuario" width="30%">
-        <input type="file" id="imagenActualizar" accept="image/*" placeholder="imagen">
-        <input type="text" id="aliasUsuario">
-        <input type="text" id="aliasOriginal" style="display: none;">
-        <input type="text" id="nombreUsuario">
-        <input type="date" id="fecha">
-        <input type="number" id="peso">
-        <input type="password" id="clave">
-        <input type="password" id="repetirClave">
-        <!-- Boton que habilita la edicion de datos -->
-        <button id="editar">Editar</button>
-        <button id="guardar">Guardar</button>
-        <button id="cancelar">Cancelar</button>
+        <form action="../controladores/configuracion_usuario_proceso.php" method="POST" enctype="multipart/form-data">
+            <img src="" alt="" id="imgUsuario" width="30%">
+            <input type="file" id="imagenActualizar" accept="image/*" placeholder="imagen" name="imagen">
+            <input type="text" id="aliasUsuario" name="alias">
+            <input type="text" id="aliasOriginal" style="display: none;" name="original">
+            <input type="text" id="nombreUsuario" name="nombre">
+            <input type="date" id="fecha" name="nacimiento">
+            <input type="number" id="peso" name="peso">
+            <input type="password" id="clave" name="clave">
+            <input type="password" id="repetirClave">
+            <!-- Boton que habilita la edicion de datos -->
+            <button id="editar">Editar</button>
+            <button id="guardar">Guardar</button>
+            <button id="cancelar">Cancelar</button>
+        </form>
+        <a href="./inicio.html"><button>Volver</button></a>
         <!-- Mensaje que muestra los errores al editar datos -->
         <div id="error"></div>
     </section>
@@ -62,7 +65,7 @@
                 headers: { "Content-type": 'application/json' },
                 body: JSON.stringify(nombreUsuario)
             }).then(response => response.json()).then(data => {
-                datos = data.datos[0];
+                datos = data.datos;
                 alias.value = datos.alias
                 alias.disabled = true
 
@@ -97,6 +100,7 @@
 
         //Cambia el estilo del formulario para editar datos
         editar.addEventListener("click", () => {
+            event.preventDefault();
             alias.disabled = false;
             nombre.disabled = false;
             fecha.disabled = false;
@@ -160,25 +164,8 @@
                 invalido = true;
                 errores.push(`El peso introducido es invalido debe ser entre ${pesoMin} y ${pesoMax}`);
             }
-            if (!invalido) {
-                let datos = {
-                    alias: alias.value,
-                    original: aliasOriginal.value,
-                    nombre: nombre.value,
-                    peso: peso.value,
-                    clave: clave.value,
-                    nacimiento: fecha.value
-                };
-                fetch('../controladores/configuracion_usuario_proceso.php', {
-                    method: 'POST',
-                    headers: { "Content-type": 'application/json' },
-                    body: JSON.stringify(datos)
-                }).then(response => response.json()).then(data => {
-                    if (!data.actualizado) {
-                        alert('No se ha podido actualizar el usuario, intentalo mas tarde');
-                    }
-                }).then(() => cargarSinEdicion())
-            } else {
+            if (invalido) {
+                event.preventDefault();
                 let salida = "<ul>";
                 for (const error of errores) {
                     salida += `<li>${error}</li>`;
@@ -190,8 +177,25 @@
 
         //Cancela la edicion del usuario y restablece el estilo del formulario
         cancelar.addEventListener('click', () => {
+            event.preventDefault();
             cargarSinEdicion();
             document.getElementById("error").innerHTML = ''
+        })
+
+        imagenActualizar.addEventListener("change", (evento) => {
+            let archivo = evento.target.files[0];
+
+            //Si se elimina la imagen que eligio el usuario, o la cambia, mostramos el cambio
+            if (archivo) {
+                let reader = new FileReader();
+
+                // Cuando se carga el reader esta funcion mostrara la imagen
+                reader.onload = function (e) {
+                    imagenUsuario.src = e.target.result;
+                }
+                // Esta funcion carga el reader
+                reader.readAsDataURL(archivo);
+            }
         })
 
     </script>

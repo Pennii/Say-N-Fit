@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     //Si en los datos se encuentra la opcion crear es porque se esta insertando un grupo nuevo
     if (filter_has_var(INPUT_POST, "crear")) {
         $lider = Usuario::verUsuario($datos['lider']);
-
         $grupo = new Grupo($datos["nombre"], $datos["clave"], $lider["alias"]);
         if ($lider["alias"] && $grupo->crearGrupo($lider["alias"])) {
             $imagen = $_FILES["imagen"];
@@ -38,10 +37,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } else if (filter_has_var(INPUT_POST, "buscar")) {
         Grupo::encontrarGrupo($datos["clave"], $datos["usuario"]);
         header('Location: ../vistas/grupos.html');
-    //Si se encuentra confirmarCambios entonces actualizamos los datos de un grupo
+        //Si se encuentra confirmarCambios entonces actualizamos los datos de un grupo
     } else if (filter_has_var(INPUT_POST, "confirmarCambios")) {
         $grupo = new Grupo($datos["nombre"], $datos["clave"], $datos["lider"]);
-        $grupo->actualizarDatos();
+        if ($grupo->actualizarDatos()) {
+            $imagen = $_FILES["imagen"];
+            // La variable imagen es un array, si no se introdujo ninguna imagen el valor de nombre estara vacio, de esa forma sabre si hay una imagen o no
+            if ($imagen["name"]) {
+                unlink("../iconos_grupos/" . $grupo->getClave() . ".jpeg");
+                // Si hay una imagen se crea en la ruta del usuario
+                $ubicacion = "../iconos_grupos/" . $grupo->getClave() . ".jpeg";
+                move_uploaded_file($imagen["tmp_name"], $ubicacion);
+            }
+        }
+        setcookie("editarGrupo", false, time() - 1, '/');
+        setcookie("claveGrupo", false, time() - 1, '/');
         header('Location: ../vistas/grupos.html');
     } else {
         $json =  file_get_contents('php://input');
