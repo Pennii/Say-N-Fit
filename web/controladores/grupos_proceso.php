@@ -27,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $ubicacion = "../iconos_grupos/" . $grupo->getClave() . ".jpeg";
                 copy("../iconos_grupos/imagen_predeterminada.png", $ubicacion);
             }
+            copy("../mensajes/predeterminado.txt","../mensajes/".$grupo->getClave().".txt");
+
             setcookie("crearGrupo", false, time() - 1, '/');
             header('Location: ../vistas/grupos.html');
         } else {

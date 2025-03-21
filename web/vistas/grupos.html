@@ -17,7 +17,13 @@
         <!-- Lista de grupos donde esta el usuario -->
         <div id="listaGrupos"></div>
         <!-- Chat del grupo seleccionado -->
-        <div id="chat"></div>
+        <div id="chat">
+            <div id="mensajes"></div>
+            <form action="" id="enviarMensaje">
+                <input type="text" name="mensaje" placeholder="mensaje">
+                <button id="enviar">Enviar</button>
+            </form>
+        </div>
         <!-- Opciones de grupo -->
         <div id="opcionesGrupo">
             <button id="crear">Crear grupo</button>
@@ -52,6 +58,11 @@
         const editar = document.getElementById("editar");
         const editarUsuarios = document.getElementById("editarUsuarios");
 
+        //Chat
+        const chat = document.getElementById("chat");
+        const mensajes = document.getElementById('mensajes');
+        const enviarMensaje = document.getElementById('enviarMensaje');
+        let mostrandoChat;
 
         // Redirige a la vista donde se crean los grupos
         crearGrupo.addEventListener('click', () => {
@@ -68,6 +79,7 @@
         let claveGrupo;
         //Carga de la lista de grupos y modificacion de campos
         window.addEventListener('load', () => {
+            mostrandoChat = false;
             let grupos;
             //Asignamos el usuario para las opciones necesarias
             let cookies = document.cookie.split("; ");
@@ -99,10 +111,17 @@
                 const gruposListados = document.getElementsByClassName("grupo")
                 for (const grupo of gruposListados) {
                     grupo.addEventListener('click', () => {
+                        if (mostrandoChat != false) {
+                            clearInterval(mostrandoChat);
+                        }
                         let datos = {
                             grupo: grupo.querySelector("input").value,
                             usuario: usuario.value
                         }
+                        mostrarChat(datos.grupo)
+                        mostrandoChat = setInterval(function () {
+                            mostrarChat(datos.grupo)
+                        }, 1000);
 
                         fetch("../controladores/grupos_proceso.php", {
                             method: "POST",
@@ -116,10 +135,12 @@
                                 opcionesAdmin.style.display = 'none';
                             }
                         })
+                        chat.style.display = 'block';
                     })
                 }
             })
             //Oculta las cosas que no se ven al inicio
+            chat.style.display = 'none';
             opcionesAdmin.style.display = 'none';
             insertarClave.style.display = 'none';
             usuario.style.visibility = 'hidden';
@@ -136,6 +157,54 @@
         editarUsuarios.addEventListener('click', () => {
             document.cookie = `editarUsuarios=${claveGrupo}; max-age=600; path=/`
             window.location.href = './editar_usuarios.html'
+        })
+
+        //Funcion que carga el contenido del chat
+        function mostrarChat(grupo) {
+            let chatActual;
+            document.cookie = `grupo=${grupo}; max-age=10; path=/`;
+            fetch('../controladores/chat_proceso.php', {
+                method: 'GET',
+                headers: { "Content-type": 'application/json' }
+            }).then(response => response.json()).then(data => {
+                chatActual = data.chat;
+                formatearChat(chatActual);
+            })
+        }
+
+        //Da formato al chat y muestra los mensajes
+        function formatearChat(chatActual) {
+            let listaMensajes = chatActual.split(";")
+            let mensaje
+            mensajes.innerHTML = ""
+            for (const texto of listaMensajes) {
+                if (texto.includes("╝")) {
+                    mensaje = texto.split("╝")
+                    mensajes.innerHTML += `<p>${mensaje[0]}: ${mensaje[1]} ${mensaje[2]}</p>`
+                } else {
+                    mensajes.innerHTML += `<p>${texto}</p>`
+                }
+            }
+        }
+
+        //Guarda los mensajes enviados y actualiza el chat que ve el usuario
+        enviarMensaje.addEventListener('submit', () => {
+            event.preventDefault()
+            let chatActual
+            const datos = {
+                mensaje: enviarMensaje.mensaje.value
+            };
+            if (datos.mensaje.trim() != "") {
+                fetch("../controladores/chat_proceso.php", {
+                    method: "POST",
+                    headers: { "Content-type": 'application/json' },
+                    body: JSON.stringify(datos)
+                }).then(response => response.json()).then(data => {
+                    chatActual = data.chat
+                    formatearChat(chatActual)
+                })
+                enviarMensaje.mensaje.value = ""
+            }
         })
     </script>
 </body>
