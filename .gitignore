@@ -1,4 +1,7 @@
 datos_bd
 web/iconos_grupos/*
 web/iconos_usuarios/*
+web/mensajes/
 !web/iconos_usuarios/imagen_predeterminada.png
+!web/iconos_grupos/imagen_predeterminada.png
+!web/mensajes/predeterminado.txt

@@ -18,4 +18,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $usuarios = Grupo::listarUsuarios($datos);
         echo json_encode(["usuarios" => $usuarios]);
     }
+}else{
+    if (filter_input(INPUT_COOKIE, "abandonarGrupo") != null) {
+        $grupo = filter_input(INPUT_COOKIE, "abandonarGrupo");
+        $usuario = filter_input(INPUT_COOKIE, "nombreUsuario");
+        if (!Grupo::abandonarGrupo($usuario, $grupo)){
+            setcookie("errorAbandonar", true, time() + 5, '/');
+        }
+        header("Location: ../vistas/grupos.html");
+    }else{
+        header("Location: ../index.html");
+    }
 }

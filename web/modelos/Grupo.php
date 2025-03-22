@@ -224,7 +224,8 @@ class Grupo
     /**
      * Cambia el lider de un grupo por otro
      */
-    public static function convertirLider($usuario, $grupo){
+    public static function convertirLider($usuario, $grupo)
+    {
         Conexion::conectar();
         try {
             $convertir = Conexion::getConexion()->prepare("UPDATE GRUPO SET LIDER = :lid WHERE CLAVE = :cla");
@@ -235,6 +236,54 @@ class Grupo
         } catch (\Throwable $th) {
             $convertido = false;
         }
+        Conexion::desconectar();
         return $convertido;
+    }
+
+    /**
+     * Elimina un grupo
+     */
+    public static function eliminarGrupo($grupo)
+    {
+        Conexion::conectar();
+        try {
+            $eliminarGrupo = Conexion::getConexion()->prepare("DELETE FROM GRUPO WHERE CLAVE = :gru");
+            $eliminarGrupo->bindParam(":gru", $grupo);
+            $eliminarGrupo->execute();
+            $eliminado = true;
+        } catch (\Throwable $th) {
+            $eliminado = false;
+        }
+        Conexion::desconectar();
+        return $eliminado;
+    }
+
+    /**
+     * Elimina un usuario que desee abandonar el grupo, si el usuario es el lider del grupo
+     * asignara al primero que encuentre por orden alfabetico para asignarlo como nuevo lider.
+     * Si no hay otro usuario en el grupo entonces se elimina el grupo
+     */
+    public static function abandonarGrupo($usuario, $grupo)
+    {
+        if (self::verificarLider($grupo, $usuario)) {
+            try {
+                Conexion::conectar();
+                $consultarNuevoLider = Conexion::getConexion()->prepare("SELECT USUARIO FROM PERTENECE WHERE GRUPO = :gru AND USUARIO != :usu LIMIT 1");
+                $consultarNuevoLider->bindParam(":gru", $grupo);
+                $consultarNuevoLider->bindParam(":usu", $usuario);
+                $consultarNuevoLider->execute();
+                $nuevoLider = $consultarNuevoLider->fetch(PDO::FETCH_ASSOC);
+            } catch (\Throwable $th) {
+                $nuevoLider = false;
+            }
+            if ($nuevoLider != false) {
+                self::convertirLider($nuevoLider["USUARIO"], $grupo);
+            } else {
+                self::eliminarGrupo($grupo);
+            }
+        }
+        $abandonado = self::eliminarUsuario($usuario, $grupo);
+        Conexion::desconectar();
+        return $abandonado;
     }
 }

@@ -28,6 +28,7 @@
         <div id="opcionesGrupo">
             <button id="crear">Crear grupo</button>
             <button id="encontrar">Encontrar un grupo</button>
+            <button id="abandonar">Abandonar grupo</button>
             <!-- Formulario que se ve cuando un usuario quiere buscar un nuevo grupo -->
             <form id="insertarClave" method="POST" action="../controladores/grupos_proceso.php">
                 <input type="text" id="clave" name="clave" placeholder="Escribe la clave del grupo">
@@ -53,6 +54,7 @@
         const insertarClave = document.getElementById('insertarClave');
         const usuario = document.getElementById('usuario');
         const buscarClave = document.getElementById('buscar');
+        const abandonar = document.getElementById('abandonar');
 
         //Opciones de administrador
         const editar = document.getElementById("editar");
@@ -111,6 +113,7 @@
                 const gruposListados = document.getElementsByClassName("grupo")
                 for (const grupo of gruposListados) {
                     grupo.addEventListener('click', () => {
+                        abandonar.style.display = 'block';
                         if (mostrandoChat != false) {
                             clearInterval(mostrandoChat);
                         }
@@ -141,6 +144,7 @@
             })
             //Oculta las cosas que no se ven al inicio
             chat.style.display = 'none';
+            abandonar.style.display = 'none';
             opcionesAdmin.style.display = 'none';
             insertarClave.style.display = 'none';
             usuario.style.visibility = 'hidden';
@@ -205,6 +209,12 @@
                 })
                 enviarMensaje.mensaje.value = ""
             }
+        })
+
+        //Permite que un usuario abandone el grupo seleccionado
+        abandonar.addEventListener('click', () => {
+            document.cookie = `abandonarGrupo=${claveGrupo}; max-age=10; path=/`;
+            window.location.href = '../controladores/edicion_usuarios.php';
         })
     </script>
 </body>
