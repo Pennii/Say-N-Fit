@@ -6,23 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../estilos/ejercicios.css">
 </head>
 
 <body>
     <header>
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
+    <section>
+        <aside>
+            <div id="filtros">
+                <input type="checkbox" id="principiante"><label for="principiante">Principiante</label>
+                <input type="checkbox" id="intermedio"><label for="intermedio">Intermedio</label>
+                <input type="checkbox" id="avanzado"><label for="avanzado">Avanzado</label>
+            </div>
+            <button id="filtrar">Filtrar</button>
+            <form action="../controladores/rutina_proceso.php" id="completarRutina" method="POST">
+                <input type="text" name="nombre" placeholder="Nombre de la rutina">
+                <label>Dias:</label><br>
+                <label for="domingo">Domingo</label> <input type="checkbox" name="dias[]" value="domingo" id="domingo">
+                <label for="lunes">Lunes</label> <input type="checkbox" name="dias[]" value="lunes" id="lunes">
+                <label for="martes">Martes</label> <input type="checkbox" name="dias[]" value="martes" id="martes">
+                <label for="miercoles">Miercoles</label><input type="checkbox" name="dias[]" value="miercoles"
+                    id="miercoles">
+                <label for="jueves">Jueves</label> <input type="checkbox" name="dias[]" value="jueves" id="jueves">
+                <label for="viernes">Viernes</label> <input type="checkbox" name="dias[]" value="viernes" id="viernes">
+                <label for="sabado">Sabado</label> <input type="checkbox" name="dias[]" value="sabado" id="sabado">
+                <input type="text" name="ejercicios" hidden>
+                <button name="completar">Completar rutina</button>
+            </form>
+
+        </aside>
+        <!-- Listado de ejercicios -->
+        <main id="listado"></main>
+    </section>
     <!-- Filtros para la busqueda de ejercicios -->
-    <aside>
-        <div id="filtros">
-            <input type="checkbox" id="principiante"><label for="principiante">Principiante</label>
-            <input type="checkbox" id="intermedio"><label for="intermedio">Intermedio</label>
-            <input type="checkbox" id="avanzado"><label for="avanzado">Avanzado</label>
-        </div>
-        <button id="filtrar">Filtrar</button>
-    </aside>
-    <!-- Listado de ejercicios -->
-    <main id="listado"></main>
 
 
     <script>
@@ -34,6 +52,8 @@
 
         //Listado
         const listado = document.getElementById('listado');
+        let ejerciciosRutina = [];
+        const completarRutina = document.getElementById('completarRutina');
 
         //Actualiza los ejercicios que se ven en pantalla segun los filtros
         filtrar.addEventListener('click', () => {
@@ -56,23 +76,57 @@
                 }
             })
         })
-        
+
         //Carga todos los ejercicios en pantalla sin filtrar
         window.addEventListener('load', () => {
             let ejercicios;
-
+            completarRutina.style.display = 'none';
             fetch('../controladores/ejercicio_proceso.php', {
                 method: 'POST',
                 headers: { "Content-type": 'application/json' }
             }).then(response => response.json()).then(data => {
                 ejercicios = data.ejercicios;
-                listado.innerHTML = "";
                 for (const ejercicio of ejercicios) {
-                    listado.innerHTML += `<div class="ejercicio"><p>${ejercicio["nombre"]}</p></div>`;
+                    listado.innerHTML += `<div class="ejercicio"><p>${ejercicio["nombre"]}</p>
+                        <input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio">
+                    <label for="${ejercicio["nombre"]}">Añadir</label>
+                    </div>
+                    `;
+                }
+                const seleccionEjercicio = document.getElementsByClassName("seleccionEjercicio");
+                for (const seleccion of seleccionEjercicio) {
+                    //Agrega y elimina elementos a un array para cargarlo luego en una rutina
+                    seleccion.addEventListener('change', () => {
+                        let opcion = seleccion.parentNode.querySelector("label");
+                        if (seleccion.checked) {
+                            ejerciciosRutina.push(seleccion.value);
+                            opcion.innerText = "Eliminar";
+                        } else {
+                            //Si el array contiene el ejercicio y se cancela su seleccion se elimina del array
+                            if (ejerciciosRutina.includes(seleccion.value)) {
+                                let posicion = ejerciciosRutina.indexOf(seleccion.value);
+                                ejerciciosRutina.splice(posicion, 1);
+                                opcion.innerText = "Agregar";
+                            }
+                        }
+                        if (ejerciciosRutina.length > 0) {
+                            completarRutina.style.display = 'block';
+                        } else {
+                            completarRutina.style.display = 'none';
+                        }
+                    })
                 }
             })
         })
 
+        completarRutina.addEventListener('submit', () => {
+            let salida = ''
+            for (const ejercicio of ejerciciosRutina) {
+                salida += `${ejercicio};`;
+            }
+            salida = salida.substring(0, salida.length - 1);
+            completarRutina.ejercicios.value = salida
+        })
 
     </script>
 </body>
