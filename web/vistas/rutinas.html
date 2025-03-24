@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../estilos/rutinas.css">
 
 </head>
 
@@ -37,16 +39,43 @@
                 for (const rutina of data.rutinas) {
                     dias = '';
                     for (const dia of rutina.dias.split(';')) {
-                        console.log(dia);
                         dias += `${obtenerDia(dia)}, `;
                     }
                     dias = dias.substring(0, dias.length - 2)
                     rutinas.innerHTML += `
-                    <div class="rutina">
+                    <div class="rutina" id="${rutina.codigo}">
                         <p>${rutina.nombre}</p>
                         <p>${dias}</p>
-                        
+                        <i class="bi bi-pencil-fill editar"></i>
+                        <i class="bi bi-trash-fill eliminar"></i>
                     `;
+                }
+                const contenedoresRutina = document.getElementsByClassName('rutina');
+                for (const rutina of contenedoresRutina) {
+                    rutina.addEventListener('click', () => {
+                        document.cookie = `rutina=${rutina.id}; path=/`;
+                        fetch("../controladores/rutina_proceso.php", {
+                            method: "GET",
+                        }).then(response => response.json()).then(data => {
+                            listaEjercicios.innerHTML = '';
+                            console.log(data)
+                            for (const ejercicios of data.ejercicios) {
+                                listaEjercicios.innerHTML += `
+                                <div class="ejercicio">
+                                    <p>${ejercicios.NOMBRE}</p>
+                                    <p>series: ${ejercicios.SERIES} x repetciciones: ${ejercicios.REPETICIONES}</p>
+                                    </div>`;
+                            }
+                        });
+                    });
+                }
+
+                const botonesEditar = document.getElementsByClassName('editar');
+                for (const boton of botonesEditar) {
+                    boton.addEventListener('click', () => {
+                        document.cookie = `editarRutina=${boton.parentElement.id}; path=/`;
+                        window.location.href = './editar_rutina.html';
+                    });
                 }
             });
         });

@@ -87,7 +87,7 @@ class Rutina
     {
         Conexion::conectar();
         try {
-            $almacenarEjercicio = Conexion::getConexion()->prepare("INSERT INTO ALMACENA VALUES(:cod, :usu, :ejer)");
+            $almacenarEjercicio = Conexion::getConexion()->prepare("INSERT INTO ALMACENA(CODIGO_RUTINA, USUARIO, EJERCICIO) VALUES(:cod, :usu, :ejer)");
             $almacenarEjercicio->bindParam(":cod", $this->codigo);
             $almacenarEjercicio->bindParam(":usu", $this->usuario);
             $almacenarEjercicio->bindParam(":ejer", $ejercicio);
@@ -107,7 +107,7 @@ class Rutina
     {
         Conexion::conectar();
         try {
-            $obtenerRutinas = Conexion::getConexion()->prepare("SELECT * FROM RUTINA WHERE USUARIO = :usu");
+            $obtenerRutinas = Conexion::getConexion()->prepare("SELECT * FROM RUTINA WHERE USUARIO = :usu ORDER BY 3");
             $obtenerRutinas->bindParam(":usu", $usuario);
             $obtenerRutinas->execute();
             $resultado = $obtenerRutinas->fetchAll(PDO::FETCH_ASSOC);
@@ -116,5 +116,39 @@ class Rutina
         }
         Conexion::desconectar();
         return $resultado;
+    }
+
+    /**
+     * Devuelve los ejercicios de una rutina
+     */
+    public static function obtenerEjercicios($usuario, $rutina){
+        Conexion::conectar();
+        try {
+            $obtenerEjercicios = Conexion::getConexion()->prepare("SELECT E.NOMBRE, A.SERIES, A.REPETICIONES FROM EJERCICIO E INNER JOIN ALMACENA A ON E.NOMBRE = A.EJERCICIO WHERE A.CODIGO_RUTINA = :rut AND A.USUARIO = :usu");
+            $obtenerEjercicios->bindParam(":rut", $rutina);
+            $obtenerEjercicios->bindParam(":usu", $usuario);
+            $obtenerEjercicios->execute();
+            $resultado = $obtenerEjercicios->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Throwable $th) {
+            $resultado = false;
+        }
+        Conexion::desconectar();
+        return $resultado; 
+    }
+
+    public static function quitarEjercicio($ejercicio, $usuario, $rutina){
+        Conexion::conectar();
+        try {
+            $quitarEjercicio = Conexion::getConexion()->prepare("DELETE FROM ALMACENA WHERE EJERCICIO = :ejer AND USUARIO = :usu AND CODIGO_RUTINA = :rut");
+            $quitarEjercicio->bindParam(":ejer", $ejercicio);
+            $quitarEjercicio->bindParam(":usu", $usuario);
+            $quitarEjercicio->bindParam(":rut", $rutina);
+            $quitarEjercicio->execute();
+            $eliminado = true;
+        } catch (\Throwable $th) {
+            $eliminado = false;
+        }
+        Conexion::desconectar();
+        return $eliminado;
     }
 }

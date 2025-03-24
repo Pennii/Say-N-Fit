@@ -1,6 +1,29 @@
 #listaRutinas{
-    width: 50%;
+    width: 30%;
 }
 .rutina{
     border: 1px solid black;
+    margin: 10px;
+}
+.rutina i{
+    opacity: 0;
+    transition: .3s ease;
+}
+.rutina:hover i{
+    opacity: 1;
+}
+#ejercicios{
+    width: 70%;
+    height: 100%;
+    border-left: 1px solid orange;
+}
+section{
+    flex-direction: row;
+    align-items: center;
+}
+.eliminar{
+    color: red;
+}
+.editar{
+    color: green;
 }

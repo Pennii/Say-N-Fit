@@ -13,4 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     //Se devuelve un objeto json con la propiedad ejercicios para la lista
     echo json_encode(["ejercicios" => $lista]);
+}else{
+    header("Location: ../index.html");
 }
