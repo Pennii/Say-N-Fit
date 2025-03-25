@@ -136,6 +136,9 @@ class Rutina
         return $resultado; 
     }
 
+    /**
+     * Quita un ejercicio de una rutina y elimina la rutina si ya no quedan ejercicios
+     */
     public static function quitarEjercicio($ejercicio, $usuario, $rutina){
         Conexion::conectar();
         try {
@@ -144,11 +147,65 @@ class Rutina
             $quitarEjercicio->bindParam(":usu", $usuario);
             $quitarEjercicio->bindParam(":rut", $rutina);
             $quitarEjercicio->execute();
+            $eliminado = 1;
+        } catch (\Throwable $th) {
+            $eliminado = 0;
+        }
+        if ($eliminado && !self::obtenerEjercicios($usuario, $rutina)) {
+            self::eliminarRutina($usuario, $rutina);
+            $eliminado = -1;
+        }
+        Conexion::desconectar();
+        return $eliminado;
+    }
+
+    /**
+     * Elimina una rutina
+     */
+    public static function eliminarRutina($usuario, $rutina){
+        Conexion::conectar();
+        try {
+            $eliminarRutina = Conexion::getConexion()->prepare("DELETE FROM RUTINA WHERE CODIGO = :rut AND USUARIO = :usu");
+            $eliminarRutina->bindParam(":rut", $rutina);
+            $eliminarRutina->bindParam(":usu", $usuario);
+            $eliminarRutina->execute();
             $eliminado = true;
         } catch (\Throwable $th) {
             $eliminado = false;
         }
         Conexion::desconectar();
         return $eliminado;
+    }
+
+    /**
+     * Actualiza una rutina, cambiando sus datos y los ejercicios
+     */
+    public function actualizarRutina($ejercicios){
+        Conexion::conectar();
+        try {
+            Conexion::getConexion()->beginTransaction();
+            $actualizarRutina = Conexion::getConexion()->prepare("UPDATE RUTINA SET NOMBRE = :nom, DIAS = :dias WHERE CODIGO = :cod AND USUARIO = :usu");
+            $actualizarRutina->bindParam(":nom", $this->nombre);
+            $actualizarRutina->bindParam(":dias", $this->dias);
+            $actualizarRutina->bindParam(":cod", $this->codigo);
+            $actualizarRutina->bindParam(":usu", $this->usuario);
+            $actualizarRutina->execute();
+            $actualizarEjercicios = Conexion::getConexion()->prepare("UPDATE ALMACENA SET SERIES = :ser, REPETICIONES = :rep WHERE CODIGO_RUTINA = :cod AND USUARIO = :usu AND EJERCICIO = :ejer");
+            foreach ($ejercicios as $ejercicio) {
+                $actualizarEjercicios->bindParam(":ser", $ejercicio["series"]);
+                $actualizarEjercicios->bindParam(":rep", $ejercicio["repeticiones"]);
+                $actualizarEjercicios->bindParam(":cod", $this->codigo);
+                $actualizarEjercicios->bindParam(":usu", $this->usuario);
+                $actualizarEjercicios->bindParam(":ejer", $ejercicio["nombre"]);
+                $actualizarEjercicios->execute();
+            }
+            $actualizado = true;
+            Conexion::getConexion()->commit();
+        } catch (\Throwable $th) {
+            Conexion::getConexion()->rollBack();
+            $actualizado = false;
+        }
+        Conexion::desconectar();
+        return $actualizado;
     }
 }

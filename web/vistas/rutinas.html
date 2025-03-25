@@ -48,6 +48,7 @@
                         <p>${dias}</p>
                         <i class="bi bi-pencil-fill editar"></i>
                         <i class="bi bi-trash-fill eliminar"></i>
+                    </div>
                     `;
                 }
                 const contenedoresRutina = document.getElementsByClassName('rutina');
@@ -57,8 +58,8 @@
                         fetch("../controladores/rutina_proceso.php", {
                             method: "GET",
                         }).then(response => response.json()).then(data => {
+                            console.log(data);
                             listaEjercicios.innerHTML = '';
-                            console.log(data)
                             for (const ejercicios of data.ejercicios) {
                                 listaEjercicios.innerHTML += `
                                 <div class="ejercicio">
@@ -75,6 +76,31 @@
                     boton.addEventListener('click', () => {
                         document.cookie = `editarRutina=${boton.parentElement.id}; path=/`;
                         window.location.href = './editar_rutina.html';
+                    });
+                }
+
+
+                const botonesEliminar = document.getElementsByClassName('eliminar');
+                for (const boton of botonesEliminar) {
+                    boton.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        let datos = {
+                            rutinaEliminar: boton.parentElement.id
+                        }
+                        fetch('../controladores/rutina_proceso.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(datos)
+                        }).then(response => response.json()).then(data => {
+                            console.log(data);
+                            if (data.eliminado) {
+                                boton.parentElement.remove();
+                                alert('Rutina eliminada');
+                                listaEjercicios.innerHTML = '';
+                            }else{
+                                alert('Error al eliminar la rutina');
+                            }
+                        });
                     });
                 }
             });

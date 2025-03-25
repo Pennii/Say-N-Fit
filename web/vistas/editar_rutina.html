@@ -16,7 +16,7 @@
         <a href="../controladores/cerrar_sesion.php" style="color: white;">Cerrar sesion</a>
     </header>
     <section>
-        <form action="" id="editarRutina">
+        <form action="../controladores/rutina_proceso.php" id="editarRutina" method="POST">
         </form>
     </section>
 
@@ -41,18 +41,19 @@
                     <label for="jueves">Jueves</label> <input type="checkbox" name="dias[]" value="jueves" id="jueves">
                     <label for="viernes">Viernes</label> <input type="checkbox" name="dias[]" value="viernes" id="viernes">
                     <label for="sabado">Sabado</label> <input type="checkbox" name="dias[]" value="sabado" id="sabado">`;
+                    let contadorEjercicio = 0;
                 for (const ejercicio of ejercicios) {
                     editarRutina.innerHTML += `
                     <div class="ejercicio">
                             <label>${ejercicio.NOMBRE}:</label>
-                            <input type="text" name="ejercicio[]" value="${ejercicio.NOMBRE}" hidden>
-                            <input type="number" min=0 name="series[]" value="${ejercicio.SERIES}">
+                            <input type="text" name="ejerciciosActualizar[${contadorEjercicio}][nombre]" value="${ejercicio.NOMBRE}" hidden>
+                            <input type="number" min=0 name="ejerciciosActualizar[${contadorEjercicio}][series]" value="${ejercicio.SERIES}">
                             <label>X</label>
-                            <input type="number" min=0 name="repeticiones[]" value="${ejercicio.REPETICIONES}">
+                            <input type="number" min=0 name="ejerciciosActualizar[${contadorEjercicio++}][repeticiones]" value="${ejercicio.REPETICIONES}">
                             <button type="button" class="eliminar" value="${ejercicio.NOMBRE}"><i class="bi bi-trash-fill"></i></button>
                     </div>`;
                 }
-                editarRutina.innerHTML += `<button>Guardar</button>`;
+                editarRutina.innerHTML += `<button name="actualizarRutina">Guardar</button>`;
                 const botonesEliminar = document.getElementsByClassName('eliminar');
                 for (const boton of botonesEliminar) {
                     boton.addEventListener('click', () => {
@@ -64,12 +65,30 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(datos)
                         }).then(response => response.json()).then(data => {
-                            if (data.eliminado) {
+                            console.log(data);
+                            if (data.eliminado == -1) {
+                                window.location.href = '../vistas/rutinas.html';
+                            } else if (data.eliminado == 1) {
                                 boton.parentElement.remove();
                             }
                         });
                     });
                 }
+
+
+                editarRutina.addEventListener('submit', () => {
+                    const dias = editarRutina.querySelectorAll('input[type="checkbox"]');
+                    let valido = false;
+                    for (const dia of dias) {
+                        if (dia.checked) {
+                            valido = true;
+                        }
+                    }
+                    if (!valido) {
+                        alert('Debe seleccionar al menos un dia');
+                        event.preventDefault();
+                    }
+                })
             });
         })
     </script>

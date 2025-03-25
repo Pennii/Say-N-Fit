@@ -43,5 +43,6 @@
 }
 section{
     flex-direction: row;
-    height: 50%;
+    justify-content: space-between;
+    width: 100%;
 }

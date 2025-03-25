@@ -71,9 +71,7 @@
             }).then(response => response.json()).then(data => {
                 ejercicios = data.ejercicios;
                 listado.innerHTML = "";
-                for (const ejercicio of ejercicios) {
-                    listado.innerHTML += `<div class="ejercicio"><p>${ejercicio["nombre"]}</p></div>`;
-                }
+                cargarEjercicios(ejercicios);
             })
         })
 
@@ -86,39 +84,50 @@
                 headers: { "Content-type": 'application/json' }
             }).then(response => response.json()).then(data => {
                 ejercicios = data.ejercicios;
-                for (const ejercicio of ejercicios) {
-                    listado.innerHTML += `<div class="ejercicio"><p>${ejercicio["nombre"]}</p>
-                        <input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio">
-                    <label for="${ejercicio["nombre"]}">Añadir</label>
-                    </div>
-                    `;
-                }
-                const seleccionEjercicio = document.getElementsByClassName("seleccionEjercicio");
-                for (const seleccion of seleccionEjercicio) {
-                    //Agrega y elimina elementos a un array para cargarlo luego en una rutina
-                    seleccion.addEventListener('change', () => {
-                        let opcion = seleccion.parentNode.querySelector("label");
-                        if (seleccion.checked) {
-                            ejerciciosRutina.push(seleccion.value);
-                            opcion.innerText = "Eliminar";
-                        } else {
-                            //Si el array contiene el ejercicio y se cancela su seleccion se elimina del array
-                            if (ejerciciosRutina.includes(seleccion.value)) {
-                                let posicion = ejerciciosRutina.indexOf(seleccion.value);
-                                ejerciciosRutina.splice(posicion, 1);
-                                opcion.innerText = "Agregar";
-                            }
-                        }
-                        if (ejerciciosRutina.length > 0) {
-                            completarRutina.style.display = 'block';
-                        } else {
-                            completarRutina.style.display = 'none';
-                        }
-                    })
-                }
+                cargarEjercicios(ejercicios);
+
             })
         })
 
+
+        function cargarEjercicios(ejercicios) {
+            for (const ejercicio of ejercicios) {
+                let ejercicioListado = `<div class="ejercicio"><p>${ejercicio["nombre"]}</p>`;
+                if (ejerciciosRutina.includes(ejercicio["nombre"])) {
+                    ejercicioListado += `<input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio" checked>
+                    <label for="${ejercicio["nombre"]}">Eliminar</label>
+                    </div> `;
+                } else {
+                    ejercicioListado += `<input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio">
+                    <label for="${ejercicio["nombre"]}">Añadir</label>
+                    </div> `;
+                }
+                listado.innerHTML += ejercicioListado;
+            }
+            const seleccionEjercicio = document.getElementsByClassName("seleccionEjercicio");
+            for (const seleccion of seleccionEjercicio) {
+                //Agrega y elimina elementos a un array para cargarlo luego en una rutina
+                seleccion.addEventListener('change', () => {
+                    let opcion = seleccion.parentNode.querySelector("label");
+                    if (seleccion.checked) {
+                        ejerciciosRutina.push(seleccion.value);
+                        opcion.innerText = "Eliminar";
+                    } else {
+                        //Si el array contiene el ejercicio y se cancela su seleccion se elimina del array
+                        if (ejerciciosRutina.includes(seleccion.value)) {
+                            let posicion = ejerciciosRutina.indexOf(seleccion.value);
+                            ejerciciosRutina.splice(posicion, 1);
+                            opcion.innerText = "Agregar";
+                        }
+                    }
+                    if (ejerciciosRutina.length > 0) {
+                        completarRutina.style.display = 'block';
+                    } else {
+                        completarRutina.style.display = 'none';
+                    }
+                })
+            }
+        }
         completarRutina.addEventListener('submit', () => {
             let salida = ''
             for (const ejercicio of ejerciciosRutina) {
@@ -126,6 +135,18 @@
             }
             salida = salida.substring(0, salida.length - 1);
             completarRutina.ejercicios.value = salida
+
+            const dias = completarRutina.querySelectorAll('input[type="checkbox"]');
+            let valido = false;
+            for (const dia of dias) {
+                if (dia.checked) {
+                    valido = true;
+                }
+            }
+            if (!valido) {
+                alert('Debe seleccionar al menos un dia');
+                event.preventDefault();
+            }
         })
 
     </script>
