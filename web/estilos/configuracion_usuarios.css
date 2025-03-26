@@ -1,0 +1,51 @@
+body {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: .5fr repeat(2, 1fr);
+    grid-template-areas:
+        "header"
+        "section"
+        "section";
+}
+
+header {
+    grid-area: header;
+}
+
+section {
+    grid-area: section;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+form {
+    padding: 10px;
+}
+input[type="text"], input[type="password"], input[type="number"], input[type="date"] {
+    width: 30%;
+}
+#imgUsuario {
+    border-radius: 50%;
+    width: 20%;
+}
+#imgPerfil{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#botones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+}
+
+.row {
+    margin-top: 5px;
+    margin-left: 0;
+    margin-right: 0;
+}

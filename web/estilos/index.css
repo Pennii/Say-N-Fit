@@ -1,0 +1,30 @@
+body{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 
+        "header header"
+        "presentacion login"
+        "presentacion login";
+}
+
+header{
+    grid-area: header;
+}
+
+#presentacion{
+    grid-area: presentacion;
+}
+
+#login{
+   grid-area: login;
+}
+
+
+#presentacion, #login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
