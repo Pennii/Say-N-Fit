@@ -208,4 +208,23 @@ class Rutina
         Conexion::desconectar();
         return $actualizado;
     }
+
+    /**
+     * Devuelve las rutinas de un usuario para un dia 
+     */
+    public static function obtenerRutinasPorDia($usuario, $dia){
+        $dia = "%$dia%";
+        Conexion::conectar();
+        try {
+            $obtenerRutinas = Conexion::getConexion()->prepare("SELECT * FROM RUTINA WHERE USUARIO = :usu AND DIAS LIKE :dia ORDER BY 3");
+            $obtenerRutinas->bindParam(":usu", $usuario);
+            $obtenerRutinas->bindParam(":dia", $dia);
+            $obtenerRutinas->execute();
+            $resultado = $obtenerRutinas->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Throwable $th) {
+            $resultado = false;
+        }
+        Conexion::desconectar();
+        return $resultado;
+    }
 }

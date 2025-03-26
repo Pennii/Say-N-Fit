@@ -14,19 +14,51 @@
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
         <a href="../controladores/cerrar_sesion.php" style="color: white;">Cerrar sesion</a>
     </header>
-    <!-- Menu con opciones que podra realizar el usuario -->
-    <aside>
-        <ul>
-            <li><a href="./configuracion.html">Configuración</a></li>
-            <li><a href="./rutinas.html">Rutinas</a></li>
-            <li><a href="./ejercicios.html">Ejercicios</a></li>
-            <li><a href="./grupos.html">Grupos</a></li>
-        </ul>
-    </aside>
-    <main></main>
-    <div id="bienvenido"></div>
+    <section>
+        <!-- Menu con opciones que podra realizar el usuario -->
+        <aside>
+            <ul>
+                <li><a href="./configuracion.html">Configuración</a></li>
+                <li><a href="./rutinas.html">Rutinas</a></li>
+                <li><a href="./ejercicios.html">Ejercicios</a></li>
+                <li><a href="./grupos.html">Grupos</a></li>
+            </ul>
+        </aside>
+        <!-- Si hay rutinas para hoy se mostraran -->
+        <main id="rutinas">
+            <h1>Rutinas de hoy</h1>
+        </main>
+        <div id="bienvenido"></div>
+    </section>
+
     <script>
-        let bienvenido = document.getElementById("bienvenido");
+
+        const bienvenido = document.getElementById("bienvenido");
+        const rutinas = document.getElementById("rutinas");
+
+        window.addEventListener('load', () => {
+            const numeroDia = new Date().getDay();
+            fetch('../controladores/inicio_proceso.php', {
+                method: 'POST',
+                body: JSON.stringify({ dia: numeroDia }),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => response.json()).then(data => {
+                console.log(data)
+                if (data.rutinas != false) {
+                    for (const rutina of data.rutinas) {
+                        rutinas.innerHTML += `<h2 id="${rutina.codigo}">${rutina.nombre}</h2>`;
+                    }
+                }
+                for (const rutina of rutinas.querySelectorAll("h2")) {
+                    rutina.addEventListener("click", () => {
+                        window.location.href = "./rutinas.html";
+                        document.cookie = `codigoRutina=${rutina.id}; max-age=5; path=/`;
+                    });
+                    
+                }
+            });
+        })
+
         let cookies = document.cookie.split("; ");
         for (const cookie of cookies) {
             let [nombre, valor] = cookie.split("=");

@@ -54,20 +54,7 @@
                 const contenedoresRutina = document.getElementsByClassName('rutina');
                 for (const rutina of contenedoresRutina) {
                     rutina.addEventListener('click', () => {
-                        document.cookie = `rutina=${rutina.id}; path=/`;
-                        fetch("../controladores/rutina_proceso.php", {
-                            method: "GET",
-                        }).then(response => response.json()).then(data => {
-                            console.log(data);
-                            listaEjercicios.innerHTML = '';
-                            for (const ejercicios of data.ejercicios) {
-                                listaEjercicios.innerHTML += `
-                                <div class="ejercicio">
-                                    <p>${ejercicios.NOMBRE}</p>
-                                    <p>series: ${ejercicios.SERIES} x repetciciones: ${ejercicios.REPETICIONES}</p>
-                                    </div>`;
-                            }
-                        });
+                        obtenerEjercicios(rutina.id);
                     });
                 }
 
@@ -97,14 +84,40 @@
                                 boton.parentElement.remove();
                                 alert('Rutina eliminada');
                                 listaEjercicios.innerHTML = '';
-                            }else{
+                            } else {
                                 alert('Error al eliminar la rutina');
                             }
                         });
                     });
                 }
+            }).then(() => {
+                if (document.cookie.includes('codigoRutina')) {
+                    let cookies = document.cookie.split("; ");
+                    for (const cookie of cookies) {
+                        let [nombre, valor] = cookie.split("=");
+                        if (nombre == "codigoRutina") {
+                            obtenerEjercicios(decodeURIComponent(valor));
+                        }
+                    }
+                }
             });
         });
+
+        function obtenerEjercicios(rutina) {
+            document.cookie = `rutina=${rutina}; path=/`;
+            fetch("../controladores/rutina_proceso.php", {
+                method: "GET",
+            }).then(response => response.json()).then(data => {
+                listaEjercicios.innerHTML = '';
+                for (const ejercicios of data.ejercicios) {
+                    listaEjercicios.innerHTML += `
+                                <div class="ejercicio">
+                                    <p>${ejercicios.NOMBRE}</p>
+                                    <p>series: ${ejercicios.SERIES} x repetciciones: ${ejercicios.REPETICIONES}</p>
+                                    </div>`;
+                }
+            });
+        }
 
         function obtenerDia(dia) {
             switch (dia) {
