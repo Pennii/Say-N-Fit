@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../estilos/style.css">
     <link rel="stylesheet" href="../estilos/grupos.css">
 </head>
 
@@ -13,35 +13,35 @@
     <header>
         <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
     </header>
-    <section>
-        <!-- Lista de grupos donde esta el usuario -->
-        <div id="listaGrupos"></div>
-        <!-- Chat del grupo seleccionado -->
-        <div id="chat">
-            <div id="mensajes"></div>
-            <form action="" id="enviarMensaje">
-                <input type="text" name="mensaje" placeholder="mensaje">
-                <button id="enviar">Enviar</button>
-            </form>
+
+    <!-- Lista de grupos donde esta el usuario -->
+    <div id="listaGrupos"></div>
+    <!-- Chat del grupo seleccionado -->
+    <div id="chat">
+        <div id="mensajes"></div>
+        <form action="" id="enviarMensaje">
+            <input type="text" name="mensaje" placeholder="mensaje">
+            <button id="enviar">Enviar</button>
+        </form>
+    </div>
+    <!-- Opciones de grupo -->
+    <div id="opcionesGrupo">
+        <button id="crear">Crear grupo</button>
+        <button id="encontrar">Encontrar un grupo</button>
+        <button id="abandonar">Abandonar grupo</button>
+        <!-- Formulario que se ve cuando un usuario quiere buscar un nuevo grupo -->
+        <form id="insertarClave" method="POST" action="../controladores/grupos_proceso.php">
+            <input type="text" id="clave" name="clave" placeholder="Escribe la clave del grupo">
+            <input type="text" id="usuario" name="usuario">
+            <button id="buscar" name="buscar">Unirte al grupo</button>
+        </form>
+        <!-- Opciones que se ven solo cuando el usuario es administrador del grupo -->
+        <div id="opcionesAdmin">
+            <button id="editar">Editar grupo</button>
+            <button id="editarUsuarios">Editar usuarios</button>
         </div>
-        <!-- Opciones de grupo -->
-        <div id="opcionesGrupo">
-            <button id="crear">Crear grupo</button>
-            <button id="encontrar">Encontrar un grupo</button>
-            <button id="abandonar">Abandonar grupo</button>
-            <!-- Formulario que se ve cuando un usuario quiere buscar un nuevo grupo -->
-            <form id="insertarClave" method="POST" action="../controladores/grupos_proceso.php">
-                <input type="text" id="clave" name="clave" placeholder="Escribe la clave del grupo">
-                <input type="text" id="usuario" name="usuario">
-                <button id="buscar" name="buscar">Unirte al grupo</button>
-            </form>
-            <!-- Opciones que se ven solo cuando el usuario es administrador del grupo -->
-            <div id="opcionesAdmin">
-                <button id="editar">Editar grupo</button>
-                <button id="editarUsuarios">Editar usuarios</button>
-            </div>
-        </div>
-    </section>
+    </div>
+
 
     <script>
         // Secciones de la pagina

@@ -1,47 +1,68 @@
+body {
+    display: grid;
+    grid-template-rows: 20% 80%;
+    grid-template-columns: 20% 70% 10%;
+    grid-template-areas: 
+        "header header header"
+        "listaGrupos chat opcionesGrupo";
+}
+
 .imagen_grupo {
     border-radius: 50%;
     width: 20%;
 }
-#listaGrupos{
-    height: 100%;
-    width: 20%;
+header{
+    grid-area: header;
+}
+#listaGrupos {
+    grid-area: listaGrupos;
     margin: 0;
     border: 1px solid blue;
 }
-#opcionesGrupo{
+
+#opcionesGrupo {
     width: 10%;
+    grid-area: opcionesGrupo;
 }
-.grupo, .grupo div {
+
+.grupo,
+.grupo div {
     display: flex;
     align-items: center;
 }
-.grupo{
+
+.grupo {
     border: 1px solid black;
     margin: 5px;
     display: flex;
     justify-content: space-between;
     width: 90%;
 }
-.grupo:hover{
+
+.grupo:hover {
     cursor: pointer;
 }
-.claveGrupo{
+
+.claveGrupo {
     color: white;
     transition: .3s ease;
 }
-.grupo:hover .claveGrupo{
+
+.grupo:hover .claveGrupo {
     color: black;
 }
-#chat{
-    height: 100%;
-    width: 70%;
+
+#chat {
+    grid-area: chat;
     border: 1px solid black;
 }
-#mensajes{
+
+#mensajes {
     height: 70%;
     overflow: scroll;
 }
-section{
+
+section {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;

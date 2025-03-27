@@ -1,9 +1,25 @@
+body{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 20% 80%;
+    grid-template-areas: 
+    "header header"
+    "listaRutinas ejercicios";
+}
+
+header{
+    grid-area: header;
+}
+
 #listaRutinas{
-    width: 30%;
+    grid-area: listaRutinas;
+}
+
+#ejercicios{
+    grid-area: ejercicios;
 }
 .rutina{
     border: 1px solid black;
-    margin: 10px;
 }
 .rutina i{
     opacity: 0;
@@ -11,15 +27,6 @@
 }
 .rutina:hover i{
     opacity: 1;
-}
-#ejercicios{
-    width: 70%;
-    height: 100%;
-    border-left: 1px solid orange;
-}
-section{
-    flex-direction: row;
-    align-items: center;
 }
 .eliminar{
     color: red;

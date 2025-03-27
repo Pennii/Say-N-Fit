@@ -1,0 +1,22 @@
+body{
+    display: grid;
+    grid-template-rows: 20% 80%;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "header"
+    "edicion";
+}
+
+header{
+    grid-area: header;
+}
+
+section{
+    grid-area: edicion;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form{
+    width: 60%;
+}

@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../estilos/style.css">
+    <link rel="stylesheet" href="../estilos/creacion_grupos.css">
 </head>
 
 <body>
@@ -49,8 +50,6 @@
         <p id="aviso" style="display: none;">Si confirmas los cambios entonces dejaras de ser lider de grupo, ¿Estas
             seguro?</p>
     </section>
-
-
     <script>
         //Opciones de creacion
         const menuCrear = document.getElementById('crearGrupo');
@@ -104,7 +103,7 @@
                         menuActual.nombre.value = datosGrupo.nombre
                         menuActual.clave.value = datosGrupo.clave
                         menuActual.clave.disabled = true;
-                        
+
                         menuActual.previsualizacion.src = `../iconos_grupos/${datosGrupo.clave}.jpeg`
                         for (const usuario of usuarios) {
                             if (usuario[0] == usuarioLider) {
