@@ -16,8 +16,17 @@
 
 <body>
     <header>
-        <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
-        <a href="../controladores/cerrar_sesion.php" style="color: white;">Cerrar sesion</a>
+        <div>
+            <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
+        </div>
+        <div class="dropdown">
+            <img src="" alt="" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                id="imagenUsuario">
+            <ul class="dropdown-menu">
+                <li> <a class="dropdown-item" href="./configuracion.html"> Configuración</a></li>
+                <li><a class="dropdown-item" href="../controladores/cerrar_sesion.php">Cerrar sesion</a></li>
+            </ul>
+        </div>
     </header>
     <!-- Formulario donde se muestran los datos del usuario actualmente y que se pueden modificar -->
     <section>
@@ -68,7 +77,10 @@
         <a href="./inicio.html"><button class="btn btn-primary">Volver</button></a>
         <!-- Mensaje que muestra los errores al editar datos -->
         <div id="error"></div>
+        <h1 id="titulo"></h1>
     </section>
+    
+    <script src="../scripts/header.js"></script>
     <script>
         //Formulario
         const imagenActualizar = document.getElementById("imagenActualizar");

@@ -1,10 +1,11 @@
 body{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 20% 80%;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: 10% 90%;
     grid-template-areas: 
         "header header"
         "aside main";
+    background-color: var(--fondo);
 }
 
 header{
@@ -13,8 +14,23 @@ header{
 
 aside{
     grid-area: aside;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 main{
     grid-area: main;
+}
+aside img{
+    width: 30%;
+}
+aside a{
+    text-decoration: none;
+    color: black;
+    transition: .3s ease;
+}
+aside a:hover{
+    background-color: var(--secundario);
 }

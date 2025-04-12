@@ -1,6 +1,6 @@
 body {
     display: grid;
-    grid-template-rows: 20% 80%;
+    grid-template-rows: 10% 90%;
     grid-template-columns: 20% 70% 10%;
     grid-template-areas: 
         "header header header"

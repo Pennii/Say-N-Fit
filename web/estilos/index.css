@@ -1,29 +1,46 @@
 body{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 20% 80%;
+    grid-template-columns: 75% 25%;
+    grid-template-rows: 10% 90%;
     grid-template-areas: 
         "header header"
-        "presentacion login";
+        "section section";
+    background-color: var(--fondo);
 }
 
 header{
     grid-area: header;
 }
 
-#presentacion{
-    grid-area: presentacion;
-}
-
-#login{
-   grid-area: login;
-}
-
-
-#presentacion, #login{
+section{
+    grid-area: section;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    padding: 10px;
+}
+
+
+.tarjeta{
+    background-color: var(--secundario);
+    height: 40%;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: var(--texto-claro);
+}
+
+#login{
+    flex-direction: column;
+    width: 30%;
+}
+
+.btn{
+    background-color: var(--fondo);
+}
+
+.btn:hover{
+    background-color: var(--color-header);
 }
