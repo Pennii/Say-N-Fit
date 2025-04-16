@@ -30,37 +30,43 @@
     </header>
     <!-- Formulario donde se muestran los datos del usuario actualmente y que se pueden modificar -->
     <section>
-        <form action="../controladores/configuracion_usuario_proceso.php" method="POST" enctype="multipart/form-data"
-            class="container-fluid">
+        <form action="../controladores/configuracion_usuario_proceso.php" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-6" id="imgPerfil">
+                <div class="col" id="imgPerfil">
                     <img src="" alt="" id="imgUsuario">
                     <input type="file" id="imagenActualizar" accept="image/*" placeholder="imagen" name="imagen">
                 </div>
-                <div class="col-6" id="datos">
+                <div class="col" id="datos">
                     <div class="row">
-                        <label for="aliasUsuario">Alias:</label>
-                        <input type="text" id="aliasUsuario" name="alias" placeholder="alias">
+                        <label for="aliasUsuario" class="form-label">Alias:</label>
+                        <input type="text" id="aliasUsuario" name="alias" placeholder="alias" class="form-control">
                     </div>
                     <div class="row">
                         <input type="text" id="aliasOriginal" style="display: none;" name="original">
-                        <label for="nombreUsuario">Nombre:</label>
-                        <input type="text" id="nombreUsuario" name="nombre" placeholder="nombre">
+                        <label for="nombreUsuario" class="form-label">Nombre:</label>
+                        <input type="text" id="nombreUsuario" name="nombre" placeholder="nombre" class="form-control">
                     </div>
                     <div class="row">
-                        <label for="fecha">Fecha de nacimiento:</label>
-                        <input type="date" id="fecha" name="nacimiento">
-                        <label for="peso">Peso</label>
+                        <label for="fecha" class="form-label">Fecha de nacimiento:</label>
+                        <input type="date" id="fecha" name="nacimiento" class="form-control">
+                        <label for="peso" class="form-label">Peso</label>
                         <div class="col">
-                            <input type="number" id="peso" name="peso" min="0" max="200" step="0.1">
+                            <input type="number" id="peso" name="peso" min="0" max="200" step="0.1"
+                                class="form-control">
                         </div>
                         <div class="col">
                             <div id="valorPeso"></div>
                         </div>
                     </div>
                     <div class="row">
-                        <input type="password" id="clave" name="clave" placeholder="contraseña">
-                        <input type="password" id="repetirClave" placeholder="repetir contraseña">
+                        <div class="col">
+                            <input type="password" id="clave" name="clave" placeholder="contraseña"
+                                class="form-control">
+                        </div>
+                        <div class="col">
+                            <input type="password" id="repetirClave" placeholder="repetir contraseña"
+                                class="form-control">
+                        </div>
                     </div>
 
                 </div>
@@ -71,15 +77,14 @@
                     <button class="btn btn-primary" id="editar">Editar</button>
                     <button class="btn btn-success" id="guardar">Guardar</button>
                     <button class="btn btn-danger" id="cancelar">Cancelar</button>
+                    <a href="./inicio.html"><button class="btn btn-primary" type="button">Volver</button></a>
                 </div>
             </div>
         </form>
-        <a href="./inicio.html"><button class="btn btn-primary">Volver</button></a>
         <!-- Mensaje que muestra los errores al editar datos -->
         <div id="error"></div>
-        <h1 id="titulo"></h1>
     </section>
-    
+
     <script src="../scripts/header.js"></script>
     <script>
         //Formulario

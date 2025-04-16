@@ -16,10 +16,14 @@ aside{
 main{
     grid-area: main;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     overflow-y: scroll;
+    gap: 10px;
+    padding: 10px;
 }
 .ejercicio{
     background-color: yellow;
+    width: 30%;
 }

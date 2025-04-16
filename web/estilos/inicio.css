@@ -20,17 +20,44 @@ aside{
     justify-content: space-evenly;
 }
 
+aside div{
+    height: 33%;
+    display: flex;
+    align-items: center;
+    transition: .3s ease;
+    border-radius: 10px;
+}
+
 main{
     grid-area: main;
 }
 aside img{
     width: 30%;
 }
-aside a{
+a{
     text-decoration: none;
     color: black;
-    transition: .3s ease;
 }
-aside a:hover{
+aside div:hover{
     background-color: var(--secundario);
+}
+
+#rutinas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    overflow-y: scroll;
+}
+
+.card{
+    align-items: center;
+    width: 30%;
+    background-color: var(--secundario);
+    color: var(--texto-claro)
+}
+
+.card a{
+    cursor: pointer;
 }

@@ -106,7 +106,8 @@
 
         function cargarEjercicios(ejercicios) {
             for (const ejercicio of ejercicios) {
-                let ejercicioListado = `<div class="ejercicio"><p>${ejercicio["nombre"]}</p>`;
+                let ejercicioListado = `<div class="ejercicio"><p>${ejercicio["nombre"]}</p>
+                    <p>${ejercicio["descripcion"]}</p>`;
                 if (ejerciciosRutina.includes(ejercicio["nombre"])) {
                     ejercicioListado += `<input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio" checked>
                     <label for="${ejercicio["nombre"]}">Eliminar</label>

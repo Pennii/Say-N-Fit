@@ -1,0 +1,29 @@
+body{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 10% 90%;
+    grid-template-areas: 
+        "header header"
+        "section section";
+}
+
+header{
+    grid-area: header;
+}
+
+section{
+    grid-area: section;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--fondo);
+}
+
+form{
+    background-color: var(--secundario);
+    color: var(--texto-claro);
+    padding: 15px;
+    border-radius: 10px;
+    width: 40%;
+    max-width: 40%;
+}

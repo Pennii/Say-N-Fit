@@ -32,9 +32,16 @@
     </header>
     <!-- Menu con opciones que podra realizar el usuario -->
     <aside>
-        <a href="./rutinas.html"><img src="../imagenes/rutinas.png" alt=""> Rutinas</a>
-        <a href="./ejercicios.html"><img src="../imagenes/ejercicios.png" alt=""> Ejercicios</a>
-        <a href="./grupos.html"><img src="../imagenes/grupos.png" alt=""> Grupos</a>
+        <div>
+            <a href="./rutinas.html"><img src="../imagenes/rutinas.png" alt=""> Rutinas</a>
+        </div>
+        <div>
+            <a href="./ejercicios.html"><img src="../imagenes/ejercicios.png" alt=""> Ejercicios</a>
+        </div>
+        <div>
+            <a href="./grupos.html"><img src="../imagenes/grupos.png" alt=""> Grupos</a>
+        </div>
+
     </aside>
     <!-- Si hay rutinas para hoy se muestran -->
     <main id="rutinas">
@@ -58,10 +65,15 @@
             }).then(response => response.json()).then(data => {
                 if (data.rutinas != false) {
                     for (const rutina of data.rutinas) {
-                        rutinas.innerHTML += `<h2 id="${rutina.codigo}">${rutina.nombre}</h2>`;
+                        rutinas.innerHTML += `<div class='card'>
+                                <div class='card-body'>
+                                    <h2 class='card-title'>${rutina.nombre}</h2>
+                                    <a class='card-text' id="${rutina.codigo}">Ver rutina</a>
+                                </div>
+                            </div>`;
                     }
                 }
-                for (const rutina of rutinas.querySelectorAll("h2")) {
+                for (const rutina of rutinas.querySelectorAll("a")) {
                     rutina.addEventListener("click", () => {
                         window.location.href = "./rutinas.html";
                         document.cookie = `codigoRutina=${rutina.id}; max-age=5; path=/`;
