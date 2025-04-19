@@ -5,6 +5,7 @@ body {
     grid-template-areas: 
         "header header header"
         "listaGrupos chat opcionesGrupo";
+        background-color: var(--fondo);
 }
 
 .imagen_grupo {
@@ -17,7 +18,7 @@ header{
 #listaGrupos {
     grid-area: listaGrupos;
     margin: 0;
-    border: 1px solid blue;
+    border-right: 1px solid var(--borde);
 }
 
 #opcionesGrupo {
@@ -32,7 +33,7 @@ header{
 }
 
 .grupo {
-    border: 1px solid black;
+    border: 1px solid var(--borde);
     margin: 5px;
     display: flex;
     justify-content: space-between;
@@ -44,7 +45,7 @@ header{
 }
 
 .claveGrupo {
-    color: white;
+    color: var(--fondo);
     transition: .3s ease;
 }
 
@@ -54,16 +55,53 @@ header{
 
 #chat {
     grid-area: chat;
-    border: 1px solid black;
+
 }
 
 #mensajes {
     height: 70%;
     overflow: scroll;
+    background-color: var(--secundario);
+    color: var(--texto-claro);
+}
+#enviarMensaje{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+textarea{
+    width: 40%;
 }
 
+#opcionesGrupo{
+    border-left: 1px solid var(--borde);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+#opcionesAdmin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
 section {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+}
+
+.btn{
+    background-color: var(--secundario);
+    color: var(--texto-claro);
+}
+
+.btn:hover{
+    background-color: var(--color-header);
 }

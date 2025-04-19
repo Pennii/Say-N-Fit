@@ -35,15 +35,15 @@
     <div id="chat">
         <div id="mensajes"></div>
         <form action="" id="enviarMensaje">
-            <input type="text" name="mensaje" placeholder="mensaje">
+            <textarea name="mensaje" id="mensaje"></textarea>
             <button id="enviar">Enviar</button>
         </form>
     </div>
     <!-- Opciones de grupo -->
     <div id="opcionesGrupo">
-        <button id="crear">Crear grupo</button>
-        <button id="encontrar">Encontrar un grupo</button>
-        <button id="abandonar">Abandonar grupo</button>
+        <button id="crear" class="btn">Crear grupo</button>
+        <button id="encontrar" class="btn">Encontrar un grupo</button>
+        <button id="abandonar" class="btn">Abandonar grupo</button>
         <!-- Formulario que se ve cuando un usuario quiere buscar un nuevo grupo -->
         <form id="insertarClave" method="POST" action="../controladores/grupos_proceso.php">
             <input type="text" id="clave" name="clave" placeholder="Escribe la clave del grupo">
@@ -52,8 +52,8 @@
         </form>
         <!-- Opciones que se ven solo cuando el usuario es administrador del grupo -->
         <div id="opcionesAdmin">
-            <button id="editar">Editar grupo</button>
-            <button id="editarUsuarios">Editar usuarios</button>
+            <button id="editar" class="btn">Editar grupo</button>
+            <button id="editarUsuarios" class="btn">Editar usuarios</button>
         </div>
     </div>
 

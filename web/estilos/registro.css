@@ -27,3 +27,11 @@ form{
     width: 40%;
     max-width: 40%;
 }
+
+.btn{
+    background-color: var(--fondo);
+}
+
+.btn:hover{
+    background-color: var(--color-header);
+}

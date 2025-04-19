@@ -70,7 +70,16 @@
                 const contenedoresRutina = document.getElementsByClassName('rutina');
                 for (const rutina of contenedoresRutina) {
                     rutina.addEventListener('click', () => {
+                        const fondo =  '#dada09cb';
+                        const secundario = '#910606';
+                        const textoClaro = '#fff7b3';
                         obtenerEjercicios(rutina.id);
+                        for (const rutina of contenedoresRutina) {
+                            rutina.style.backgroundColor = fondo;
+                            rutina.style.color = '';
+                        }
+                        rutina.style.backgroundColor = secundario;
+                        rutina.style.color = textoClaro;
                     });
                 }
 

@@ -4,6 +4,7 @@
     --secundario: #910606;
     --fondo: #dada09cb;
     --texto-claro: #fff7b3;
+    --borde: rgb(136, 0, 0)
 }
 body {
     padding: 0;

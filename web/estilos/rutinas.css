@@ -13,6 +13,7 @@ header{
 
 #listaRutinas{
     grid-area: listaRutinas;
+    overflow-y: scroll;
 }
 
 #ejercicios{
@@ -20,6 +21,7 @@ header{
 }
 .rutina{
     border: 1px solid black;
+    background-color: var(--fondo);
 }
 .rutina i{
     opacity: 0;
