@@ -84,6 +84,9 @@ textarea{
     gap: 20px;
     width: 100%;
 }
+#opcionesGrupo form{
+    width: 80%;
+}
 #opcionesAdmin {
     display: flex;
     flex-direction: column;

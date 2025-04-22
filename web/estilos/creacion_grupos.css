@@ -13,4 +13,34 @@ header{
 
 section{
     grid-area: section;
+    background-color: var(--fondo);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form{
+    max-width: 40%;
+
+}
+.col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn{
+    background-color: var(--secundario);
+    color: var(--texto-claro);
+    margin-top: 10px;
+}
+
+.btn:hover{
+    background-color: var(--color-header);
+}
+form img{
+    align-items: center;
+    width: 30%;
 }

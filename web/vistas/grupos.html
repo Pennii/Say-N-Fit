@@ -36,7 +36,7 @@
         <div id="mensajes"></div>
         <form action="" id="enviarMensaje">
             <textarea name="mensaje" id="mensaje"></textarea>
-            <button id="enviar">Enviar</button>
+            <button id="enviar" class="btn">Enviar</button>
         </form>
     </div>
     <!-- Opciones de grupo -->
@@ -46,9 +46,9 @@
         <button id="abandonar" class="btn">Abandonar grupo</button>
         <!-- Formulario que se ve cuando un usuario quiere buscar un nuevo grupo -->
         <form id="insertarClave" method="POST" action="../controladores/grupos_proceso.php">
-            <input type="text" id="clave" name="clave" placeholder="Escribe la clave del grupo">
+            <input type="text" id="clave" name="clave" class="form-control" placeholder="Escribe la clave del grupo">
             <input type="text" id="usuario" name="usuario">
-            <button id="buscar" name="buscar">Unirte al grupo</button>
+            <button id="buscar" name="buscar" class="btn">Unirte al grupo</button>
         </form>
         <!-- Opciones que se ven solo cuando el usuario es administrador del grupo -->
         <div id="opcionesAdmin">
@@ -89,8 +89,8 @@
 
         // Activa el formulario para encontrar un nuevo grupo
         encontrarGrupo.addEventListener('click', () => {
-            insertarClave.style.display = 'block';
-            encontrarGrupo.style.display = 'none';
+            insertarClave.style = '';
+            encontrarGrupo.style = '';
         })
 
         let claveGrupo;

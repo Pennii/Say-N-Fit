@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../estilos/style.css">
     <link rel="stylesheet" href="../estilos/creacion_grupos.css">
 </head>
@@ -34,38 +34,78 @@
         <form action="../controladores/grupos_proceso.php" method="POST" enctype="multipart/form-data" id="crearGrupo"
             style="display: none;">
             <h1>Creacion de grupo</h1>
-            <label for="nombre">Nombre del grupo</label>
-            <input type="text" name="nombre">
-            <label for="clave">Clave del grupo</label>
-            <input type="text" name="clave">
-            <label>Imagen de perfil:</label>
-            <input type="file" name="imagen" accept="image/*" placeholder="imagen">
-            <img src="" alt="" style="display: none;" name="previsualizacion" width="20%">
-            <input type="text" name="lider">
-            <button id="crear" name="crear">Crear grupo</button>
-            <button name="cancelar">Cancelar</button>
+            <div class="row">
+                <div class="col">
+                    <label for="nombre" class="form-label">Nombre del grupo</label>
+                    <input type="text" name="nombre" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="clave" class="form-label">Clave del grupo</label>
+                    <input type="text" name="clave" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">Imagen de perfil:</label>
+                    <input type="file" name="imagen" accept="image/*" placeholder="imagen" class="form-control">
+                </div>
+                <div class="col">
+                    <img src="" alt="" style="display: none;" name="previsualizacion">
+                </div>
+            </div>
+            <div class="row">
+                <input type="text" name="lider">
+                <div class="col">
+                    <button id="crear" name="crear" class="btn">Crear grupo</button>
+                </div>
+                <div class="col">
+                    <button name="cancelar" class="btn">Cancelar</button>
+                </div>
+            </div>
+
         </form>
 
         <!-- Formulario de edicion de grupos -->
         <form action="../controladores/grupos_proceso.php" method="POST" enctype="multipart/form-data" id="editarGrupo"
             style="display: none;">
             <h1>Edicion de grupo</h1>
-            <label for="nombre">Nombre del grupo</label>
-            <input type="text" name="nombre">
-            <label for="clave">Clave del grupo</label>
-            <input type="text" name="clave">
-            <label>Imagen de perfil:</label>
-            <img src="" alt="" name="previsualizacion" width="20%">
-            <input type="file" name="imagen" accept="image/*" placeholder="imagen">
-            <label for="lider">Lider del grupo</label>
-            <select name="lider" id=""></select>
-            <button id="confirmar" name="confirmarCambios">Confirmar cambios</button>
-            <button id="cancelar" name="cancelar">Cancelar</button>
+            <div class="row">
+                <div class="col">
+                    <label for="nombre" class="form-label">Nombre del grupo</label>
+                    <input type="text" name="nombre" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="clave" class="form-label">Clave del grupo</label>
+                    <input type="text" name="clave" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">Imagen de perfil:</label>
+                    <input type="file" name="imagen" accept="image/*" placeholder="imagen" class="form-control">
+                </div>
+                <div class="col">
+                    <img src="" alt="" name="previsualizacion">
+                </div>
+            </div>
+            <div class="row">
+                <label for="lider" class="form-label">Lider del grupo</label>
+                <select name="lider" class="form-control"></select>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button id="confirmar" name="confirmarCambios" class="btn">Confirmar cambios</button>
+                </div>
+                <div class="col">
+                <button id="cancelar" name="cancelar" class="btn">Cancelar</button>
+                </div>
+            </div>
+            
         </form>
         <p id="aviso" style="display: none;">Si confirmas los cambios entonces dejaras de ser lider de grupo, ¿Estas
             seguro?</p>
     </section>
-    
+
     <script src="../scripts/header.js"></script>
     <script>
         //Opciones de creacion
