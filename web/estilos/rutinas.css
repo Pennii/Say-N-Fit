@@ -1,38 +1,59 @@
-body{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 10% 90%;
-    grid-template-areas: 
+body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 10% 90%;
+  grid-template-areas:
     "header header"
     "listaRutinas ejercicios";
 }
 
-header{
-    grid-area: header;
+header {
+  grid-area: header;
 }
 
-#listaRutinas{
-    grid-area: listaRutinas;
-    overflow-y: scroll;
+#listaRutinas {
+  grid-area: listaRutinas;
+  overflow-y: scroll;
+  background-color: var(--fondo);
 }
 
-#ejercicios{
-    grid-area: ejercicios;
+#ejercicios {
+  grid-area: ejercicios;
+  background-color: var(--secundario);
+  color: var(--texto-claro);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.rutina{
-    border: 1px solid black;
-    background-color: var(--fondo);
+.ejercicio {
+  width: 40%;
 }
-.rutina i{
-    opacity: 0;
-    transition: .3s ease;
+.rutina {
+  transition: 0.3s ease;
+  border: 1px solid black;
+  padding: 20px;
 }
-.rutina:hover i{
-    opacity: 1;
+.rutina i {
+  opacity: 0;
+  transition: 0.3s ease;
 }
-.eliminar{
-    color: red;
+
+.rutina:hover i {
+  opacity: 1;
 }
-.editar{
-    color: green;
+.eliminar {
+  color: red;
+}
+.editar {
+  color: green;
+}
+
+.btn {
+  background-color: var(--secundario);
+  color: var(--texto-claro);
+}
+
+.btn:hover {
+  background-color: var(--color-header);
 }
