@@ -1,22 +1,44 @@
-body{
-    display: grid;
-    grid-template-rows: 10% 90%;
-    grid-template-columns: 1fr;
-    grid-template-areas: 
+body {
+  display: grid;
+  grid-template-rows: 10% 90%;
+  grid-template-columns: 1fr;
+  grid-template-areas:
     "header"
     "edicion";
 }
 
-header{
-    grid-area: header;
+header {
+  grid-area: header;
 }
 
-section{
-    grid-area: edicion;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+section {
+  grid-area: edicion;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--fondo);
 }
-form{
-    width: 60%;
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.btn {
+  background-color: var(--secundario);
+  color: var(--texto-claro);
+}
+
+.btn:hover {
+  background-color: var(--color-header);
+}
+
+#contedorFormulario {
+  padding: 15px;
+  width: 40%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
