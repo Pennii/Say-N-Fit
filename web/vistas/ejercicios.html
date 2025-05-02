@@ -1,170 +1,261 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../estilos/style.css">
-    <link rel="stylesheet" href="../estilos/ejercicios.css">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../estilos/style.css" />
+    <link rel="stylesheet" href="../estilos/ejercicios.css" />
+  </head>
 
-<body>
+  <body>
     <header>
-        <div>
-            <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
-        </div>
-        <div class="dropdown">
-            <img src="" alt="" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-                id="imagenUsuario">
-            <ul class="dropdown-menu">
-                <li> <a class="dropdown-item" href="./configuracion.html"> Configuración</a></li>
-                <li><a class="dropdown-item" href="../controladores/cerrar_sesion.php">Cerrar sesion</a></li>
-            </ul>
-        </div>
+      <div>
+        <a href="../index.html"
+          ><img src="../imagenes/logo.png" alt="" id="logo"
+        /></a>
+      </div>
+      <div class="dropdown">
+        <img
+          src=""
+          alt=""
+          class="dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          id="imagenUsuario"
+        />
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="./configuracion.html">
+              Configuración</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="../controladores/cerrar_sesion.php"
+              >Cerrar sesion</a
+            >
+          </li>
+        </ul>
+      </div>
     </header>
     <aside>
+      <div id="busquedaFiltros">
         <div id="filtros">
-            <input type="checkbox" id="principiante"><label for="principiante">Principiante</label>
-            <input type="checkbox" id="intermedio"><label for="intermedio">Intermedio</label>
-            <input type="checkbox" id="avanzado"><label for="avanzado">Avanzado</label>
+          <input type="checkbox" id="principiante" /><label for="principiante"
+            >Principiante</label
+          >
+          <input type="checkbox" id="intermedio" /><label for="intermedio"
+            >Intermedio</label
+          >
+          <input type="checkbox" id="avanzado" /><label for="avanzado"
+            >Avanzado</label
+          >
         </div>
-        <button id="filtrar">Filtrar</button>
-        <form action="../controladores/rutina_proceso.php" id="completarRutina" method="POST">
-            <input type="text" name="nombre" placeholder="Nombre de la rutina">
-            <label>Dias:</label><br>
-            <label for="domingo">Domingo</label> <input type="checkbox" name="dias[]" value="domingo" id="domingo">
-            <label for="lunes">Lunes</label> <input type="checkbox" name="dias[]" value="lunes" id="lunes">
-            <label for="martes">Martes</label> <input type="checkbox" name="dias[]" value="martes" id="martes">
-            <label for="miercoles">Miercoles</label><input type="checkbox" name="dias[]" value="miercoles"
-                id="miercoles">
-            <label for="jueves">Jueves</label> <input type="checkbox" name="dias[]" value="jueves" id="jueves">
-            <label for="viernes">Viernes</label> <input type="checkbox" name="dias[]" value="viernes" id="viernes">
-            <label for="sabado">Sabado</label> <input type="checkbox" name="dias[]" value="sabado" id="sabado">
-            <input type="text" name="ejercicios" hidden>
-            <button name="completar">Completar rutina</button>
-        </form>
+        <button id="filtrar" class="btn">Filtrar</button>
+      </div>
 
+      <div id="formularioRutina">
+        <form
+          action="../controladores/rutina_proceso.php"
+          id="completarRutina"
+          method="POST"
+        >
+          <div class="row">
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre de la rutina"
+              class="form-control"
+            />
+          </div>
+          <label class="form-label">Dias:</label><br />
+          <div class="row">
+            <div class="col-4">
+              <label for="domingo" class="form-label">Domingo</label>
+              <input
+                type="checkbox"
+                name="dias[]"
+                value="domingo"
+                id="domingo"
+              />
+            </div>
+            <div class="col-4">
+              <label for="lunes" class="form-label">Lunes</label>
+              <input type="checkbox" name="dias[]" value="lunes" id="lunes" />
+            </div>
+            <div class="col-4">
+              <label for="martes" class="form-label">Martes</label>
+              <input type="checkbox" name="dias[]" value="martes" id="martes" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <label for="miercoles" class="form-label">Miercoles</label
+              ><input
+                type="checkbox"
+                name="dias[]"
+                value="miercoles"
+                id="miercoles"
+              />
+            </div>
+            <div class="col-4">
+              <label for="jueves" class="form-label">Jueves</label>
+              <input type="checkbox" name="dias[]" value="jueves" id="jueves" />
+            </div>
+            <div class="col-4">
+              <label for="viernes" class="form-label">Viernes</label>
+              <input
+                type="checkbox"
+                name="dias[]"
+                value="viernes"
+                id="viernes"
+              />
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <label for="sabado" class="form-label">Sabado</label>
+                <input
+                  type="checkbox"
+                  name="dias[]"
+                  value="sabado"
+                  id="sabado"
+                />
+              </div>
+            </div>
+
+            <input type="text" name="ejercicios" hidden />
+          </div>
+
+          <button name="completar" class="btn">Completar rutina</button>
+        </form>
+      </div>
     </aside>
     <!-- Listado de ejercicios -->
     <main id="listado"></main>
     <!-- Filtros para la busqueda de ejercicios -->
 
-
     <script src="../scripts/header.js"></script>
     <script>
-        //Filtros
-        const principiante = document.getElementById('principiante');
-        const intermedio = document.getElementById('intermedio');
-        const avanzado = document.getElementById('avanzado');
-        const filtrar = document.getElementById('filtrar');
+      //Filtros
+      const principiante = document.getElementById("principiante");
+      const intermedio = document.getElementById("intermedio");
+      const avanzado = document.getElementById("avanzado");
+      const filtrar = document.getElementById("filtrar");
 
-        //Listado
-        const listado = document.getElementById('listado');
-        let ejerciciosRutina = [];
-        const completarRutina = document.getElementById('completarRutina');
+      //Listado
+      const listado = document.getElementById("listado");
+      let ejerciciosRutina = [];
+      const completarRutina = document.getElementById("completarRutina");
 
-        //Actualiza los ejercicios que se ven en pantalla segun los filtros
-        filtrar.addEventListener('click', () => {
-            let datos = {
-                principiante: principiante.checked ? "principiante" : null,
-                intermedio: intermedio.checked ? "intermedio" : null,
-                avanzado: avanzado.checked ? "avanzado" : null
-            };
-            let ejercicios;
+      //Actualiza los ejercicios que se ven en pantalla segun los filtros
+      filtrar.addEventListener("click", () => {
+        let datos = {
+          principiante: principiante.checked ? "principiante" : null,
+          intermedio: intermedio.checked ? "intermedio" : null,
+          avanzado: avanzado.checked ? "avanzado" : null,
+        };
+        let ejercicios;
 
-            fetch('../controladores/ejercicio_proceso.php', {
-                method: 'POST',
-                headers: { "Content-type": 'application/json' },
-                body: JSON.stringify(datos)
-            }).then(response => response.json()).then(data => {
-                ejercicios = data.ejercicios;
-                listado.innerHTML = "";
-                cargarEjercicios(ejercicios);
-            })
+        fetch("../controladores/ejercicio_proceso.php", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(datos),
         })
+          .then((response) => response.json())
+          .then((data) => {
+            ejercicios = data.ejercicios;
+            listado.innerHTML = "";
+            cargarEjercicios(ejercicios);
+          });
+      });
 
-        //Carga todos los ejercicios en pantalla sin filtrar
-        window.addEventListener('load', () => {
-            let ejercicios;
-            completarRutina.style.display = 'none';
-            fetch('../controladores/ejercicio_proceso.php', {
-                method: 'POST',
-                headers: { "Content-type": 'application/json' }
-            }).then(response => response.json()).then(data => {
-                ejercicios = data.ejercicios;
-                cargarEjercicios(ejercicios);
-
-            })
+      //Carga todos los ejercicios en pantalla sin filtrar
+      window.addEventListener("load", () => {
+        let ejercicios;
+        completarRutina.style.display = "none";
+        fetch("../controladores/ejercicio_proceso.php", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
         })
+          .then((response) => response.json())
+          .then((data) => {
+            ejercicios = data.ejercicios;
+            cargarEjercicios(ejercicios);
+          });
+      });
 
-
-        function cargarEjercicios(ejercicios) {
-            for (const ejercicio of ejercicios) {
-                let ejercicioListado = `<div class="ejercicio"><p>${ejercicio["nombre"]}</p>
+      function cargarEjercicios(ejercicios) {
+        for (const ejercicio of ejercicios) {
+          let ejercicioListado = `<div class="ejercicio"><p>${ejercicio["nombre"]}</p>
                     <p>${ejercicio["descripcion"]}</p>`;
-                if (ejerciciosRutina.includes(ejercicio["nombre"])) {
-                    ejercicioListado += `<input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio" checked>
+          if (ejerciciosRutina.includes(ejercicio["nombre"])) {
+            ejercicioListado += `<input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio" checked>
                     <label for="${ejercicio["nombre"]}">Eliminar</label>
                     </div> `;
-                } else {
-                    ejercicioListado += `<input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio">
-                    <label for="${ejercicio["nombre"]}">Añadir</label>
+          } else {
+            ejercicioListado += `<input type="checkbox" hidden id="${ejercicio["nombre"]}" value="${ejercicio.nombre}" class="seleccionEjercicio">
+                    <label for="${ejercicio["nombre"]}" class="btn">Añadir</label>
                     </div> `;
-                }
-                listado.innerHTML += ejercicioListado;
-            }
-            const seleccionEjercicio = document.getElementsByClassName("seleccionEjercicio");
-            for (const seleccion of seleccionEjercicio) {
-                //Agrega y elimina elementos a un array para cargarlo luego en una rutina
-                seleccion.addEventListener('change', () => {
-                    let opcion = seleccion.parentNode.querySelector("label");
-                    if (seleccion.checked) {
-                        ejerciciosRutina.push(seleccion.value);
-                        opcion.innerText = "Eliminar";
-                    } else {
-                        //Si el array contiene el ejercicio y se cancela su seleccion se elimina del array
-                        if (ejerciciosRutina.includes(seleccion.value)) {
-                            let posicion = ejerciciosRutina.indexOf(seleccion.value);
-                            ejerciciosRutina.splice(posicion, 1);
-                            opcion.innerText = "Agregar";
-                        }
-                    }
-                    if (ejerciciosRutina.length > 0) {
-                        completarRutina.style.display = 'block';
-                    } else {
-                        completarRutina.style.display = 'none';
-                    }
-                })
-            }
+          }
+          listado.innerHTML += ejercicioListado;
         }
-        completarRutina.addEventListener('submit', () => {
-            let salida = ''
-            for (const ejercicio of ejerciciosRutina) {
-                salida += `${ejercicio};`;
+        const seleccionEjercicio =
+          document.getElementsByClassName("seleccionEjercicio");
+        for (const seleccion of seleccionEjercicio) {
+          //Agrega y elimina elementos a un array para cargarlo luego en una rutina
+          seleccion.addEventListener("change", () => {
+            let opcion = seleccion.parentNode.querySelector("label");
+            if (seleccion.checked) {
+              ejerciciosRutina.push(seleccion.value);
+              opcion.innerText = "Eliminar";
+            } else {
+              //Si el array contiene el ejercicio y se cancela su seleccion se elimina del array
+              if (ejerciciosRutina.includes(seleccion.value)) {
+                let posicion = ejerciciosRutina.indexOf(seleccion.value);
+                ejerciciosRutina.splice(posicion, 1);
+                opcion.innerText = "Agregar";
+              }
             }
-            salida = salida.substring(0, salida.length - 1);
-            completarRutina.ejercicios.value = salida
+            if (ejerciciosRutina.length > 0) {
+              completarRutina.style.display = "block";
+            } else {
+              completarRutina.style.display = "none";
+            }
+          });
+        }
+      }
+      completarRutina.addEventListener("submit", () => {
+        let salida = "";
+        for (const ejercicio of ejerciciosRutina) {
+          salida += `${ejercicio};`;
+        }
+        salida = salida.substring(0, salida.length - 1);
+        completarRutina.ejercicios.value = salida;
 
-            const dias = completarRutina.querySelectorAll('input[type="checkbox"]');
-            let valido = false;
-            for (const dia of dias) {
-                if (dia.checked) {
-                    valido = true;
-                }
-            }
-            if (!valido) {
-                alert('Debe seleccionar al menos un dia');
-                event.preventDefault();
-            }
-        })
-
+        const dias = completarRutina.querySelectorAll('input[type="checkbox"]');
+        let valido = false;
+        for (const dia of dias) {
+          if (dia.checked) {
+            valido = true;
+          }
+        }
+        if (!valido) {
+          alert("Debe seleccionar al menos un dia");
+          event.preventDefault();
+        }
+      });
     </script>
-</body>
-
+  </body>
 </html>

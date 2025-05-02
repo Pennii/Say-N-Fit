@@ -1,110 +1,109 @@
 body {
-    display: grid;
-    grid-template-rows: 10% 90%;
-    grid-template-columns: 20% 70% 10%;
-    grid-template-areas: 
-        "header header header"
-        "listaGrupos chat opcionesGrupo";
-        background-color: var(--fondo);
+  display: grid;
+  grid-template-rows: 10% 90%;
+  grid-template-columns: 20% 70% 10%;
+  grid-template-areas:
+    "header header header"
+    "listaGrupos chat opcionesGrupo";
+  background-color: var(--fondo);
 }
 
 .imagen_grupo {
-    border-radius: 50%;
-    width: 20%;
+  border-radius: 50%;
+  width: 20%;
 }
-header{
-    grid-area: header;
+header {
+  grid-area: header;
 }
 #listaGrupos {
-    grid-area: listaGrupos;
-    margin: 0;
-    border-right: 1px solid var(--borde);
+  grid-area: listaGrupos;
+  margin: 0;
+  border-right: 1px solid var(--borde);
 }
 
 #opcionesGrupo {
-    width: 10%;
-    grid-area: opcionesGrupo;
+  width: 10%;
+  grid-area: opcionesGrupo;
 }
 
 .grupo,
 .grupo div {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .grupo {
-    border: 1px solid var(--borde);
-    margin: 5px;
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
+  border: 1px solid var(--borde);
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
 }
 
 .grupo:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .claveGrupo {
-    color: var(--fondo);
-    transition: .3s ease;
+  color: var(--fondo);
+  transition: 0.3s ease;
 }
 
 .grupo:hover .claveGrupo {
-    color: black;
+  color: black;
 }
 
 #chat {
-    grid-area: chat;
-
+  grid-area: chat;
 }
 
 #mensajes {
-    height: 70%;
-    overflow: scroll;
-    background-color: var(--secundario);
-    color: var(--texto-claro);
+  height: 70%;
+  overflow: scroll;
+  background-color: var(--secundario);
+  color: var(--texto-claro);
 }
-#enviarMensaje{
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
+#enviarMensaje {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
 }
-textarea{
-    width: 40%;
+textarea {
+  width: 40%;
 }
 
-#opcionesGrupo{
-    border-left: 1px solid var(--borde);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
+#opcionesGrupo {
+  border-left: 1px solid var(--borde);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
-#opcionesGrupo form{
-    width: 80%;
+#opcionesGrupo form {
+  width: 80%;
 }
 #opcionesAdmin {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 section {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.btn{
-    background-color: var(--secundario);
-    color: var(--texto-claro);
+.btn {
+  background-color: var(--secundario);
+  color: var(--texto-claro);
 }
 
-.btn:hover{
-    background-color: var(--color-header);
+.btn:hover {
+  background-color: var(--color-header);
 }
