@@ -1,30 +1,63 @@
-body{
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 10% 90%;
-    grid-template-areas: 
-        "header"
-        "section";
+body {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 10% 90%;
+  grid-template-areas:
+    "header"
+    "section";
 }
 
-header{
-    grid-area: header;
+header {
+  grid-area: header;
 }
 
-section{
-    grid-area: section;
+section {
+  grid-area: section;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--fondo);
 }
-.imagenUsuario{
-    width: 30%;
-    border-radius: 50%;
+.imagenUsuario {
+  width: 30%;
+  border-radius: 50%;
 }
-.usuarioListado{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+#lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 70%;
+  overflow-y: scroll;
+  padding: 10px;
 }
-.usuario{
-    display: flex;
-    align-items: center;
+
+.usuarioListado {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--secundario);
+  color: var(--texto-claro);
+  padding: 10px;
+  border-radius: 20px;
+}
+.usuario {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  background-color: var(--fondo);
+}
+
+.volver {
+  background-color: var(--secundario);
+  color: var(--texto-claro);
+}
+
+.btn:hover {
+  background-color: var(--color-header);
 }

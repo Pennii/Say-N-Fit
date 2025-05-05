@@ -1,74 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Say n Fit</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../estilos/style.css">
-    <link rel="stylesheet" href="../estilos/edicion_usuarios.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../estilos/style.css" />
+    <link rel="stylesheet" href="../estilos/edicion_usuarios.css" />
     <script>
-        if (!document.cookie.includes("editarUsuarios=")) {
-            window.location.href = 'https://localhost/vistas/inicio.html';
-        }
+      if (!document.cookie.includes("editarUsuarios=")) {
+        window.location.href = "https://localhost/vistas/inicio.html";
+      }
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <div>
-            <a href="../index.html"><img src="../imagenes/logo.png" alt="" id="logo"></a>
-        </div>
-        <div class="dropdown">
-            <img src="" alt="" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-                id="imagenUsuario">
-            <ul class="dropdown-menu">
-                <li> <a class="dropdown-item" href="./configuracion.html"> Configuración</a></li>
-                <li><a class="dropdown-item" href="../controladores/cerrar_sesion.php">Cerrar sesion</a></li>
-            </ul>
-        </div>
+      <div>
+        <a href="../index.html"
+          ><img src="../imagenes/logo.png" alt="" id="logo"
+        /></a>
+      </div>
+      <div class="dropdown">
+        <img
+          src=""
+          alt=""
+          class="dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          id="imagenUsuario"
+        />
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="./configuracion.html">
+              Configuración</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" href="../controladores/cerrar_sesion.php"
+              >Cerrar sesion</a
+            >
+          </li>
+        </ul>
+      </div>
     </header>
     <section>
-        <!-- Lista de usuarios en el grupo -->
-        <div id="lista"></div>
+      <!-- Lista de usuarios en el grupo -->
+      <div id="lista"></div>
 
-        <button id="volver">Volver</button>
+      <button id="volver" class="btn volver">Volver</button>
     </section>
 
     <script src="../scripts/header.js"></script>
     <script>
-        const lista = document.getElementById("lista");
+      const lista = document.getElementById("lista");
 
-        const volver = document.getElementById('volver');
+      const volver = document.getElementById("volver");
 
-        //Variables que dependen de las cookies
-        let claveGrupo;
-        let lider;
-        let cookies = document.cookie.split("; ");
-        for (const cookie of cookies) {
-            let [nombre, valor] = cookie.split("=");
-            if (nombre == "editarUsuarios") {
-                claveGrupo = decodeURIComponent(valor);
-            }
-            if (nombre == "nombreUsuario") {
-                lider = decodeURIComponent(valor);
-            }
+      //Variables que dependen de las cookies
+      let claveGrupo;
+      let lider;
+      let cookies = document.cookie.split("; ");
+      for (const cookie of cookies) {
+        let [nombre, valor] = cookie.split("=");
+        if (nombre == "editarUsuarios") {
+          claveGrupo = decodeURIComponent(valor);
         }
-        window.addEventListener('load', () => {
-            fetch("../controladores/edicion_usuarios.php", {
-                method: "POST",
-                body: JSON.stringify(claveGrupo),
-                headers: { "contet-types": "application/json" }
-            }).then(response => response.json()).then(data => {
-                for (const usuario of data.usuarios) {
-                    if (lider != usuario[0]) {
-                        let valor = [usuario[0], claveGrupo];
-                        lista.innerHTML += `
+        if (nombre == "nombreUsuario") {
+          lider = decodeURIComponent(valor);
+        }
+      }
+      window.addEventListener("load", () => {
+        fetch("../controladores/edicion_usuarios.php", {
+          method: "POST",
+          body: JSON.stringify(claveGrupo),
+          headers: { "contet-types": "application/json" },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            for (const usuario of data.usuarios) {
+              if (lider != usuario[0]) {
+                let valor = [usuario[0], claveGrupo];
+                lista.innerHTML += `
                     <div class="usuarioListado">
                         <div class="usuario">
                             <img src="../iconos_usuarios/${usuario[0]}.jpeg" class="imagenUsuario"/>
@@ -76,22 +99,22 @@
                         </div>
                         <div class="opciones">
                             <form method="POST" action="../controladores/edicion_usuarios.php">
-                                <button name="eliminar" value="${valor}">Eliminar</button>
-                                <button name="convertir" value="${valor}">Convertir en lider</button> 
+                                <button class="btn" name="eliminar" value="${valor}">Eliminar</button>
+                                <button class="btn" name="convertir" value="${valor}">Convertir en lider</button> 
                             </form>
                         </div>
                     </div>
                     `;
-                    }
-                }
-            })
-        })
+              }
+            }
+          });
+      });
 
-        volver.addEventListener('click', () => {
-            document.cookie = "editarUsuarios=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-            window.location.href = './grupos.html';
-        })
+      volver.addEventListener("click", () => {
+        document.cookie =
+          "editarUsuarios=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        window.location.href = "./grupos.html";
+      });
     </script>
-</body>
-
+  </body>
 </html>
