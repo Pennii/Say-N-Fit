@@ -21,7 +21,7 @@
     <section>
         <!-- Mensaje cuando un usuario intenta registrarse con un nombre que ya existe -->
         <p id="existente"></p>
-        <form action="/controladores/registro_proceso.php" method="post" id="datos" enctype="multipart/form-data">
+        <form method="post" id="datos" enctype="multipart/form-data">
             <!-- Donde se mostraran los mensajes de error -->
             <div id="error"></div>
             <!-- Campos del formulario -->
@@ -93,19 +93,6 @@
 
         // Mensaje de error
         const error = document.getElementById("error");
-
-
-        //Verificamos que el usuario no haya intentado ingresar un nombre de usuario existente
-        if (document.cookie.includes("usuarioExistente=")) {
-            let cookies = document.cookie.split("; ");
-            for (const cookie of cookies) {
-                let [nombre, valor] = cookie.split("=");
-                if (nombre == "usuarioExistente") {
-                    existente.innerText = `${decodeURIComponent(valor)}`;
-                }
-            }
-            document.cookie = "usuarioExistente=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-        }
 
         //Establecemos el rango maximo para la fecha de nacimiento
         const hoy = new Date();
@@ -197,7 +184,19 @@
                 salida += "</ul>";
                 document.getElementById("error").innerHTML = salida
             } else {
-                formulario.submit();
+                const datosFormulario = new FormData(formulario);
+                fetch("https://localhost:8080/controladores/registro_proceso.php", {
+                    method: "POST",
+                    body: datosFormulario
+                }).then(response => response.json())
+                    .then(data => {
+                        if (data.ok) {
+                            window.location.href = "https://localhost:443/index.html";
+                        } else {
+                            console.log(data);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             }
         })
     </script>

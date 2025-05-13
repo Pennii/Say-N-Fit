@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../estilos/style.css">
     <link rel="stylesheet" href="../estilos/grupos.css">
 </head>
@@ -24,7 +24,7 @@
                 id="imagenUsuario">
             <ul class="dropdown-menu">
                 <li> <a class="dropdown-item" href="./configuracion.html"> Configuración</a></li>
-                <li><a class="dropdown-item" href="../controladores/cerrar_sesion.php">Cerrar sesion</a></li>
+                <li><a class="dropdown-item" id="cerrarSesion" href="">Cerrar sesion</a></li>
             </ul>
         </div>
     </header>
@@ -45,7 +45,7 @@
         <button id="encontrar" class="btn">Encontrar un grupo</button>
         <button id="abandonar" class="btn">Abandonar grupo</button>
         <!-- Formulario que se ve cuando un usuario quiere buscar un nuevo grupo -->
-        <form id="insertarClave" method="POST" action="../controladores/grupos_proceso.php">
+        <form id="insertarClave">
             <input type="text" id="clave" name="clave" class="form-control" placeholder="Escribe la clave del grupo">
             <input type="text" id="usuario" name="usuario">
             <button id="buscar" name="buscar" class="btn">Unirte al grupo</button>
@@ -80,6 +80,8 @@
         const mensajes = document.getElementById('mensajes');
         const enviarMensaje = document.getElementById('enviarMensaje');
         let mostrandoChat;
+        const nombreUsuario = document.getElementById("imagenUsuario").dataset.alias;
+
 
         // Redirige a la vista donde se crean los grupos
         crearGrupo.addEventListener('click', () => {
@@ -107,8 +109,9 @@
                 }
             }
 
-            fetch('../controladores/grupos_proceso.php', {
-                method: 'GET'
+            fetch(`https://localhost:8080/controladores/grupos_proceso.php?usuario=${usuario.value}`, {
+                method: 'GET',
+
             }).then(response => response.json()).then(data => {
                 grupos = data.grupos;
                 listado.innerHTML = "";
@@ -117,7 +120,7 @@
                     listado.innerHTML += `
                     <div class="grupo">
                         <div>
-                        <img src="../iconos_grupos/${grupo.clave}.jpeg" class="imagen_grupo"/>
+                        <img src="https://localhost:8080/iconos_grupos/${grupo.clave}.jpeg" class="imagen_grupo"/>
                         <p>${grupo["nombre"]}</p>
                         </div>
                         <p class="claveGrupo">${grupo.clave}</p>
@@ -136,15 +139,15 @@
                             grupo: grupo.querySelector("input").value,
                             usuario: usuario.value
                         }
+                        claveGrupo = datos.grupo;
                         mostrarChat(datos.grupo)
                         mostrandoChat = setInterval(function () {
                             mostrarChat(datos.grupo)
                         }, 1000);
 
-                        fetch("../controladores/grupos_proceso.php", {
+                        fetch("https://localhost:8080/controladores/grupos_proceso.php", {
                             method: "POST",
                             body: JSON.stringify(datos),
-                            headers: { "Content-type": 'application/json' }
                         }).then(response => response.json()).then(data => {
                             if (data.lider) {
                                 opcionesAdmin.style.display = '';
@@ -181,10 +184,8 @@
         //Funcion que carga el contenido del chat
         function mostrarChat(grupo) {
             let chatActual;
-            document.cookie = `grupo=${grupo}; max-age=10; path=/`;
-            fetch('../controladores/chat_proceso.php', {
-                method: 'GET',
-                headers: { "Content-type": 'application/json' }
+            fetch(`https://localhost:8080/controladores/chat_proceso.php?grupo=${grupo}`, {
+                method: 'GET'
             }).then(response => response.json()).then(data => {
                 chatActual = data.chat;
                 formatearChat(chatActual);
@@ -211,12 +212,13 @@
             event.preventDefault()
             let chatActual
             const datos = {
-                mensaje: enviarMensaje.mensaje.value
+                mensaje: enviarMensaje.mensaje.value,
+                nombreUsuario,
+                grupo: claveGrupo
             };
             if (datos.mensaje.trim() != "") {
-                fetch("../controladores/chat_proceso.php", {
+                fetch("https://localhost:8080/controladores/chat_proceso.php", {
                     method: "POST",
-                    headers: { "Content-type": 'application/json' },
                     body: JSON.stringify(datos)
                 }).then(response => response.json()).then(data => {
                     chatActual = data.chat
@@ -228,8 +230,26 @@
 
         //Permite que un usuario abandone el grupo seleccionado
         abandonar.addEventListener('click', () => {
-            document.cookie = `abandonarGrupo=${claveGrupo}; max-age=10; path=/`;
-            window.location.href = '../controladores/edicion_usuarios.php';
+            fetch(`https://localhost:8080/controladores/edicion_usuarios.php?nombreUsuario=${nombreUsuario}&abandonarGrupo=${claveGrupo}`, {
+                method: 'GET'
+            }).then(response => response.json()).then(data => {
+                window.location.reload();
+            })
+        })
+
+        insertarClave.addEventListener("submit", () => {
+            const datos = new FormData(insertarClave);
+            datos.append("buscar", "1");
+            fetch("https://localhost:8080/controladores/grupos_proceso.php", {
+                method: 'POST',
+                body: datos
+            }).then(response => response.json()).then(data => {
+                if (data.encontrado) {
+                    window.location.reload();
+                } else {
+                    alert("No se ha encontrado ningun grupo con esa clave")
+                }
+            })
         })
     </script>
 </body>

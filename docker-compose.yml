@@ -1,11 +1,10 @@
 services:
   web:
     build:
-      context: ./
+      context: ./web
       dockerfile: Dockerfile
     container_name: apache_server
     ports:
-      - "8080:80" 
       - "443:443"
     volumes:
       - ./web:/var/www/html 
@@ -24,6 +23,19 @@ services:
       - ./datos_bd:/var/lib/mysql
     networks:
       - red1
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: api_server
+    ports:
+      - "8080:443" 
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - red1
+
 volumes:
   datos_bd:
 

@@ -26,7 +26,7 @@
                 id="imagenUsuario">
             <ul class="dropdown-menu">
                 <li> <a class="dropdown-item" href="./configuracion.html"> Configuración</a></li>
-                <li><a class="dropdown-item" href="../controladores/cerrar_sesion.php">Cerrar sesion</a></li>
+                <li><a class="dropdown-item" id="cerrarSesion" href="">Cerrar sesion</a></li>
             </ul>
         </div>
     </header>
@@ -58,10 +58,9 @@
 
         window.addEventListener('load', () => {
             const numeroDia = new Date().getDay();
-            fetch('../controladores/inicio_proceso.php', {
+            fetch('https://localhost:8080/controladores/inicio_proceso.php', {
                 method: 'POST',
-                body: JSON.stringify({ dia: numeroDia }),
-                headers: { 'Content-Type': 'application/json' }
+                body: JSON.stringify({ dia: numeroDia })
             }).then(response => response.json()).then(data => {
                 if (data.rutinas != false) {
                     for (const rutina of data.rutinas) {
@@ -82,7 +81,6 @@
                 }
             });
         });
-        document.cookie = "usuarioExistente=0; max-age=0; path=/";
     </script>
 </body>
 

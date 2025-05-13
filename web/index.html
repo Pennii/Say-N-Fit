@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./estilos/index.css">
     <script>
         if (document.cookie.includes("nombreUsuario=")) {
-            window.location.href = 'https://localhost/vistas/inicio.html';
+            window.location.href = 'https://localhost:443/vistas/inicio.html';
         }
     </script>
 </head>
@@ -37,20 +37,20 @@
             </p>
         </div>
         <div id="login" class="tarjeta">
-            <form action="./controladores/login_proceso.php" method="post">
+            <form id="formulario" method="post">
                 <div class="mb-2">
                     <label for="nombre" class="form-label">Nombre de usuario:</label><br>
                     <input type="text" id="nombre" name="nombre" class="form-control">
                 </div>
                 <div class="mb-2">
                     <label for="clave" class="form-label">Contraseña:</label><br>
-                    <input type="password" id="clave" name="clave" class="form-control">  
+                    <input type="password" id="clave" name="clave" class="form-control">
                 </div>
-                <div class="mb-2">
-                    <button value="Ingresar" name="ingresar" class="btn">Ingresar</button>
-                    <button value="Registrarse" name="registrarse" class="btn">Registrarse</button>
-                </div>
+                <button value="Ingresar" name="ingresar" class="btn">Ingresar</button>
             </form>
+            <a href="./vistas/registro.html"><button value="Registrarse" id="registrarse"
+                    class="btn">Registrarse</button></a>
+
         </div>
 
     </section>
@@ -58,10 +58,29 @@
 
     <script>
         // mensaje que se muestra si un usuario no ingresa los datos correctos al iniciar sesion
-        const formulario = document.getElementById("login");
-        if (document.cookie.includes("usuarioIncorrecto=")) {
-            formulario.innerHTML += "<p>Datos incorrectos</p>";
-        }
+        const login = document.getElementById("login");
+
+        const formulario = document.getElementById("formulario");
+        formulario.addEventListener("submit", (evento) => {
+            evento.preventDefault();
+
+            fetch("https://localhost:8080/controladores/login_proceso.php", {
+                method: 'POST',
+                body: new FormData(formulario),
+            }).then(response => response.json()).then(data => {
+                if (data.usuario) {
+                    document.cookie = `nombreUsuario=${data.usuario}; path=/`;
+                    window.location.href = 'https://localhost/vistas/inicio.html';
+                } else {
+                    if (!document.getElementById("datosIncorrectos")) {
+                        window.alert("Datos incorrectos");
+                    }
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
     </script>
 </body>
 

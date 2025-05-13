@@ -24,15 +24,14 @@
                 id="imagenUsuario">
             <ul class="dropdown-menu">
                 <li> <a class="dropdown-item" href="./configuracion.html"> Configuración</a></li>
-                <li><a class="dropdown-item" href="../controladores/cerrar_sesion.php">Cerrar sesion</a></li>
+                <li><a class="dropdown-item" id="cerrarSesion" href="">Cerrar sesion</a></li>
             </ul>
         </div>
     </header>
     <section>
         <div id="errores"></div>
         <!-- Formulario de creacion de grupos -->
-        <form action="../controladores/grupos_proceso.php" method="POST" enctype="multipart/form-data" id="crearGrupo"
-            style="display: none;">
+        <form enctype="multipart/form-data" id="crearGrupo" style="display: none;">
             <h1>Creacion de grupo</h1>
             <div class="row">
                 <div class="col">
@@ -66,8 +65,7 @@
         </form>
 
         <!-- Formulario de edicion de grupos -->
-        <form action="../controladores/grupos_proceso.php" method="POST" enctype="multipart/form-data" id="editarGrupo"
-            style="display: none;">
+        <form enctype="multipart/form-data" id="editarGrupo" style="display: none;">
             <h1>Edicion de grupo</h1>
             <div class="row">
                 <div class="col">
@@ -97,10 +95,10 @@
                     <button id="confirmar" name="confirmarCambios" class="btn">Confirmar cambios</button>
                 </div>
                 <div class="col">
-                <button id="cancelar" name="cancelar" class="btn">Cancelar</button>
+                    <button id="cancelar" name="cancelar" class="btn">Cancelar</button>
                 </div>
             </div>
-            
+
         </form>
         <p id="aviso" style="display: none;">Si confirmas los cambios entonces dejaras de ser lider de grupo, ¿Estas
             seguro?</p>
@@ -113,6 +111,8 @@
 
         //Opciones de edicion
         const menuEdicion = document.getElementById('editarGrupo');
+
+        const errores = document.getElementById("errores");
 
         // Carga del formulario necesario
         let menuActual;
@@ -127,9 +127,7 @@
                     if (nombre == "nombreUsuario") {
                         usuarioLider = decodeURIComponent(valor);
                     }
-                    if (nombre == "grupoExistente") {
-                        errores.innerHTML = `<ul><li>La clave de grupo ya existe, por favor elige otra</li></ul>`
-                    }
+
                     if (nombre == "claveGrupo") {
                         claveGrupo = decodeURIComponent(valor);
                     }
@@ -150,9 +148,8 @@
                     let datos = {
                         grupo: claveGrupo
                     }
-                    fetch('../controladores/grupos_proceso.php', {
+                    fetch('https://localhost:8080/controladores/grupos_proceso.php', {
                         method: 'POST',
-                        headers: { "Content-type": 'application/json' },
                         body: JSON.stringify(datos)
                     }).then(response => response.json()).then(data => {
                         datosGrupo = data.grupo;
@@ -161,7 +158,7 @@
                         menuActual.clave.value = datosGrupo.clave
                         menuActual.clave.disabled = true;
 
-                        menuActual.previsualizacion.src = `../iconos_grupos/${datosGrupo.clave}.jpeg`
+                        menuActual.previsualizacion.src = `https://localhost:8080/iconos_grupos/${datosGrupo.clave}.jpeg`
                         for (const usuario of usuarios) {
                             if (usuario[0] == usuarioLider) {
                                 menuActual.lider.innerHTML += `<option value="${usuario[0]}" selected>${usuario[0]}</option>`;
@@ -170,11 +167,6 @@
                             }
                         }
                     })
-                }
-
-
-                if (document.cookie.includes("grupoExistente")) {
-                    document.cookie = "grupoExistente=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
                 }
 
 
@@ -212,7 +204,8 @@
 
                 //Verificamos los datos de los formularios y borramos las cookies si hace falta
                 const errores = document.getElementById("errores");
-                menuActual.addEventListener('submit', () => {
+                menuActual.addEventListener('submit', (event) => {
+                    event.preventDefault();
                     let listaErrores = [];
 
                     //Se verifica el nombre del grupo
@@ -227,7 +220,6 @@
                         listaErrores.push("La clave debe contener entre 3 y 20 caracteres")
                     }
                     if (listaErrores.length != 0) {
-                        event.preventDefault();
                         errores.innerHTML = "<ul>"
                         for (const error of listaErrores) {
                             errores.innerHTML += `<li>${error}</li>`
@@ -235,8 +227,30 @@
                         errores.innerHTML += '</ul>'
                     } else {
                         menuActual.clave.disabled = false
+                        const datos = new FormData(menuActual);
+                        if (menuActual == menuCrear) {
+                            datos.append("crear", "1");
+                        } else {
+                            datos.append("confirmarCambios", '1');
+                        }
+                        fetch("https://localhost:8080/controladores/grupos_proceso.php", {
+                            method: 'POST',
+                            body: datos
+                        }).then(response => response.json()).then(data => {
+                            if (data.grupoCreado) {
+                                document.cookie = `crearGrupo=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+                                alert("grupo creado")
+                                window.location.reload();
+                            } else if (data.grupoExistente) {
+                                errores.innerHTML = '<ul><li>La clave de grupo ya existe</li></ul>';
+                            } else if (data.actualizado) {
+                                document.cookie = `editarGrupo=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+                                document.cookie = `claveGrupo=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+                            } else {
+                                alert("errors")
+                            }
+                        })
                     }
-                    // document.cookie = "crearGrupo=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
                 })
 
                 //Mostramos un mensaje en pantalla si el usuario lider cambia el lider de grupo
