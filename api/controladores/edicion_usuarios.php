@@ -18,8 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $json = file_get_contents("php://input");
         $datos = json_decode($json, true);
-        $usuarios = Grupo::listarUsuarios($datos);
-        echo json_encode(["usuarios" => $usuarios]);
+        $usuario = $datos["usuario"];
+        $usuarios = Grupo::listarUsuarios($datos["grupo"]);
+        $lider = Grupo::verificarLider($datos["grupo"], $usuario);
+        echo json_encode(["usuarios" => $usuarios, "lider" => $lider]);
     }
 } else {
     if (filter_input(INPUT_GET, "abandonarGrupo") != null) {

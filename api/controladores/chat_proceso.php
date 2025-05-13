@@ -1,8 +1,21 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
+require_once '../modelos/Grupo.php';
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $grupo = filter_input(INPUT_GET, "grupo");
+    $nombreUsuario = filter_input(INPUT_GET, "nombreUsuario");
+    $encontrado = false;
+    $usuarios = Grupo::listarUsuarios($grupo);
+    foreach ($usuarios as $usuario) {
+        if (in_array($nombreUsuario, $usuario)) {
+            $encontrado = true;
+        }
+    }
+    if (!$encontrado) {
+        echo json_encode(["noEncontrado" => true]);
+        exit();
+    }
 } else {
     $json = file_get_contents('php://input');
     $datos = json_decode($json, true);
@@ -12,7 +25,9 @@ $mensajesEscritos = file_get_contents("../mensajes/$grupo.txt");
 if (trim($mensajesEscritos) === "") {
     $mensajesEscritos = "Bienvenido al chat, recuerda comportarte;";
 }
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
     if ($datos["nombreUsuario"]) {
         $usuario = $datos["nombreUsuario"];
         $mensaje = htmlspecialchars($datos["mensaje"]);
