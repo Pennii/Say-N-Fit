@@ -30,8 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             $_SESSION['usuario'] = $usuario->getAlias();
             setcookie("nombreUsuario", $_SESSION['usuario'], time() + 3600 * 12, '/');
+            $nuevoAlias = $_SESSION["usuario"];
         }
         //Se envia por json el resultado de la actualizacion
-        header("Location: ../vistas/configuracion.html");
+        echo json_encode(["nuevoUsuario" => $nuevoAlias]);
     }
 }

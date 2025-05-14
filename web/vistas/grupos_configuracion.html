@@ -157,6 +157,7 @@
                         menuActual.nombre.value = datosGrupo.nombre
                         menuActual.clave.value = datosGrupo.clave
                         menuActual.clave.disabled = true;
+                        console.log(data)
 
                         menuActual.previsualizacion.src = `https://localhost:8080/iconos_grupos/${datosGrupo.clave}.jpeg`
                         for (const usuario of usuarios) {
@@ -246,6 +247,7 @@
                             } else if (data.actualizado) {
                                 document.cookie = `editarGrupo=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
                                 document.cookie = `claveGrupo=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+                                window.location.reload();
                             } else {
                                 alert("errors")
                             }

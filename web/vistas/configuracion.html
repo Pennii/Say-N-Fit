@@ -30,7 +30,8 @@
     </header>
     <!-- Formulario donde se muestran los datos del usuario actualmente y que se pueden modificar -->
     <section>
-        <form action="../controladores/configuracion_usuario_proceso.php" method="POST" enctype="multipart/form-data">
+        <form action="../controladores/configuracion_usuario_proceso.php" method="POST" enctype="multipart/form-data"
+            id="formularioEdicion">
             <div class="row">
                 <div class="col" id="imgPerfil">
                     <img src="" alt="" id="imgUsuario">
@@ -100,7 +101,7 @@
         const editar = document.getElementById("editar");
         const guardar = document.getElementById("guardar");
         const cancelar = document.getElementById("cancelar");
-
+        const formularioEdicion = document.getElementById("formularioEdicion")
         //Funcion que permite cargar los datos del usuario
         function cargarSinEdicion() {
             let cookies = document.cookie.split("; ");
@@ -111,10 +112,9 @@
                     nombreUsuario = `${decodeURIComponent(valor)}`;
                 }
             }
-            imagenUsuario.src = `../iconos_usuarios/${nombreUsuario}.jpeg`;
-            fetch('../controladores/configuracion_usuario_proceso.php', {
+            imagenUsuario.src = `https://localhost:8080/iconos_usuarios/${nombreUsuario}.jpeg`;
+            fetch('https://localhost:8080/controladores/configuracion_usuario_proceso.php', {
                 method: 'POST',
-                headers: { "Content-type": 'application/json' },
                 body: JSON.stringify(nombreUsuario)
             }).then(response => response.json()).then(data => {
                 datos = data.datos;
@@ -180,7 +180,8 @@
         })
 
         //Envia los datos por json y permite actualizar los datos del usuario siguiendo las mismas reglas que en el registro
-        guardar.addEventListener('click', () => {
+        formularioEdicion.addEventListener('submit', () => {
+            event.preventDefault()
             document.getElementById("error").innerHTML = ''
             let invalido = false;
             let errores = [];
@@ -227,13 +228,24 @@
                 errores.push(`El peso introducido es invalido debe ser entre ${pesoMin} y ${pesoMax}`);
             }
             if (invalido) {
-                event.preventDefault();
                 let salida = "<ul>";
                 for (const error of errores) {
                     salida += `<li>${error}</li>`;
                 }
                 salida += "</ul>";
                 document.getElementById("error").innerHTML = salida
+            } else {
+                fetch("https://localhost:8080/controladores/configuracion_usuario_proceso.php", {
+                    method: "POST",
+                    body: new FormData(formularioEdicion)
+                }).then(response => response.json()).then(data => {
+                    if (data.nuevoUsuario) {
+                        alert("usuario actualizado");
+                        window.location.href = './inicio.html';
+                    } else {
+                        alert("error al actualizar");
+                    }
+                });
             }
         })
 
