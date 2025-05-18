@@ -5,7 +5,9 @@
 1. Descarga Docker Desktop desde <https://docs.docker.com/get-docker/>
 2. Instálalo siguiendo las instrucciones para tu sistema operativo.
 3. Reinicia tu PC o terminal si es necesario.
-4. Vuelve a ejecutar el instalador.
+4. Ejecuta el instalador.
 
 > [!NOTE]
-> Si llegas a recibir un error como ERR_CERT_AUTHORITY_INVALID, esto se debe a que el certificado SSL de la api es autofirmado, para solucionarlo ingresa
+> Para evitar el error ERR_CERT_AUTHORITY_INVALID se abrirá una ventana que conectara al puerto 8080, despues de confirmar, puedes cerrarla sin problemas
+
+Cuando termines de usar la aplicación, recuerda cerrar docker pulsando una tecla en la consola. Tambien puedes cerrar la consola y cerrar docker manualmente cuando termines
