@@ -72,6 +72,18 @@ function cargarEjercicios(ejercicios) {
         }
         listado.innerHTML += ejercicioListado;
     }
+    const videos = listado.querySelectorAll("video");
+    videos.forEach(video => {
+        video.addEventListener("error", () => {
+            const contenedor = video.parentElement;
+            const imagen = document.createElement("img");
+            imagen.src = "../imagenes/logo.png";
+            imagen.classList.add("sinVideo");
+
+            contenedor.insertBefore(imagen, video);
+            video.remove();
+        });
+    });
     const seleccionEjercicio =
         document.getElementsByClassName("seleccionEjercicio");
     for (const seleccion of seleccionEjercicio) {

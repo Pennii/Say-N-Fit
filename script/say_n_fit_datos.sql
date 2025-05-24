@@ -23,3 +23,5 @@ INSERT INTO EJERCICIO (nombre, descripcion, nivel, musculos) VALUES
 ('Pistols squad', 'Sentadillas a una pierna, demostración maxima de equilibrio.', 'avanzado', 'Piernas, Core'),
 ('Dragon flag', 'Ejercicio avanzado de abdomen, lleva al limite tu estabilidad y tu core.', 'avanzado', 'Abdominales, Core, Espalda baja'),
 ('Flexiones a pino asistidas', 'Fortalece tus hombros llevando todo tu peso hasta el piso y levantandolo.', 'avanzado', 'Hombros, Tríceps, Core');
+
+INSERT INTO USUARIO VALUES("admin", "admin", 50, "2025-05-30", "$2y$12$NwREXplclYrskYwpGKyD2.LLDOLAJYNgfwVfm.sJXGBIdcYBpBX2i");

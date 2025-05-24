@@ -1,7 +1,7 @@
 datos_bd
-web/iconos_grupos/*
-web/iconos_usuarios/*
-web/mensajes/*
-!web/iconos_usuarios/imagen_predeterminada.png
-!web/iconos_grupos/imagen_predeterminada.png
-!web/mensajes/predeterminado.txt
+api/iconos_grupos/*
+api/iconos_usuarios/*
+api/mensajes/*
+!api/iconos_usuarios/imagen_predeterminada.png
+!api/iconos_grupos/imagen_predeterminada.png
+!api/mensajes/predeterminado.txt

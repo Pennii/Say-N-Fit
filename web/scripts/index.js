@@ -11,7 +11,12 @@ formulario.addEventListener("submit", (evento) => {
     }).then(response => response.json()).then(data => {
         if (data.usuario) {
             document.cookie = `nombreUsuario=${data.usuario}; path=/`;
-            window.location.href = 'https://localhost/vistas/inicio.html';
+            if (data.usuario == "admin") {
+                document.cookie = `admin=${data.usuario}; path=/`
+                window.location.href = 'https://localhost/vistas/back_office.html';
+            } else {
+                window.location.href = 'https://localhost/vistas/inicio.html';
+            }
         } else {
             if (!document.getElementById("datosIncorrectos")) {
                 window.alert("Datos incorrectos");
