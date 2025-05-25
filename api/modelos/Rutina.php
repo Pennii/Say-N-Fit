@@ -1,14 +1,14 @@
 <?php
 
-require_once '../modelos/Conexion.php';
-require_once '../modelos/funciones.php';
+require_once __DIR__ . '/../modelos/Conexion.php';
+require_once __DIR__ . '/../modelos/funciones.php';
 class Rutina
 {
 
     private $codigo;
     private $usuario;
     public $nombre;
-    private $dias;
+    public $dias;
 
     public function __construct($codigo, $usuario, $dias, $nombre = '')
     {

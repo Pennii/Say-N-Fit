@@ -1,5 +1,5 @@
 <?php
-require_once '../modelos/Conexion.php';
+require_once __DIR__ . '/../modelos/Conexion.php';
 
 /**
  * Clase que realiza las acciones de los usuarios
@@ -15,7 +15,8 @@ class Usuario
     /**
      * Devuelve el alias del usuario
      */
-    public function getAlias(){
+    public function getAlias()
+    {
         return $this->alias;
     }
 
@@ -48,7 +49,7 @@ class Usuario
             } catch (Exception $e) {
                 $resultado = false;
             }
-        }else{
+        } else {
             $resultado = false;
         }
         Conexion::desconectar();
@@ -72,7 +73,8 @@ class Usuario
      * Busca la clave de un usuario y la compara con la clave sin hashear que se pasa como parametro
      * devolviendo true si coinciden o false si no se encuentra la clave o no coinciden las dos versiones
      */
-    public static function logear($usuario, $clave){
+    public static function logear($usuario, $clave)
+    {
         Conexion::conectar();
         $consultarUsuario = Conexion::getConexion()->prepare("SELECT CLAVE FROM USUARIO WHERE BINARY ALIAS = :usuario");
         $consultarUsuario->bindParam(":usuario", $usuario);
@@ -86,7 +88,8 @@ class Usuario
     /**
      * Verifcio que el usuario este en la bd y actualizo los datos
      */
-    public function actualizarDatos($aliasOriginal){
+    public function actualizarDatos($aliasOriginal)
+    {
         if (self::verUsuario($aliasOriginal)) {
             $claveHasheada = password_hash($this->clave, PASSWORD_DEFAULT);
             try {
@@ -102,7 +105,7 @@ class Usuario
             } catch (Exception $e) {
                 $resultado = $e->getMessage();
             }
-        }else{
+        } else {
             $resultado = false;
         }
         Conexion::desconectar();

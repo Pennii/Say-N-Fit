@@ -1,7 +1,7 @@
 <?php
 
-require_once '../modelos/Conexion.php';
-require_once '../modelos/funciones.php';
+require_once __DIR__ . '/../modelos/Conexion.php';
+require_once __DIR__ . '/../modelos/funciones.php';
 
 /**
  * Clase que realiza las acciones de los grupos
@@ -256,7 +256,10 @@ class Grupo
         }
         Conexion::desconectar();
         if ($eliminado) {
-            unlink("../mensajes/$grupo.txt");
+            $archivo = __DIR__ . "/../mensajes/$grupo.txt";
+            if (file_exists($archivo)) {
+                unlink($archivo);
+            }
         }
         return $eliminado;
     }

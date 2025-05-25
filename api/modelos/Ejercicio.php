@@ -1,5 +1,5 @@
 <?php
-require_once '../modelos/Conexion.php';
+require_once __DIR__ . '/../modelos/Conexion.php';
 
 /**
  * Clase que realizara las funciones que impliquen a los ejercicios
