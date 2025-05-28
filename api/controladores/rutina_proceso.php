@@ -38,7 +38,6 @@ if (filter_has_var(INPUT_POST, "ejercicios")) {
     $actualizado = $rutina->actualizarRutina($datos["ejerciciosActualizar"]);
     echo json_encode(["actualizado" => $actualizado]);
 } else {
-
     if (isset($datos["nombreUsuario"])) {
         // Si se encuentra rutina en las cookies se esta solicitando los ejercicios de una rutina
         if (isset($datos["rutina"])) {
@@ -52,7 +51,6 @@ if (filter_has_var(INPUT_POST, "ejercicios")) {
                 echo json_encode(["datosRutina" => $rutina, "datosEjercicios" => $listaEjercicios]);
             } else if (isset($datos["ejercicio"])) { {
                     // Si se encuentra el parametro ejercicio en los datos se esta eliminando un ejercicio de la rutina
-
                     $eliminarEjercicio = Rutina::quitarEjercicio($datos["ejercicio"], $nombreUsuario, $datos["editarRutina"]);
                     echo json_encode(["eliminado" => $eliminarEjercicio]);
                 }

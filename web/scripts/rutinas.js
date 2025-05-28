@@ -6,7 +6,7 @@ const listaEjercicios = document.getElementById("ejercicios");
 
 const nombreUsuario = document.getElementById("imagenUsuario").dataset.alias;
 
-
+// Carga las rutinas del usuario al cargar la página
 window.addEventListener("load", () => {
     if (document.cookie.includes("editarRutina")) {
         document.cookie = "editarRutina=; max-age=0; path=/";
@@ -36,6 +36,7 @@ window.addEventListener("load", () => {
             }
             const contenedoresRutina =
                 document.getElementsByClassName("rutina");
+            //Cambia el color de fondo al hacer click en una rutina
             for (const rutina of contenedoresRutina) {
                 rutina.addEventListener("click", () => {
                     const fondo = "#dada09cb";
@@ -99,6 +100,7 @@ window.addEventListener("load", () => {
         });
 });
 
+// Obtiene los ejercicios de la rutina seleccionada
 function obtenerEjercicios(rutina) {
     const datos = {
         nombreUsuario,
@@ -122,6 +124,7 @@ function obtenerEjercicios(rutina) {
         });
 }
 
+// Obtiene el nombre del día de la semana a partir de su número
 function obtenerDia(dia) {
     switch (dia) {
         case "0":

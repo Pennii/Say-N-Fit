@@ -10,6 +10,14 @@ class Rutina
     public $nombre;
     public $dias;
 
+    /**
+     * Constructor de la clase Rutina
+     * @param string $codigo Codigo de la rutina
+     * @param string $usuario Usuario al que pertenece la rutina
+     * @param string $dias Dias de la semana en los que se realiza la rutina
+     * @param string $nombre Nombre de la rutina (opcional)
+     * @return void
+     */
     public function __construct($codigo, $usuario, $dias, $nombre = '')
     {
         $this->codigo = $codigo;
@@ -20,6 +28,10 @@ class Rutina
 
     /**
      * Devuelve los datos de una rutina
+     * @param string $codigo Codigo de la rutina
+     * @param string $usuario Usuario al que pertenece la rutina
+     * @return array|false Datos de la rutina o false si no existe
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function verRutina($codigo, $usuario)
     {
@@ -39,6 +51,9 @@ class Rutina
 
     /**
      * Devuelve el codigo actual de las rutinas
+     * @param string $usuario Usuario al que pertenece la rutina
+     * @return array|false Codigo actual de la rutina o false si no existe
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function consultarCodigoActual($usuario)
     {
@@ -57,6 +72,8 @@ class Rutina
 
     /**
      * Añade una rutina para el usuario
+     * @return bool Indica si se ha creado la rutina correctamente
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public function crearRutina()
     {
@@ -83,6 +100,9 @@ class Rutina
 
     /**
      * Asigna ejercicios a una rutina
+     * @param string $ejercicio Nombre del ejercicio a almacenar
+     * @return bool Indica si se ha almacenado el ejercicio correctamente
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public function almacenarEjercicio($ejercicio)
     {
@@ -103,6 +123,9 @@ class Rutina
 
     /**
      * Devuelve las rutinas de un usuario
+     * @param string $usuario Usuario al que pertenecen las rutinas
+     * @return array|false Rutinas del usuario o false si no existen
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function obtenerRutinas($usuario)
     {
@@ -121,6 +144,10 @@ class Rutina
 
     /**
      * Devuelve los ejercicios de una rutina
+     * @param string $usuario Usuario al que pertenece la rutina
+     * @param string $rutina Codigo de la rutina
+     * @return array|false Ejercicios de la rutina o false si no existen
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function obtenerEjercicios($usuario, $rutina)
     {
@@ -140,6 +167,11 @@ class Rutina
 
     /**
      * Quita un ejercicio de una rutina y elimina la rutina si ya no quedan ejercicios
+     * @param string $ejercicio Nombre del ejercicio a quitar
+     * @param string $usuario Usuario al que pertenece la rutina
+     * @param string $rutina Codigo de la rutina
+     * @return int Indica si se ha quitado el ejercicio correctamente (1), si se ha eliminado la rutina (-1) o si ha fallado (0)
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function quitarEjercicio($ejercicio, $usuario, $rutina)
     {
@@ -164,6 +196,10 @@ class Rutina
 
     /**
      * Elimina una rutina
+     * @param string $usuario Usuario al que pertenece la rutina
+     * @param string $rutina Codigo de la rutina a eliminar
+     * @return bool Indica si se ha eliminado la rutina correctamente
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function eliminarRutina($usuario, $rutina)
     {
@@ -183,6 +219,9 @@ class Rutina
 
     /**
      * Actualiza una rutina, cambiando sus datos y los ejercicios
+     * @param array $ejercicios Array de ejercicios con sus series y repeticiones
+     * @return bool|string Indica si se ha actualizado la rutina correctamente o el mensaje de error si ha fallado
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public function actualizarRutina($ejercicios)
     {
@@ -216,6 +255,10 @@ class Rutina
 
     /**
      * Devuelve las rutinas de un usuario para un dia 
+     * @param string $usuario Usuario al que pertenecen las rutinas
+     * @param string $dia Dia de la semana para el que se quieren las rutinas
+     * @return array|false Rutinas del usuario para el dia especificado o false si no existen
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function obtenerRutinasPorDia($usuario, $dia)
     {

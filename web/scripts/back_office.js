@@ -1,3 +1,4 @@
+
 const listaEjercicios = document.getElementById("listaEjercicios");
 const datosEjercicios = document.getElementById("datosEjercicios");
 const titulo = document.getElementById("titulo");
@@ -21,6 +22,7 @@ window.addEventListener("load", () => {
         });
 });
 
+// Carga los ejercicios en el listado de ejercicios
 function listarEjercicios(ejercicios) {
     console.log(ejercicios)
     let salida = "<ul>"
@@ -51,6 +53,7 @@ function listarEjercicios(ejercicios) {
     }
 }
 
+// Elimina un ejercicio de la base de datos
 function eliminarEjercicio(ejercicio) {
     ejercicio = ejercicio.replace(/_/g, " ");
     fetch("https://localhost:8080/controladores/back_office.php", {
@@ -67,6 +70,7 @@ function eliminarEjercicio(ejercicio) {
         });
 }
 
+// Muestra los datos de un ejercicio en el formulario de edición
 function mostrarDatos(ejercicio) {
     ejercicio = ejercicio.replace(/_/g, " ");
     nombreEjercicio = ejercicio;
@@ -87,6 +91,7 @@ function mostrarDatos(ejercicio) {
         });
 }
 
+// Evento para guardar un nuevo ejercicio
 formularioEdicion.guardar.addEventListener("click", () => {
     event.preventDefault();
     const datosFormulario = {
@@ -109,6 +114,7 @@ formularioEdicion.guardar.addEventListener("click", () => {
         });
 });
 
+// Evento para editar un ejercicio existente
 formularioEdicion.editar.addEventListener('click', () => {
     event.preventDefault();
     const datosFormulario = {
@@ -131,6 +137,7 @@ formularioEdicion.editar.addEventListener('click', () => {
         });
 });
 
+// Evento para cancelar la edición y volver al listado
 cancelar.addEventListener('click', () => {
     window.location.reload();
 })

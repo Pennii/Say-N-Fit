@@ -9,9 +9,8 @@ if (filter_has_var(INPUT_POST, "nombre")) {
     $usuario = sanear_texto($datos["nombre"]);
     $clave = sanear_texto($datos["clave"]);
     $correcto = Usuario::logear($usuario, $clave);
-    //Si el usuario puede logear se crean los datos de la sesion y se redirige al usuario a la pagina de bienvenida
+    //Si el usuario puede logear se devuelve el nombre de usuario para crear la cookie que identificara al usuario
     if ($correcto) {
-        $_SESSION['usuario'] = $usuario;
         echo json_encode(["usuario" => $usuario]);
     } else {
         echo json_encode(["error" => "Usuario o clave incorrectos"]);

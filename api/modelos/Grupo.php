@@ -12,6 +12,13 @@ class Grupo
     private $clave;
     private $lider;
 
+    /**
+     * Constructor de la clase Grupo
+     * @param string $nombre Nombre del grupo
+     * @param string $clave Clave del grupo
+     * @param string $lider Usuario que lidera el grupo
+     * @return void
+     */
     function __construct($nombre, $clave, $lider)
     {
         $this->nombre = $nombre;
@@ -21,6 +28,8 @@ class Grupo
 
     /**
      * Devuelve la clave de grupo
+     * @return string
+     * @throws Exception Si la clave no es una cadena
      */
     public function getClave()
     {
@@ -30,6 +39,9 @@ class Grupo
     /**
      * Se crea un grupo pasando como parametro el nombre del usuario que lo crea, para de esta forma
      * insertar al lider de grupo.
+     * @param string $usuario Usuario que crea el grupo
+     * @return bool Devuelve true si se ha creado el grupo correctamente, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public function crearGrupo($usuario)
     {
@@ -55,6 +67,9 @@ class Grupo
 
     /**
      * Se devuelven los datos de un grupo en forma de array.
+     * @param string $clave Clave del grupo a consultar
+     * @return array|false Devuelve un array con los datos del grupo si existe, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function verGrupo($clave)
     {
@@ -72,6 +87,8 @@ class Grupo
 
     /**
      * Se devuelve un listado de todos los grupos
+     * @return array|false Devuelve un array con los datos de todos los grupos si existen, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function verGrupos()
     {
@@ -86,6 +103,9 @@ class Grupo
 
     /**
      * Devuelve los grupos por usuario para poder listarlos en la pagina del usuario
+     * @param string $usuario Usuario del que se quieren ver los grupos
+     * @return array|false Devuelve un array con los grupos del usuario si existen, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function verGruposPorUsuario($usuario)
     {
@@ -102,6 +122,10 @@ class Grupo
 
     /**
      * Agrega al usuario a la tabla de pertenece cuando crea o se une a un grupo
+     * @param string $usuario Usuario que se va a agregar al grupo
+     * @param string $grupo Clave del grupo al que se va a agregar el usuario
+     * @return bool Devuelve true si se ha agregado correctamente, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     private static function agregarUsuario($usuario, $grupo)
     {
@@ -121,6 +145,10 @@ class Grupo
 
     /**
      * Si se encuentra un grupo con esa clave se agregara al usuario al mismo
+     * @param string $clave Clave del grupo a buscar
+     * @param string $usuario Usuario que se va a agregar al grupo
+     * @return bool Devuelve true si se ha encontrado el grupo y se ha agregado el usuario, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function encontrarGrupo($clave, $usuario)
     {
@@ -143,6 +171,10 @@ class Grupo
 
     /**
      * Verifica si un usuario es lider de grupo
+     * @param string $grupo Clave del grupo a verificar
+     * @param string $usuario Usuario a verificar si es lider del grupo
+     * @return bool Devuelve true si el usuario es lider del grupo, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function verificarLider($grupo, $usuario)
     {
@@ -162,6 +194,9 @@ class Grupo
 
     /**
      * Devolvera una lista de usuarios que pertenecen a un grupo
+     * @param string $grupo Clave del grupo del que se quieren listar los usuarios
+     * @return array|false Devuelve un array con los usuarios del grupo si existen, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function listarUsuarios($grupo)
     {
@@ -180,6 +215,9 @@ class Grupo
 
     /**
      * Actualiza los datos de un grupo
+     * @return bool Devuelve true si se han actualizado los datos correctamente, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
+     * 
      */
     public function actualizarDatos()
     {
@@ -205,6 +243,10 @@ class Grupo
 
     /**
      * Elimina un usuario del grupo
+     * @param string $usuario Usuario que se va a eliminar del grupo
+     * @param string $grupo Clave del grupo del que se va a eliminar el usuario
+     * @return bool Devuelve true si se ha eliminado correctamente, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function eliminarUsuario($usuario, $grupo)
     {
@@ -223,6 +265,10 @@ class Grupo
 
     /**
      * Cambia el lider de un grupo por otro
+     * @param string $usuario Usuario que se convertira en lider del grupo
+     * @param string $grupo Clave del grupo al que se le cambiara el lider
+     * @return bool Devuelve true si se ha cambiado el lider correctamente, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function convertirLider($usuario, $grupo)
     {
@@ -242,6 +288,9 @@ class Grupo
 
     /**
      * Elimina un grupo
+     * @param string $grupo Clave del grupo a eliminar
+     * @return bool Devuelve true si se ha eliminado correctamente, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function eliminarGrupo($grupo)
     {
@@ -265,9 +314,13 @@ class Grupo
     }
 
     /**
-     * Elimina un usuario que desee abandonar el grupo, si el usuario es el lider del grupo
+     * Elimina un usuario dell grupo, si el usuario es el lider del grupo
      * asignara al primero que encuentre por orden alfabetico para asignarlo como nuevo lider.
      * Si no hay otro usuario en el grupo entonces se elimina el grupo
+     * @param string $usuario Usuario que se va a eliminar del grupo
+     * @param string $grupo Clave del grupo del que se va a eliminar el usuario
+     * @return bool Devuelve true si se ha abandonado el grupo correctamente, false en caso contrario
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function abandonarGrupo($usuario, $grupo)
     {

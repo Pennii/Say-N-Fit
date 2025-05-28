@@ -44,19 +44,26 @@ window.addEventListener("load", () => {
             const tarjetasEjerciciso = document.getElementsByClassName("ejercicio");
             for (const ejercicio of tarjetasEjerciciso) {
                 ejercicio.addEventListener("mouseover", () => {
+                    ejercicio.querySelector("img").style.display = 'none';
+                    ejercicio.querySelector("video").style.display = 'block';
                     ejercicio.querySelector("video").play()
                 })
                 ejercicio.addEventListener("mouseout", () => {
                     ejercicio.querySelector("video").pause();
+                    ejercicio.querySelector("video").style.display = 'none';
+                    ejercicio.querySelector("img").style.display = 'block';
                 })
             }
         });
 });
 
+// Carga los ejercicios en el listado de ejercicios
+// y agrega los eventos necesarios para seleccionar o eliminar ejercicios de la rutina
 function cargarEjercicios(ejercicios) {
     for (const ejercicio of ejercicios) {
         let ejercicioListado = `<div class="ejercicio">
-          <video src="https://localhost:8080/imagenes/ejercicios/${ejercicio["nombre"]}.mp4" preload="metadata" ></video>
+    <img src="../imagenes/logo.png"/>        
+          <video src="https://localhost:8080/imagenes/ejercicios/${ejercicio["nombre"]}.mp4" preload="metadata" style="display: none"></video>
           <p>${ejercicio["nombre"]}</p>
           <p>${ejercicio["descripcion"]}</p>
           <p>Nivel: ${ejercicio["nivel"]}</p>
@@ -110,6 +117,7 @@ function cargarEjercicios(ejercicios) {
     }
 }
 
+//Envía los datos de la rutina al servidor
 completarRutina.addEventListener("submit", () => {
     event.preventDefault();
     let salida = "";

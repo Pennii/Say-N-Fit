@@ -44,5 +44,3 @@ var_dump($datosActualizados);
 // 7. Login con nueva clave
 $loginNuevo = Usuario::logear($alias, $nuevaClave);
 echo "7. Logear con nueva clave: " . ($loginNuevo ? "PASÓ" : "FALLÓ") . "\n";
-
-// Limpieza final (opcional)

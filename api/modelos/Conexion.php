@@ -9,6 +9,7 @@ abstract class  Conexion
 
     /**
      * Devuelve la conexion
+     * @return PDO
      */
     public static function getConexion()
     {
@@ -17,6 +18,7 @@ abstract class  Conexion
 
     /**
      * Si no se esta conectado se realiza la conexion a la bd
+     * @return bool
      */
     public static function conectar()
     {
@@ -28,6 +30,7 @@ abstract class  Conexion
 
     /**
      * Si ya se realizo la conexion a la bd se desconecta
+     * @return bool
      */
     public static function desconectar()
     {

@@ -1,5 +1,8 @@
 const imagenUsuarioHeader = document.getElementById("imagenUsuario");
 let aliasUsuario = null;
+// Carga el alias del usuario desde las cookies y asigna la imagen de perfil
+// Si el usuario es administrador, se asigna el alias del administrador
+
 let cookiesBuscar = document.cookie.split("; ");
 if ((document.cookie.includes("nombreUsuario=") && window.location.href != "https://localhost:443/vistas/back_office.html")
     || (document.cookie.includes("admin=") && window.location.href == "https://localhost:443/vistas/back_office.html")) {
@@ -8,9 +11,6 @@ if ((document.cookie.includes("nombreUsuario=") && window.location.href != "http
         if (nombre == "nombreUsuario") {
             aliasUsuario = decodeURIComponent(valor);
         }
-    }
-    if (window.location.href == "https://localhost/vistas/inicio.html") {
-        console.log(window.location.href)
     }
     if (aliasUsuario) {
         imagenUsuarioHeader.setAttribute("data-alias", aliasUsuario);

@@ -11,6 +11,14 @@ class Ejercicio
     private $nivel;
     private $musculos;
 
+    /**
+     * Constructor de la clase Ejercicio
+     * @param string $nombre Nombre del ejercicio
+     * @param string $descripcion Descripcion del ejercicio
+     * @param string $nivel Nivel de dificultad del ejercicio
+     * @param string $musculos Musculos que se trabajan con el ejercicio
+     * @return void
+     */
     public function __construct($nombre, $descripcion, $nivel, $musculos)
     {
         $this->nombre = $nombre;
@@ -21,6 +29,9 @@ class Ejercicio
 
     /**
      * Lista los ejercicios y agrega los filtros necesarios
+     * @param array|null $filtros Filtros a aplicar en la consulta
+     * @return array Lista de ejercicios
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function listarEjercicios(?array $filtros = null)
     {
@@ -49,6 +60,9 @@ class Ejercicio
 
     /**
      * Devuelve el ejercicio solicitado por nombre
+     * @param string $nombre Nombre del ejercicio a buscar
+     * @return array|null Datos del ejercicio o null si no se encuentra
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function obtenerEjercicio($nombre)
     {
@@ -59,6 +73,13 @@ class Ejercicio
         return $consultarEjercicio->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Inserta o actualiza un ejercicio segun los parametros que se pasen
+     * @param array $ejercicio Datos del ejercicio a guardar
+     * @param bool $editando Indica si se esta editando un ejercicio existente
+     * @param string $original Nombre del ejercicio original si se esta editando
+     * @return bool Indica si se guardo correctamente el ejercicio
+     */
     public static function guardarEjercicio($ejercicio, $editando = false, $original = '')
     {
         if ($editando) {
@@ -89,12 +110,18 @@ class Ejercicio
         return $guardado;
     }
 
+    /**
+     * Elimina un ejercicio
+     * @param string $ejercicio Nombre del ejercicio a eliminar
+     * @return bool Indica si se elimino correctamente el ejercicio
+     * @throws Exception Si ocurre un error al conectar a la base de datos
+     */
     public static function eliminarEjercicio($ejercicio)
     {
         Conexion::conectar();
         try {
             $query = "DELETE FROM EJERCICIO WHERE nombre = '$ejercicio'";
-            $eliminarEjercicio = Conexion::getConexion()->query($query);
+            Conexion::getConexion()->query($query);
             $eliminado = true;
         } catch (\Throwable $th) {
             $eliminado = false;

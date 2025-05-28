@@ -181,6 +181,7 @@ abandonar.addEventListener('click', () => {
     })
 })
 
+//Envía la clave del grupo para buscarlo
 insertarClave.addEventListener("submit", () => {
     const datos = new FormData(insertarClave);
     datos.append("buscar", "1");

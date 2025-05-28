@@ -2,6 +2,7 @@ const bienvenido = document.getElementById("bienvenido");
 const rutinas = document.getElementById("rutinas");
 const nombreUsuario = document.getElementById("imagenUsuario").dataset.alias;
 
+// Muestra las rutinas del usuario al cargar la página
 window.addEventListener('load', () => {
     const numeroDia = new Date().getDay();
     fetch('https://localhost:8080/controladores/inicio_proceso.php', {

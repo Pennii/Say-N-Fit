@@ -14,6 +14,8 @@ class Usuario
 
     /**
      * Devuelve el alias del usuario
+     * @return string
+     * @throws Exception Si el alias no está definido
      */
     public function getAlias()
     {
@@ -31,6 +33,8 @@ class Usuario
 
     /**
      * Verifico que el usuario no exista en la bd y lo inserto
+     * @return bool
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public function insertarUsuario()
     {
@@ -58,6 +62,9 @@ class Usuario
 
     /**
      * Devuelve los datos de un usuario en forma de array
+     * @param string $usuario Alias del usuario a buscar
+     * @return array|null Devuelve un array con los datos del usuario o null si no se encuentra
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function verUsuario($usuario)
     {
@@ -72,6 +79,10 @@ class Usuario
     /**
      * Busca la clave de un usuario y la compara con la clave sin hashear que se pasa como parametro
      * devolviendo true si coinciden o false si no se encuentra la clave o no coinciden las dos versiones
+     * @param string $usuario Alias del usuario a buscar
+     * @param string $clave Clave sin hashear del usuario
+     * @return bool Devuelve true si la clave coincide, false si no
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public static function logear($usuario, $clave)
     {
@@ -87,6 +98,9 @@ class Usuario
 
     /**
      * Verifcio que el usuario este en la bd y actualizo los datos
+     * @param string $aliasOriginal Alias original del usuario antes de la actualización
+     * @return bool|string Devuelve true si se actualizó correctamente, false si no se encontró el usuario o un mensaje de error si ocurre una excepción
+     * @throws Exception Si ocurre un error al conectar a la base de datos
      */
     public function actualizarDatos($aliasOriginal)
     {

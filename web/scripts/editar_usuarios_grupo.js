@@ -15,6 +15,7 @@ for (const cookie of cookies) {
         lider = decodeURIComponent(valor);
     }
 }
+
 window.addEventListener("load", () => {
     const datos = {
         grupo: claveGrupo,
@@ -30,6 +31,7 @@ window.addEventListener("load", () => {
                 window.location.href = './grupos.html';
             }
             if (data.usuarios.length > 1) {
+                // Muestra el listado de usuarios del grupo
                 for (const usuario of data.usuarios) {
                     if (lider != usuario[0]) {
                         let valor = [usuario[0], claveGrupo];
@@ -50,6 +52,7 @@ window.addEventListener("load", () => {
                     }
                 }
                 const editarGrupo = document.getElementById("editarGrupo");
+                // Añade los eventos a los botones de editar grupo
                 editarGrupo.addEventListener("submit", (event) => {
                     event.preventDefault();
                     const datos = new FormData();

@@ -1,6 +1,7 @@
 const editarRutina = document.getElementById("editarRutina");
 const nombreUsuario = document.getElementById("imagenUsuario").dataset.alias;
 
+// Carga los datos de la rutina a editar
 window.addEventListener("load", () => {
     let codigoRutina;
     let cookiesBuscar = document.cookie.split("; ");
@@ -79,6 +80,7 @@ window.addEventListener("load", () => {
                     }"><i class="bi bi-trash-fill"></i></button>
                     </div>`;
             }
+            // Evento que elimina un ejercicio de la rutina
             editarRutina.innerHTML += `<button name="actualizarRutina" class="btn">Guardar</button>`;
             const botonesEliminar = document.getElementsByClassName("eliminar");
             for (const boton of botonesEliminar) {
@@ -103,6 +105,7 @@ window.addEventListener("load", () => {
                 });
             }
 
+            // Evento que actualiza la rutina
             editarRutina.addEventListener("submit", () => {
                 event.preventDefault();
 
