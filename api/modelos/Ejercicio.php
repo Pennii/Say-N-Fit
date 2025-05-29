@@ -101,7 +101,6 @@ class Ejercicio
                 $guardado = true;
             } catch (\Throwable $th) {
                 $guardado = false;
-                var_dump($th->getMessage());
             }
         } else {
             $guardado = false;

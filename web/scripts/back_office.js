@@ -94,47 +94,69 @@ function mostrarDatos(ejercicio) {
 // Evento para guardar un nuevo ejercicio
 formularioEdicion.guardar.addEventListener("click", () => {
     event.preventDefault();
+    let invalido = false;
     const datosFormulario = {
         nombre: formularioEdicion.nombre.value,
         nivel: formularioEdicion.nivel.value,
         descripcion: formularioEdicion.descripcion.value,
         musculos: formularioEdicion.musculos.value,
     }
-    fetch("https://localhost:8080/controladores/back_office.php", {
-        method: "POST",
-        body: JSON.stringify({ guardarEjercicio: datosFormulario })
-    }).then(response => response.json())
-        .then(data => {
-            if (data) {
-                alert("Ejercicio creado correctamente");
-                window.location.reload();
-            } else {
-                alert("Error al crear ejercicio");
-            }
-        });
+
+    if (datosFormulario.nombre.trim() == '' || datosFormulario.descripcion.trim() == '') {
+        valido = true;
+    }
+
+    if (!invalido) {
+        fetch("https://localhost:8080/controladores/back_office.php", {
+            method: "POST",
+            body: JSON.stringify({ guardarEjercicio: datosFormulario })
+        }).then(response => response.json())
+            .then(data => {
+                if (data) {
+                    alert("Ejercicio creado correctamente");
+                    window.location.reload();
+                } else {
+                    alert("Error al crear ejercicio");
+                }
+            });
+    } else {
+        alert("Error al enviar el formulario, el nombre y la descripcion del ejercicio no pueden estar vacios")
+    }
+
 });
 
 // Evento para editar un ejercicio existente
 formularioEdicion.editar.addEventListener('click', () => {
     event.preventDefault();
+    let invalido = false;
     const datosFormulario = {
         nombre: formularioEdicion.nombre.value,
         nivel: formularioEdicion.nivel.value,
         descripcion: formularioEdicion.descripcion.value,
         musculos: formularioEdicion.musculos.value,
     }
-    fetch("https://localhost:8080/controladores/back_office.php", {
-        method: "POST",
-        body: JSON.stringify({ editarEjercicio: datosFormulario, nombreEjercicio })
-    }).then(response => response.json())
-        .then(data => {
-            if (data) {
-                alert("Ejercicio actualizado correctamente");
-                window.location.reload();
-            } else {
-                alert("Error al actualizar ejercicio");
-            }
-        });
+
+    if (datosFormulario.nombre.trim() == '' || datosFormulario.descripcion.trim() == '') {
+        valido = true;
+    }
+
+
+    if (!invalido) {
+        fetch("https://localhost:8080/controladores/back_office.php", {
+            method: "POST",
+            body: JSON.stringify({ editarEjercicio: datosFormulario, nombreEjercicio })
+        }).then(response => response.json())
+            .then(data => {
+                if (data) {
+                    alert("Ejercicio actualizado correctamente");
+                    window.location.reload();
+                } else {
+                    alert("Error al actualizar ejercicio");
+                }
+            });
+    } else {
+        alert("Error al enviar el formulario, el nombre y la descripcion del ejercicio no pueden estar vacios")
+    }
 });
 
 // Evento para cancelar la edición y volver al listado

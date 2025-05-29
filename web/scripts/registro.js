@@ -8,7 +8,6 @@ const clave = document.getElementById("clave");
 const confirmar = document.getElementById("confirmar");
 const nacimiento = document.getElementById("nacimiento");
 const peso = document.getElementById("peso");
-const existente = document.getElementById("existente");
 
 // Mensaje de error
 const error = document.getElementById("error");
@@ -112,9 +111,11 @@ formulario.addEventListener("submit", (evento) => {
                 if (data.ok) {
                     window.location.href = "https://localhost:443/index.html";
                 } else {
-                    console.log(data);
+                    error.innerHTML = `<p>Error al enviar los datos: ${data.error}</p>`
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error(error)
+            });
     }
 })

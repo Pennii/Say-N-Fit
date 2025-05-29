@@ -109,7 +109,7 @@ window.addEventListener('load', () => {
             }
 
             //Se verifica la clave del grupo
-            let claveValida = new RegExp(/^[a-zA-Z0-9]{3,20}$/);
+            let claveValida = new RegExp(/^[a-zA-Z0-9\s]{3,20}$/);
             if (!claveValida.test(menuActual.clave.value)) {
                 listaErrores.push("La clave debe contener entre 3 y 20 caracteres")
             }

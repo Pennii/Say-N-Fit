@@ -24,6 +24,7 @@ filtrar.addEventListener("click", () => {
     })
         .then((response) => response.json())
         .then((data) => {
+            console.log(data)
             ejercicios = data.ejercicios;
             listado.innerHTML = "";
             cargarEjercicios(ejercicios);
@@ -41,19 +42,6 @@ window.addEventListener("load", () => {
         .then((data) => {
             ejercicios = data.ejercicios;
             cargarEjercicios(ejercicios);
-            const tarjetasEjerciciso = document.getElementsByClassName("ejercicio");
-            for (const ejercicio of tarjetasEjerciciso) {
-                ejercicio.addEventListener("mouseover", () => {
-                    ejercicio.querySelector("img").style.display = 'none';
-                    ejercicio.querySelector("video").style.display = 'block';
-                    ejercicio.querySelector("video").play()
-                })
-                ejercicio.addEventListener("mouseout", () => {
-                    ejercicio.querySelector("video").pause();
-                    ejercicio.querySelector("video").style.display = 'none';
-                    ejercicio.querySelector("img").style.display = 'block';
-                })
-            }
         });
 });
 
@@ -78,6 +66,19 @@ function cargarEjercicios(ejercicios) {
                     </div> `;
         }
         listado.innerHTML += ejercicioListado;
+    }
+    const tarjetasEjerciciso = document.getElementsByClassName("ejercicio");
+    for (const ejercicio of tarjetasEjerciciso) {
+        ejercicio.addEventListener("mouseover", () => {
+            ejercicio.querySelector("img").style.display = 'none';
+            ejercicio.querySelector("video").style.display = 'block';
+            ejercicio.querySelector("video").play()
+        })
+        ejercicio.addEventListener("mouseout", () => {
+            ejercicio.querySelector("video").pause();
+            ejercicio.querySelector("video").style.display = 'none';
+            ejercicio.querySelector("img").style.display = 'block';
+        })
     }
     const videos = listado.querySelectorAll("video");
     videos.forEach(video => {
