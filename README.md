@@ -23,3 +23,8 @@ Una vez que hayas iniciado sesión, tendrás acceso a las dos funciones principa
 - Creación y gestión de rutinas: Podrás visualizar rutinas personalizadas, compuestas por ejercicios predefinidos cargados por los desarrolladores. Estas rutinas son privadas y exclusivas para cada usuario.
 
 - Participación en grupos de entrenamiento: Podrás unirte a grupos, chatear con otros miembros y compartir tu progreso. Cada grupo tiene un líder (administrador) que puede gestionar los participantes y configurar aspectos del grupo.
+
+
+## Ejecucion de pruebas
+
+Para poder ejecutar las pruebas unitarias, se debe abrir docker desktop mientras se ejecuta la aplicacion y ejecutar el siguiente comando: `docker exec -it api_server bash`, esto para acceder a la consola del contenedor php. En la consola se ejecuta el siguiente comando: `php ./tests/archivo.php` reemplazando por el nombre de la prueba que se quiere ejecutar
